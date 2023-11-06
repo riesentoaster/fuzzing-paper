@@ -43,6 +43,24 @@
   url       = {https://api.semanticscholar.org/CorpusID:1296783}
 }
 
+@inproceedings{GrammarBasedWhiteboxFuzzing,
+  author    = {Godefroid, Patrice and Kiezun, Adam and Levin, Michael Y.},
+  title     = {Grammar-Based Whitebox Fuzzing},
+  year      = {2008},
+  isbn      = {9781595938602},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/1375581.1375607},
+  doi       = {10.1145/1375581.1375607},
+  abstract  = {Whitebox fuzzing is a form of automatic dynamic test generation, based on symbolic execution and constraint solving, designed for security testing of large applications. Unfortunately, the current effectiveness of whitebox fuzzing is limited when testing applications with highly-structured inputs, such as compilers and interpreters. These applications process their inputs in stages, such as lexing, parsing and evaluation. Due to the enormous number of control paths in early processing stages, whitebox fuzzing rarely reaches parts of the application beyond those first stages.In this paper, we study how to enhance whitebox fuzzing of complex structured-input applications with a grammar-based specification of their valid inputs. We present a novel dynamic test generation algorithm where symbolic execution directly generates grammar-based constraints whose satisfiability is checked using a custom grammar-based constraint solver. We have implemented this algorithm and evaluated it on a large security-critical application, the JavaScript interpreter of Internet Explorer 7 (IE7). Results of our experiments show that grammar-based whitebox fuzzing explores deeper program paths and avoids dead-ends due to non-parsable inputs. Compared to regular whitebox fuzzing, grammar-based whitebox fuzzing increased coverage of the code generation module of the IE7 JavaScript interpreter from 53\% to 81\% while using three times fewer tests.},
+  booktitle = {Proceedings of the 29th ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages     = {206–215},
+  numpages  = {10},
+  keywords  = {grammars, automatic test generation, software testing, program verification},
+  location  = {Tucson, AZ, USA},
+  series    = {PLDI '08}
+}
+
 @inproceedings{KLEE,
   author    = {Cadar, Cristian and Dunbar, Daniel and Engler, Dawson},
   title     = {KLEE: Unassisted and Automatic Generation of High-Coverage Tests for Complex Systems Programs},
@@ -59,7 +77,7 @@
 
 @article{Science,
   title    = {A systematic review of fuzzing techniques},
-  journal  = {Computers & Security},
+  journal  = {Computers \& Security},
   volume   = {75},
   pages    = {118-137},
   year     = {2018},
@@ -69,4 +87,98 @@
   author   = {Chen Chen and Baojiang Cui and Jinxin Ma and Runpu Wu and Jianchao Guo and Wenqian Liu},
   keywords = {Software bug, Vulnerability, Fuzzing, Dynamic symbolic execution, Coverage guide, Grammar representation, Scheduling algorithms, Taint analysis, Static analysis},
   abstract = {Fuzzing is an effective and widely used technique for finding security bugs and vulnerabilities in software. It inputs irregular test data into a target program to try to trigger a vulnerable condition in the program execution. Since the first random fuzzing system was constructed, fuzzing efficiency has been greatly improved by combination with several useful techniques, including dynamic symbolic execution, coverage guide, grammar representation, scheduling algorithms, dynamic taint analysis, static analysis and machine learning. In this paper, we will systematically review these techniques and their corresponding representative fuzzing systems. By introducing the principles, advantages and disadvantages of these techniques, we hope to provide researchers with a systematic and deeper understanding of fuzzing techniques and provide some references for this field.}
+}
+
+@inproceedings{Driller,
+  title     = {Driller: Augmenting Fuzzing Through Selective Symbolic Execution},
+  author    = {Nick Stephens and John Grosen and Christopher Salls and Andrew Dutcher and Ruoyu Wang and Jacopo Corbetta and Yan Shoshitaishvili and Christopher Kr{\"u}gel and Giovanni Vigna},
+  booktitle = {Network and Distributed System Security Symposium},
+  year      = {2016},
+  url       = {https://api.semanticscholar.org/CorpusID:2388545}
+}
+
+@inproceedings{AFLPlusPlus,
+  author    = {Andrea Fioraldi and Dominik Maier and Heiko Ei{\ss}feldt and Marc Heuse},
+  title     = {{AFL++} : Combining Incremental Steps of Fuzzing Research},
+  booktitle = {14th USENIX Workshop on Offensive Technologies (WOOT 20)},
+  year      = {2020},
+  url       = {https://www.usenix.org/conference/woot20/presentation/fioraldi},
+  publisher = {USENIX Association},
+  month     = aug
+}
+
+@inproceedings{AFLGo,
+  author    = {B\"{o}hme, Marcel and Pham, Van-Thuan and Nguyen, Manh-Dung and Roychoudhury, Abhik},
+  title     = {Directed Greybox Fuzzing},
+  year      = {2017},
+  isbn      = {9781450349468},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3133956.3134020},
+  doi       = {10.1145/3133956.3134020},
+  abstract  = {Existing Greybox Fuzzers (GF) cannot be effectively directed, for instance, towards problematic changes or patches, towards critical system calls or dangerous locations, or towards functions in the stack-trace of a reported vulnerability that we wish to reproduce. In this paper, we introduce Directed Greybox Fuzzing (DGF) which generates inputs with the objective of reaching a given set of target program locations efficiently. We develop and evaluate a simulated annealing-based power schedule that gradually assigns more energy to seeds that are closer to the target locations while reducing energy for seeds that are further away. Experiments with our implementation AFLGo demonstrate that DGF outperforms both directed symbolic-execution-based whitebox fuzzing and undirected greybox fuzzing. We show applications of DGF to patch testing and crash reproduction, and discuss the integration of AFLGo into Google's continuous fuzzing platform OSS-Fuzz. Due to its directedness, AFLGo could find 39 bugs in several well-fuzzed, security-critical projects like LibXML2. 17 CVEs were assigned.},
+  booktitle = {Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security},
+  pages     = {2329–2344},
+  numpages  = {16},
+  keywords  = {reachability, directed testing, coverage-based greybox fuzzing, verifying true positives, patch testing, crash reproduction},
+  location  = {Dallas, Texas, USA},
+  series    = {CCS '17}
+}
+@inproceedings{Munch,
+  author    = {Ognawala, Saahil and Hutzelmann, Thomas and Psallida, Eirini and Pretschner, Alexander},
+  title     = {Improving Function Coverage with Munch: A Hybrid Fuzzing and Directed Symbolic Execution Approach},
+  year      = {2018},
+  isbn      = {9781450351911},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3167132.3167289},
+  doi       = {10.1145/3167132.3167289},
+  abstract  = {Fuzzing and symbolic execution are popular techniques for finding vulnerabilities and generating test-cases for programs. Fuzzing, a blackbox method that mutates seed input values, is generally incapable of generating diverse inputs that exercise all paths in the program. Due to the path-explosion problem and dependence on SMT solvers, symbolic execution may also not achieve high path coverage. A hybrid technique involving fuzzing and symbolic execution may achieve better function coverage than fuzzing or symbolic execution alone. In this paper, we present Munch, an open-source framework implementing two hybrid techniques based on fuzzing and symbolic execution. We empirically show using nine large open-source programs that overall, Munch achieves higher (in-depth) function coverage than symbolic execution or fuzzing alone. Using metrics based on total analyses time and number of queries issued to the SMT solver, we also show that Munch is more efficient at achieving better function coverage.},
+  booktitle = {Proceedings of the 33rd Annual ACM Symposium on Applied Computing},
+  pages     = {1475–1482},
+  numpages  = {8},
+  keywords  = {symbolic execution, function coverage, compositional analysis, software testing, fuzzing},
+  location  = {Pau, France},
+  series    = {SAC '18}
+}
+
+@article{Magma,
+  author     = {Hazimeh, Ahmad and Herrera, Adrian and Payer, Mathias},
+  title      = {Magma: A Ground-Truth Fuzzing Benchmark},
+  year       = {2021},
+  issue_date = {December 2020},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {4},
+  number     = {3},
+  url        = {https://doi.org/10.1145/3428334},
+  doi        = {10.1145/3428334},
+  abstract   = {High scalability and low running costs have made fuzz testing the de facto standard for discovering software bugs. Fuzzing techniques are constantly being improved in a race to build the ultimate bug-finding tool. However, while fuzzing excels at finding bugs in the wild, evaluating and comparing fuzzer performance is challenging due to the lack of metrics and benchmarks. For example, crash count---perhaps the most commonly-used performance metric---is inaccurate due to imperfections in deduplication techniques. Additionally, the lack of a unified set of targets results in ad hoc evaluations that hinder fair comparison. We tackle these problems by developing Magma, a ground-truth fuzzing benchmark that enables uniform fuzzer evaluation and comparison. By introducing real bugs into real software, Magma allows for the realistic evaluation of fuzzers against a broad set of targets. By instrumenting these bugs, Magma also enables the collection of bug-centric performance metrics independent of the fuzzer. Magma is an open benchmark consisting of seven targets that perform a variety of input manipulations and complex computations, presenting a challenge to state-of-the-art fuzzers. We evaluate seven widely-used mutation-based fuzzers (AFL, AFLFast, AFL++, FairFuzz, MOpt-AFL, honggfuzz, and SymCC-AFL) against Magma over 200,000 CPU-hours. Based on the number of bugs reached, triggered, and detected, we draw conclusions about the fuzzers' exploration and detection capabilities. This provides insight into fuzzer performance evaluation, highlighting the importance of ground truth in performing more accurate and meaningful evaluations.},
+  journal    = {Proc. ACM Meas. Anal. Comput. Syst.},
+  month      = {jun},
+  articleno  = {49},
+  numpages   = {29},
+  keywords   = {benchmark, fuzzing, performance evaluation, software security}
+}
+
+@inproceedings{TFuzz,
+  author    = {Peng, Hui and Shoshitaishvili, Yan and Payer, Mathias},
+  booktitle = {2018 IEEE Symposium on Security and Privacy (SP)},
+  title     = {T-Fuzz: Fuzzing by Program Transformation},
+  year      = {2018},
+  volume    = {},
+  number    = {},
+  pages     = {697-710},
+  doi       = {10.1109/SP.2018.00056}
+}
+
+@inproceedings{LearnFuzz,
+  author    = {Godefroid, Patrice and Peleg, Hila and Singh, Rishabh},
+  booktitle = {2017 32nd IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  title     = {Learn\&Fuzz: Machine learning for input fuzzing},
+  year      = {2017},
+  volume    = {},
+  number    = {},
+  pages     = {50-59},
+  doi       = {10.1109/ASE.2017.8115618}
 }
