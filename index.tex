@@ -59,6 +59,22 @@
     \item No clear correlation between coverage and crashes, only weak effect when using a block coverage based heuristic to choose next execution.
 \end{itemize}
 
+\subsubsection{KLEE (2008)}
+\begin{itemize}
+    \item \cite{KLEE}
+    \item Wide array of tests including GNU COREUTILS, BUSYBOX, MINIX, and HISTAR (430K LOC, 452 programs)
+    \item Tests programs and OS Kernel (HISTAR)
+    \item Found multiple high-profile errors (ten fatals in COREUTILS, three older than 15 years)
+    \item Compares functionality of different implementations of the same specs
+    \item Checks each error on the real binary, so no false positives theoretically (but because non-determinism and bugs in KLEE there are some in practice)
+    \item Works on LLVM basis (so not binary, doesn't work for projects where source code is unavailable)
+    \item Extensive env modelling, including command line args, files, file metadata, env variables, failing system calls
+    \item Path explosion combated with copy-on-write in state
+    \item Performs query optimization (expression rewriting like mathematical simplifications, and using more efficient operations), constraint set simplification, constraint independence and a counter-example cache
+    \item Alternates between random and coverage-optimized choice of next branch to execute
+    \item New development: Better env modelling (not just dropping back on concrete values)
+\end{itemize}
+
 \bibliography{sources}
 \bibliographystyle{ieeetr}
 
