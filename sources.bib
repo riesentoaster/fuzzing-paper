@@ -257,3 +257,194 @@
   keywords = {Vulnerability, Fuzzing, Software Security, Fuzzers, Software Vulnerability, Vulnerability accessment, Static code analysis, Security},
   abstract = {Fuzzing is a powerful tool for vulnerability discovery in software, with much progress being made in the field in recent years. There is limited literature available on the fuzzing vulnerability discovery approaches. Hence, in this paper, an attempt has been made to explore the recent advances in the area of fuzzing vulnerability discovery and to propose a refinement to the classification of fuzzers. Furthermore, we have identified key research challenges and potential future areas of research that might provide new insight to researchers.}
 }
+
+@inproceedings{TaintScope,
+  author    = {Wang, Tielei and Wei, Tao and Gu, Guofei and Zou, Wei},
+  booktitle = {2010 IEEE Symposium on Security and Privacy},
+  title     = {TaintScope: A Checksum-Aware Directed Fuzzing Tool for Automatic Software Vulnerability Detection},
+  year      = {2010},
+  volume    = {},
+  number    = {},
+  pages     = {497-512},
+  doi       = {10.1109/SP.2010.37}
+}
+
+@article{SymbexReview,
+  author     = {Cadar, Cristian and Sen, Koushik},
+  title      = {Symbolic Execution for Software Testing: Three Decades Later},
+  year       = {2013},
+  issue_date = {February 2013},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {56},
+  number     = {2},
+  issn       = {0001-0782},
+  url        = {https://doi.org/10.1145/2408776.2408795},
+  doi        = {10.1145/2408776.2408795},
+  abstract   = {The challenges---and great promise---of modern symbolic execution techniques, and the tools to help implement them.},
+  journal    = {Commun. ACM},
+  month      = {feb},
+  pages      = {82–90},
+  numpages   = {9}
+}
+
+@article{CUTE,
+  author     = {Sen, Koushik and Marinov, Darko and Agha, Gul},
+  title      = {CUTE: A Concolic Unit Testing Engine for C},
+  year       = {2005},
+  issue_date = {September 2005},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {30},
+  number     = {5},
+  issn       = {0163-5948},
+  url        = {https://doi.org/10.1145/1095430.1081750},
+  doi        = {10.1145/1095430.1081750},
+  abstract   = {In unit testing, a program is decomposed into units which are collections of functions. A part of unit can be tested by generating inputs for a single entry function. The entry function may contain pointer arguments, in which case the inputs to the unit are memory graphs. The paper addresses the problem of automating unit testing with memory graphs as inputs. The approach used builds on previous work combining symbolic and concrete execution, and more specifically, using such a combination to generate test inputs to explore all feasible execution paths. The current work develops a method to represent and track constraints that capture the behavior of a symbolic execution of a unit with memory graphs as inputs. Moreover, an efficient constraint solver is proposed to facilitate incremental generation of such test inputs. Finally, CUTE, a tool implementing the method is described together with the results of applying CUTE to real-world examples of C code.},
+  journal    = {SIGSOFT Softw. Eng. Notes},
+  month      = {sep},
+  pages      = {263–272},
+  numpages   = {10},
+  keywords   = {concolic testing, unit testing, random testing, testing C programs, data structure testing, explicit path model-checking}
+}
+
+@inproceedings{BuzzFuzz,
+  author    = {Ganesh, Vijay and Leek, Tim and Rinard, Martin},
+  booktitle = {2009 IEEE 31st International Conference on Software Engineering},
+  title     = {Taint-based directed whitebox fuzzing},
+  year      = {2009},
+  volume    = {},
+  number    = {},
+  pages     = {474-484},
+  doi       = {10.1109/ICSE.2009.5070546}
+}
+
+@article{SAGEImpact,
+  author     = {Godefroid, Patrice and Levin, Michael Y. and Molnar, David},
+  title      = {SAGE: Whitebox Fuzzing for Security Testing: SAGE Has Had a Remarkable Impact at Microsoft.},
+  year       = {2012},
+  issue_date = {January 2012},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {10},
+  number     = {1},
+  issn       = {1542-7730},
+  url        = {https://doi.org/10.1145/2090147.2094081},
+  doi        = {10.1145/2090147.2094081},
+  abstract   = {Most ACM Queue readers might think of "program verification research" as mostly theoretical with little impact on the world at large. Think again. If you are reading these lines on a PC running some form of Windows (like 93-plus percent of PC users--that is, more than a billion people), then you have been affected by this line of work--without knowing it, which is precisely the way we want it to be.},
+  journal    = {Queue},
+  month      = {jan},
+  pages      = {20–27},
+  numpages   = {8}
+}
+
+@article{DowserArticle,
+  title   = {Dowser: A Guided Fuzzer for Finding Buffer Overflow Vulnerabilities},
+  author  = {Istv{\'a}n Haller and Asia Slowinska and Matthias Neugschwandtner and Herbert Bos},
+  journal = {login Usenix Mag.},
+  year    = {2013},
+  volume  = {38},
+  url     = {https://api.semanticscholar.org/CorpusID:56594822}
+}
+
+@inproceedings{Dowser,
+  author    = {Haller, Istvan and Slowinska, Asia and Neugschwandtner, Matthias and Bos, Herbert},
+  title     = {Dowsing for Overflows: A Guided Fuzzer to Find Buffer Boundary Violations},
+  year      = {2013},
+  isbn      = {9781931971034},
+  publisher = {USENIX Association},
+  address   = {USA},
+  abstract  = {Dowser is a 'guided' fuzzer that combines taint tracking, program analysis and symbolic execution to find buffer overflow and underflow vulnerabilities buried deep in a program's logic. The key idea is that analysis of a program lets us pinpoint the right areas in the program code to probe and the appropriate inputs to do so.Intuitively, for typical buffer overflows, we need consider only the code that accesses an array in a loop, rather than all possible instructions in the program. After finding all such candidate sets of instructions, we rank them according to an estimation of how likely they are to contain interesting vulnerabilities. We then subject the most promising sets to further testing. Specifically, we first use taint analysis to determine which input bytes influence the array index and then execute the program symbolically, making only this set of inputs symbolic. By constantly steering the symbolic execution along branch outcomes most likely to lead to overflows, we were able to detect deep bugs in real programs (like the nginx webserver, the inspircd IRC server, and the ffmpeg videoplayer). Two of the bugs we found were previously undocumented buffer overflows in ffmpeg and the poppler PDF rendering library.},
+  booktitle = {Proceedings of the 22nd USENIX Conference on Security},
+  pages     = {49–64},
+  numpages  = {16},
+  location  = {Washington, D.C.},
+  series    = {SEC'13}
+}
+
+@inproceedings{BORG,
+  author    = {Neugschwandtner, Matthias and Milani Comparetti, Paolo and Haller, Istvan and Bos, Herbert},
+  title     = {The BORG: Nanoprobing Binaries for Buffer Overreads},
+  year      = {2015},
+  isbn      = {9781450331913},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2699026.2699098},
+  doi       = {10.1145/2699026.2699098},
+  abstract  = {Automated program testing tools typically try to explore, and cover, as much of a tested program as possible, while attempting to trigger and detect bugs. An alternative and complementary approach can be to first select a specific part of a program that may be subject to a specific class of bug, and then narrowly focus exploration towards program paths that could trigger such a bug.In this work, we introduce the BORG (Buffer Over-Read Guard), a testing tool that uses static and dynamic program analysis, taint propagation and symbolic execution to detect buffer overread bugs in real-world programs. BORG works by first selecting buffer accesses that could lead to an overread and then guiding symbolic execution towards those accesses along program paths that could actually lead to an overread. BORG operates on binaries and does not require source code. To demonstrate BORG's effectiveness, we use it to detect overreads in six complex server applications and libraries, including lighttpd, FFmpeg and ClamAV.},
+  booktitle = {Proceedings of the 5th ACM Conference on Data and Application Security and Privacy},
+  pages     = {87–97},
+  numpages  = {11},
+  keywords  = {out-of-bounds access, symbolic execution guidance, dynamic symbolic execution, buffer overread, targeted testing},
+  location  = {San Antonio, Texas, USA},
+  series    = {CODASPY '15}
+}
+
+
+@inproceedings{MoWF,
+  author    = {Pham, Van-Thuan and B\"{o}hme, Marcel and Roychoudhury, Abhik},
+  title     = {Model-Based Whitebox Fuzzing for Program Binaries},
+  year      = {2016},
+  isbn      = {9781450338455},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2970276.2970316},
+  doi       = {10.1145/2970276.2970316},
+  abstract  = {Many real-world programs take highly structured and very complex inputs. The automated testing of such programs is non-trivial. If the test input does not adhere to a specific file format, the program returns a parser error. For symbolic execution-based whitebox fuzzing the corresponding error handling code becomes a significant time sink. Too much time is spent in the parser exploring too many paths leading to trivial parser errors. Naturally, the time is better spent exploring the functional part of the program where failure with valid input exposes deep and real bugs in the program. In this paper, we suggest to leverage information about the file format and the data chunks of existing, valid files to swiftly carry the exploration beyond the parser code. We call our approach Model-based Whitebox Fuzzing (MoWF) because the file format input model of blackbox fuzzers can be exploited as a constraint on the vast input space to rule out most invalid inputs during path exploration in symbolic execution. We evaluate on 13 vulnerabilities in 8 large program binaries with 6 separate file formats and found that MoWF exposes all vulnerabilities while both, traditional whitebox fuzzing and model-based blackbox fuzzing, expose only less than half, respectively. Our experiments also demonstrate that MoWF exposes 70\% vulnerabilities without any seed inputs.},
+  booktitle = {Proceedings of the 31st IEEE/ACM International Conference on Automated Software Engineering},
+  pages     = {543–553},
+  numpages  = {11},
+  keywords  = {Symbolic Execution, Program Binaries},
+  location  = {Singapore, Singapore},
+  series    = {ASE '16}
+}
+
+@article{S2E,
+  author     = {Chipounov, Vitaly and Kuznetsov, Volodymyr and Candea, George},
+  title      = {S2E: A Platform for in-Vivo Multi-Path Analysis of Software Systems},
+  year       = {2011},
+  issue_date = {March 2011},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {46},
+  number     = {3},
+  issn       = {0362-1340},
+  url        = {https://doi.org/10.1145/1961296.1950396},
+  doi        = {10.1145/1961296.1950396},
+  abstract   = {This paper presents S2E, a platform for analyzing the properties and behavior of software systems. We demonstrate S2E's use in developing practical tools for comprehensive performance profiling, reverse engineering of proprietary software, and bug finding for both kernel-mode and user-mode binaries. Building these tools on top of S2E took less than 770 LOC and 40 person-hours each.S2E's novelty consists of its ability to scale to large real systems, such as a full Windows stack. S2E is based on two new ideas: selective symbolic execution, a way to automatically minimize the amount of code that has to be executed symbolically given a target analysis, and relaxed execution consistency models, a way to make principled performance/accuracy trade-offs in complex analyses. These techniques give S2E three key abilities: to simultaneously analyze entire families of execution paths, instead of just one execution at a time; to perform the analyses in-vivo within a real software stack--user programs, libraries, kernel, drivers, etc.--instead of using abstract models of these layers; and to operate directly on binaries, thus being able to analyze even proprietary software.Conceptually, S2E is an automated path explorer with modular path analyzers: the explorer drives the target system down all execution paths of interest, while analyzers check properties of each such path (e.g., to look for bugs) or simply collect information (e.g., count page faults). Desired paths can be specified in multiple ways, and S2E users can either combine existing analyzers to build a custom analysis tool, or write new analyzers using the S2E API.},
+  journal    = {SIGPLAN Not.},
+  month      = {mar},
+  pages      = {265–278},
+  numpages   = {14},
+  keywords   = {dbt, virtualization, consistency models, testing, symbolic execution, binary, analysis, performance, in-vivo, framework}
+}
+
+@inproceedings{Mayhem,
+  author    = {Cha, Sang Kil and Avgerinos, Thanassis and Rebert, Alexandre and Brumley, David},
+  booktitle = {2012 IEEE Symposium on Security and Privacy},
+  title     = {Unleashing Mayhem on Binary Code},
+  year      = {2012},
+  volume    = {},
+  number    = {},
+  pages     = {380-394},
+  doi       = {10.1109/SP.2012.31}
+}
+
+@inproceedings{VUzzer,
+  title     = {VUzzer: Application-aware Evolutionary Fuzzing},
+  author    = {Sanjay Rawat and Vivek Jain and Ashish Kumar and Lucian Cojocar and Cristiano Giuffrida and Herbert Bos},
+  booktitle = {Network and Distributed System Security Symposium},
+  year      = {2017},
+  url       = {https://api.semanticscholar.org/CorpusID:2354736}
+}
+
+@inproceedings{SYMFUZZ,
+  author    = {Cha, Sang Kil and Woo, Maverick and Brumley, David},
+  booktitle = {2015 IEEE Symposium on Security and Privacy},
+  title     = {Program-Adaptive Mutational Fuzzing},
+  year      = {2015},
+  volume    = {},
+  number    = {},
+  pages     = {725-741},
+  doi       = {10.1109/SP.2015.50}
+}

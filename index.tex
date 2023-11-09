@@ -1,6 +1,7 @@
-\documentclass[12pt]{article}
+\documentclass{article}
 \usepackage{hyperref}
 \usepackage{csquotes}
+\usepackage{geometry}
 
 
 \title{Symbolic Execution in Fuzzing — A Survey}
@@ -13,6 +14,7 @@
 
 \section{Related Work}
 \begin{itemize}
+    \item Symbolic execution for software testing: three decades later (2013)\cite{SymbexReview}
     \item A systematic review of fuzzing techniques (2018)\cite{Science}
     \item Fuzzing: A Survey (2018)\cite{FuzzingASurvey}
     \item The Art, Science, and Engineering of Fuzzing: A Survey (2021)\cite{ArtScienceEngineeringFuzzing}
@@ -20,7 +22,6 @@
     \item Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (2022)\cite{FuzzingVulnerabilityDiscoveryTechniques}
     \item Demystify the Fuzzing Methods: A Comprehensive Survey (2023)\cite{Demystifying}
 \end{itemize}
-
 
 \section{Random notes}
 \begin{itemize}
@@ -88,6 +89,7 @@
     \item Performs query optimization (expression rewriting like mathematical simplifications, and using more efficient operations), constraint set simplification, constraint independence and a counter-example cache
     \item Alternates between random and coverage-optimized choice of next branch to execute
     \item New development: Better env modelling (not just dropping back on concrete values)
+    \item \textquote{KLEE uses search heuristics on symbolic execution to achieve high code coverage.}\cite{Science}
 \end{itemize}
 
 \subsubsection{Grammar-based Whitebox Fuzzing (2008)}
@@ -123,21 +125,35 @@
 \section{TODOs}
 \subsection{Related}
 \begin{itemize}
-    \item Grammar-based Whitebox Fuzzing\cite{GrammarBasedWhiteboxFuzzing} (follow-up to SAGE\cite{SAGE})
     \item AFLGo (Directed Greybox Fuzzing)\cite{AFLGo} (follow-up to Grammar-based Whitebox Fuzzing I think)
+    \item SAGE: Whitebox Fuzzing for Security Testing: SAGE has had a remarkable impact at Microsoft.\cite{SAGEImpact}
 \end{itemize}
 
 \subsection{New}
 \begin{itemize}
-    \item AFL++\cite{AFLPlusPlus}
+    \item CUTE: a concolic unit testing engine for C (2005)\cite{CUTE} (discussed as early idea in \cite{Science})
+    \item TaintScope: A Checksum-Aware Directed Fuzzing Tool for Automatic Software Vulnerability Detection\cite{TaintScope} (Tainting, discussed in \cite{Science} as improving the efficiency of fuzzing by reducing search space)
+    \item BuzzFuzz: Taint-based directed whitebox fuzzing\cite{BuzzFuzz} (discussed in \cite{Science} as improving the efficiency of fuzzing by reducing search space, specifically library and system calls)
+    \item Dowser: A Guided Fuzzer for Finding Buffer Overflow Vulnerabilities\cite{Dowser,DowserArticle} (discussed in \cite{Science})
+    \item The BORG: Nanoprobing Binaries for Buffer Overreads\cite{BORG}
+    \item MoWF — Model-based whitebox fuzzing for program binaries\cite{MoWF}
     \item Driller: Augmenting Fuzzing Through Selective Symbolic Execution\cite{Driller}
+    \item ! S2E: a platform for in-vivo multi-path analysis of software systems\cite{S2E}
+    \item ! Mayhem: Unleashing MAYHEM on Binary Code\cite{Mayhem}
+    \item VUzzer: Application-aware Evolutionary Fuzzing\cite{VUzzer}
+    \item SYMFUZZ: Program-Adaptive Mutational Fuzzing\cite{SYMFUZZ}
     \item Improving Function Coverage with Munch: A Hybrid Fuzzing and Directed Symbolic Execution Approach\cite{Munch}
     \item Magma: A Ground-Truth Fuzzing Benchmark\cite{Magma}
-    \item T-Fuzz: fuzzing by program transformation\cite{TFuzz}
-    \item Learn\&Fuzz: Machine Learning for Input Fuzzing\cite{LearnFuzz}
 \end{itemize}
 
-\bibliography{sources}
+\subsection{Non-Symbex}
+\begin{itemize}
+    \item AFL++\cite{AFLPlusPlus}
+    \item Learn\&Fuzz: Machine Learning for Input Fuzzing\cite{LearnFuzz}
+    \item T-Fuzz: fuzzing by program transformation\cite{TFuzz}
+\end{itemize}
+
 \bibliographystyle{ieeetr}
+\bibliography{sources}
 
 \end{document}
