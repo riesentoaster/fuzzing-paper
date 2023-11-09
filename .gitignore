@@ -8,3 +8,6 @@ papers
 !out
 out/*
 !out/index.pdf
+
+# Editor settings
+.vscode
