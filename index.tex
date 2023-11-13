@@ -13,20 +13,24 @@
 \tableofcontents
 
 \section{Related Work}
-\begin{itemize}
-    \item Symbolic execution for software testing: three decades later (2013)\cite{SymbexReview}
-    \item A systematic review of fuzzing techniques (2018)\cite{Science}
-    \item Fuzzing: A Survey (2018)\cite{FuzzingASurvey}
-    \item The Art, Science, and Engineering of Fuzzing: A Survey (2021)\cite{ArtScienceEngineeringFuzzing}
-    \item Fuzzing: A Survey for Roadmap (2022)\cite{FuzzingASurveyforRoadmap}
-    \item Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (2022)\cite{FuzzingVulnerabilityDiscoveryTechniques}
-    \item Demystify the Fuzzing Methods: A Comprehensive Survey (2023)\cite{Demystifying}
-\end{itemize}
+ {
+  \centering
+  \begin{tabular}{|p{0.48\textwidth}|p{0.32\textwidth}|r|r|}\hline
+      \multicolumn{1}{|c|}{\textbf{Article Title}}                                                                                       & \multicolumn{1}{c|}{\textbf{Paper}}       & \multicolumn{1}{c|}{\textbf{Cit\#}} & \multicolumn{1}{c|}{\textbf{Date}} \\\hline
+      Symbolic execution for software testing: three decades later\cite{SymbexReview}                                                    & ACM Computing Surveys                     & 1035                                & 02/2013                            \\\hline
+      A systematic review of fuzzing techniques\cite{Science}                                                                            & Science Computers \& Security             & 112                                 & 06/2018                            \\\hline
+      Fuzzing: A Survey\cite{FuzzingASurvey}                                                                                             & Open Access                               & 242                                 & 06/2018                            \\\hline
+      The Art, Science, and Engineering of Fuzzing: A Survey\cite{ArtScienceEngineeringFuzzing}                                          & IEEE Transactions on Software Engineering & 395                                 & 11/2021                            \\\hline
+      Fuzzing: A Survey for Roadmap\cite{FuzzingASurveyforRoadmap}                                                                       & ACM Computing Surveys                     & 81                                  & 09/2022                            \\\hline
+      Fuzzing vulnerability discovery techniques: Survey, challenges and future directions\cite{FuzzingVulnerabilityDiscoveryTechniques} & Science Computers \& Security             & 16                                  & 09/2022                            \\\hline
+      Demystify the Fuzzing Methods: A Comprehensive Survey\cite{Demystifying}                                                           & ACM Computing Surveys                     & 0                                   & 10/2023                            \\\hline
+  \end{tabular}
+ }
 
 \section{Random notes}
 \begin{itemize}
     \item \textquote{Today, testing is the primary way to check the correctness of software. Billions of dollars are spent on testing in the software industry, as testing usually accounts for about 50\% of the cost of software development. It was recently estimated that software failures currently cost the US economy alone about \$60 billion every year, and that improvements in software testing infrastructure might save one-third of this cost.}\cite{DART}
-    \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over sim- ple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GrammarBasedWhiteboxFuzzing}
+    \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GrammarBasedWhiteboxFuzzing}
 \end{itemize}
 
 \section{Fuzzing types}
