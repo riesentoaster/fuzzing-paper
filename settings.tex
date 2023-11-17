@@ -7,4 +7,7 @@
 \hfuzz=50px
 
 % Make Tables less crowded
-\AtBeginEnvironment{tabular}{\renewcommand\arraystretch{1.6}}
+\AtBeginEnvironment{longtable}{\renewcommand\arraystretch{1.6}}
+
+% Introducing custom table header command
+\newcommand{\tableh}[1]{\multicolumn{1}{|c|}{\textbf{#1}}}
