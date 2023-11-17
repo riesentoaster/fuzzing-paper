@@ -5,9 +5,12 @@
 
 % disable overfull hbox warnings
 \hfuzz=50px
+\hbadness=1000
 
 % Make Tables less crowded
 \AtBeginEnvironment{longtable}{\renewcommand\arraystretch{1.6}}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 
-% Introducing custom table header command
-\newcommand{\tableh}[1]{\multicolumn{1}{|c|}{\textbf{#1}}}
+% Introducing custom commands
+\newcommand{\tableh}[1]{\multicolumn{1}{|c|}{\textbf{#1}}} % table header
+\newcommand{\code}{\texttt}

@@ -3,6 +3,7 @@
 \usepackage{csquotes}
 \usepackage{geometry}
 \usepackage{longtable}
+\usepackage{array}
 
 
 \title{Symbolic Execution in Fuzzing — A Survey}
@@ -15,50 +16,89 @@
 \pagebreak
 
 \section{Related Work}
- {
-  \centering
-  \begin{longtable}{|p{0.44\textwidth}|p{0.32\textwidth}|r|r|}\hline
-      \tableh{Article Title}                                                                                                                        & \tableh{Paper}                                             & \tableh{Cit\#} & \tableh{Date} \\\hline
-      \endhead
-      Fuzzing: The State of the Art\cite{FuzzingTheStateOfTheArt}                                                                                   & DSTO Defence Science and Technology Organisation Australia & 98             & 02/2012       \\\hline
-      Symbolic execution for software testing: three decades later\cite{ReviewThreeDecades}                                                         & ACM Computing Surveys                                      & 1035           & 02/2013       \\\hline
-      Network protocol fuzz testing for information systems and applications: a survey and taxonomy\cite{Network}                                   & Multimedia Tools and Applications                          & 21             & 11/2016       \\\hline
-      A systematic review of fuzzing techniques\cite{Science}                                                                                       & Science Computers \& Security                              & 112            & 06/2018       \\\hline
-      Fuzzing: A Survey\cite{FuzzingASurvey}                                                                                                        & Open Access                                                & 242            & 06/2018       \\\hline
-      Fuzzing: State of the Art\cite{FuzzingStateOfTheArt2018}                                                                                      & IEEE Transactions on Reliability                           & 196            & 06/2018       \\\hline
-      Evaluating Fuzz Testing\cite{EvaluatingFuzzTesting}                                                                                           & CCS SIGSAC                                                 & 561            & 10/2018       \\\hline
-      Fuzzing: hack, art, and science\cite{HackArtScience}                                                                                          & Comms of the ACM                                           & 113            & 01/2020       \\\hline
-      A Systematic Review of Search Strategies in Dynamic Symbolic Execution\cite{SearchStrategies}                                                 & Computer Standards \& Interfaces                           & 7              & 10/2020       \\\hline
-      Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems\cite{IoT} & IEEE IoT Journal                                           & 23             & 02/2021       \\\hline
-      Fuzzing: Challenges and Reflections\cite{ChallengesAndReflections}                                                                            & IEEE Software                                              & 96             & 05/2021       \\\hline
-      Firmware Fuzzing: The State of the Art\cite{Firmware}                                                                                         & ACM Internetware                                           & 5              & 07/2021       \\\hline
-      Research on Fuzzing Technology for JavaScript Engines\cite{JavaScript}                                                                        & ACM CSAE                                                   & 3              & 10/2021       \\\hline
-      The Art, Science, and Engineering of Fuzzing: A Survey\cite{ArtScienceEngineeringFuzzing}                                                     & IEEE Transactions on Software Engineering                  & 395            & 11/2021       \\\hline
-      Fuzzing: A Survey for Roadmap\cite{FuzzingASurveyforRoadmap}                                                                                  & ACM Computing Surveys                                      & 81             & 09/2022       \\\hline
-      Fuzzing vulnerability discovery techniques: Survey, challenges and future directions\cite{FuzzingVulnerabilityDiscoveryTechniques}            & Science Computers \& Security                              & 16             & 09/2022       \\\hline
-      Fuzzing of Embedded Systems: A Survey\cite{Embedded}                                                                                          & ACM Computing Surveys                                      & 11             & 07/2023       \\\hline
-      Demystify the Fuzzing Methods: A Comprehensive Survey\cite{Demystifying}                                                                      & ACM Computing Surveys                                      & 0              & 10/2023       \\\hline
-      A systematic review of fuzzing\cite{SystematicReview2023}                                                                                     & Application of soft computing                              & 0              & 10/2023       \\\hline
-  \end{longtable}
- }
+\begin{longtable}{|P{0.44\textwidth}|P{0.32\textwidth}|r|r|}
+    \hline
+    \tableh{Article Title}                                                                                                                        & \tableh{Paper}                                             & \tableh{Cit\#} & \tableh{Date} \\\hline
+    \endhead
+    Symbolic execution for software testing in practice: preliminary assessment\cite{PreliminaryAssessment}                                       & Conference on Software Engineering                         & 492            & 05/2011       \\\hline
+    Fuzzing: The State of the Art\cite{FuzzingTheStateOfTheArt}                                                                                   & DSTO Defence Science and Technology Organisation Australia & 98             & 02/2012       \\\hline
+    Symbolic execution for software testing: three decades later\cite{ReviewThreeDecades}                                                         & ACM Computing Surveys                                      & 1035           & 02/2013       \\\hline
+    Network protocol fuzz testing for information systems and applications: a survey and taxonomy\cite{Network}                                   & Multimedia Tools and Applications                          & 21             & 11/2016       \\\hline
+    A systematic review of fuzzing techniques\cite{Science}                                                                                       & Science Computers \& Security                              & 112            & 06/2018       \\\hline
+    Fuzzing: A Survey\cite{FuzzingASurvey}                                                                                                        & Open Access                                                & 242            & 06/2018       \\\hline
+    Fuzzing: State of the Art\cite{FuzzingStateOfTheArt2018}                                                                                      & IEEE Transactions on Reliability                           & 196            & 06/2018       \\\hline
+    Evaluating Fuzz Testing\cite{EvaluatingFuzzTesting}                                                                                           & CCS SIGSAC                                                 & 561            & 10/2018       \\\hline
+    Fuzzing: hack, art, and science\cite{HackArtScience}                                                                                          & Comms of the ACM                                           & 113            & 01/2020       \\\hline
+    A Systematic Review of Search Strategies in Dynamic Symbolic Execution\cite{SearchStrategies}                                                 & Computer Standards \& Interfaces                           & 7              & 10/2020       \\\hline
+    Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems\cite{IoT} & IEEE IoT Journal                                           & 23             & 02/2021       \\\hline
+    Fuzzing: Challenges and Reflections\cite{ChallengesAndReflections}                                                                            & IEEE Software                                              & 96             & 05/2021       \\\hline
+    Firmware Fuzzing: The State of the Art\cite{Firmware}                                                                                         & ACM Internetware                                           & 5              & 07/2021       \\\hline
+    Research on Fuzzing Technology for JavaScript Engines\cite{JavaScript}                                                                        & ACM CSAE                                                   & 3              & 10/2021       \\\hline
+    The Art, Science, and Engineering of Fuzzing: A Survey\cite{ArtScienceEngineeringFuzzing}                                                     & IEEE Transactions on Software Engineering                  & 395            & 11/2021       \\\hline
+    Fuzzing: A Survey for Roadmap\cite{FuzzingASurveyforRoadmap}                                                                                  & ACM Computing Surveys                                      & 81             & 09/2022       \\\hline
+    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions\cite{FuzzingVulnerabilityDiscoveryTechniques}            & Science Computers \& Security                              & 16             & 09/2022       \\\hline
+    Fuzzing of Embedded Systems: A Survey\cite{Embedded}                                                                                          & ACM Computing Surveys                                      & 11             & 07/2023       \\\hline
+    Demystify the Fuzzing Methods: A Comprehensive Survey\cite{Demystifying}                                                                      & ACM Computing Surveys                                      & 0              & 10/2023       \\\hline
+    A systematic review of fuzzing\cite{SystematicReview2023}                                                                                     & Application of soft computing                              & 0              & 10/2023       \\\hline
+\end{longtable}
 
-  \begin{tabular}{|p{0.48\textwidth}|p{0.32\textwidth}|r|r|}\hline
-      \multicolumn{1}{|c|}{\textbf{Article Title}}                                                                                       & \multicolumn{1}{c|}{\textbf{Paper}}       & \multicolumn{1}{c|}{\textbf{Cit\#}} & \multicolumn{1}{c|}{\textbf{Date}} \\\hline
-      Symbolic execution for software testing: three decades later\cite{SymbexReview}                                                    & ACM Computing Surveys                     & 1035                                & 02/2013                            \\\hline
-      A systematic review of fuzzing techniques\cite{Science}                                                                            & Science Computers \& Security             & 112                                 & 06/2018                            \\\hline
-      Fuzzing: A Survey\cite{FuzzingASurvey}                                                                                             & Open Access                               & 242                                 & 06/2018                            \\\hline
-      The Art, Science, and Engineering of Fuzzing: A Survey\cite{ArtScienceEngineeringFuzzing}                                          & IEEE Transactions on Software Engineering & 395                                 & 11/2021                            \\\hline
-      Fuzzing: A Survey for Roadmap\cite{FuzzingASurveyforRoadmap}                                                                       & ACM Computing Surveys                     & 81                                  & 09/2022                            \\\hline
-      Fuzzing vulnerability discovery techniques: Survey, challenges and future directions\cite{FuzzingVulnerabilityDiscoveryTechniques} & Science Computers \& Security             & 16                                  & 09/2022                            \\\hline
-      Demystify the Fuzzing Methods: A Comprehensive Survey\cite{Demystifying}                                                           & ACM Computing Surveys                     & 0                                   & 10/2023                            \\\hline
-  \end{tabular}
- }
+
+\pagebreak
+\section{Authors}
+\begin{longtable}{|l|l|l|}\hline
+    \tableh{Author} & \tableh{Works}                   & \tableh{Review Papers}    \\\hline
+    \endhead
+    Cristian Cadar  & KLEE\cite{KLEE}, EXE\cite{EXE}   & \cite{ReviewThreeDecades} \\\hline
+    Koushik Sen     & DART\cite{DART}, CUTE\cite{CUTE} & \cite{ReviewThreeDecades} \\\hline
+\end{longtable}
+
+\pagebreak
+\section{Review Papers}
+\subsection{Symbolic execution for software testing: three decades later}
+\begin{itemize}
+    \item \cite{ReviewThreeDecades}
+    \item Cristian Cadar (KLEE\cite{KLEE}, EXE\cite{EXE}) and Koushik Sen (DART\cite{DART}, CUTE\cite{CUTE})
+    \item \textquote{Note that we do not aim to provide here a comprehensive survey of existing work in the area, but instead choose to illustrate some of the main challenges and proposed solutions by using examples from the authors' own work.}\cite{ReviewThreeDecades}
+    \item \textquote{A key disadvantage of classical symbolic execution is that it cannot generate an input if the symbolic path constraint along a feasible execution path contains formulas that cannot be (efficiently) solved by a constraint solver (for example, nonlinear constraints).}\cite{ReviewThreeDecades}
+    \item Two techniques that alleviate this problem:
+          \begin{itemize}
+              \item Concolic Testing (like DART\cite{DART}): Run concrete and symbolic execution at the same time, keep mapping between values, solve path constraint with one sub-constraint flipped to get input for an other path.
+              \item Execution-Generated Testing (EGT) (like EXE\cite{EXE} and KLEE\cite{KLEE}): Only execute symbolically if any operands are symbolic
+          \end{itemize}
+    \item These handle imprecision in symbex (like interaction with outside code (that is not instrumented for symbex), constraint solving timeouts, unhandled instructions (floating point), or system calls) by just using concrete values.
+          \begin{itemize}
+              \item If none of the operands are symbolically, just use them
+              \item If any are, use the concrete values (direct in concolic, solution from path constraint in EGT)
+          \end{itemize}
+    \item Downside: missing some feasible paths, and therefore sacrificing completeness.
+    \item Challenges:
+          \begin{itemize}
+              \item Path Explosion: program path count usually exponential in the number of static branches in the code.
+                    \begin{itemize}
+                        \item Symbex helps by only looking at possible branches. Example: EXE\cite{EXE} on \code{tcpdump}: only 42\% of instructions contained symbolic operands, less than 20\% of of symbolic branches have both sides feasible\cite{EXE}
+                        \item Prioritization of which path to explore next using heuristics (like statement or branch coverage (and using static analysis to guide), favouring statements that were run the fewest number of times, or random)
+                        \item Interleave random and symbolic execution
+                        \item Pruning redundant paths (\textquote{if a program path reaches the same program point with the same symbolic constraints as a previously explored path, then this path will continue to execute exactly the same from that point on and thus can be discarded.}\cite{RWset})
+                        \item Lazy test generation
+                        \item Static path merging
+                    \end{itemize}
+              \item Constraint Solving: Dominates runtime
+                    \begin{itemize}
+                        \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration.
+                        \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions.
+                    \end{itemize}
+              \item Memory Modeling: Things like modelling \code{int}s as mathematical integers being imprecise since it ignores over-/underflows, and pointers being hard to deal with. \textquote{On the one end of the spectrum is a system like DART\cite{DART} that only reasons about concrete pointers, or systems like CUTE\cite{CUTE} and CREST\cite{CREST} that support only equality and inequality constraints for pointers, which can be efficiently solved.35 At the other end are systems like EXE\cite{EXE}, and more recently KLEE\cite{KLEE} and SAGE\cite{SAGE} that model pointers using the theory of arrays with selections and updates implemented by solvers like STP or Z3.}\cite{ReviewThreeDecades}
+              \item Handling Concurrency: Testing usually difficult because of the inherent non-determinism. \textquote{Concolic testing was successfully combined with a variant of partial order reduction to test concurrent programs effectively.}\cite{ReviewThreeDecades}
+          \end{itemize}
+\end{itemize}
 
 \pagebreak
 \section{Random notes}
 \begin{itemize}
     \item \textquote{Today, testing is the primary way to check the correctness of software. Billions of dollars are spent on testing in the software industry, as testing usually accounts for about 50\% of the cost of software development. It was recently estimated that software failures currently cost the US economy alone about \$60 billion every year, and that improvements in software testing infrastructure might save one-third of this cost.}\cite{DART}
     \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GrammarBasedWhiteboxFuzzing}
+    \item \textquote{KLEE8 is a redesign of EXE}\cite{ReviewThreeDecades}
+    \item I think the EXE paper also introduced STP
 \end{itemize}
 
 \pagebreak
@@ -102,7 +142,7 @@
     \item Divergences are common (60\% of runs). This is because a lot of instructions were concretized to help with performance.
     \item No clear correlation between coverage and crashes, only weak effect when using a block coverage based heuristic to choose next execution.
     \item tl;dr: Runs concolic symbex, records run, flips every branch condition on its own, and solves the constraint formulas to generate inputs that choose a different path at each branch.
-    \item Struggles with highly structured input like compilers and interpreters. Issue: \textquote{Due to the enormous number of control paths in early process- ing stages, whitebox fuzzing rarely reaches parts of the application beyond these first stages.}\cite{GrammarBasedWhiteboxFuzzing}.
+    \item Struggles with highly structured input like compilers and interpreters. Issue: \textquote{Due to the enormous number of control paths in early processing stages, whitebox fuzzing rarely reaches parts of the application beyond these first stages.}\cite{GrammarBasedWhiteboxFuzzing}.
     \item Also: Parsers sometimes use hash functions to match tokens, which make symbex impossible because they cannot be inverted.\cite{GrammarBasedWhiteboxFuzzing}.
 \end{itemize}
 
@@ -164,6 +204,7 @@
 \subsection{New}
 \begin{itemize}
     \item CUTE: a concolic unit testing engine for C (2005)\cite{CUTE} (discussed as early idea in \cite{Science})
+    \item CREST: Heuristics for Scalable Dynamic Test Generation\cite{CREST} (discussed in \cite{ReviewThreeDecades})
     \item TaintScope: A Checksum-Aware Directed Fuzzing Tool for Automatic Software Vulnerability Detection\cite{TaintScope} (Tainting, discussed in \cite{Science} as improving the efficiency of fuzzing by reducing search space)
     \item BuzzFuzz: Taint-based directed whitebox fuzzing\cite{BuzzFuzz} (discussed in \cite{Science} as improving the efficiency of fuzzing by reducing search space, specifically library and system calls)
     \item Dowser: A Guided Fuzzer for Finding Buffer Overflow Vulnerabilities\cite{Dowser,DowserArticle} (discussed in \cite{Science})
