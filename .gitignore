@@ -4,10 +4,14 @@
 # Where I store PDFs of papers I read
 papers
 
+# Experiments
+bibliometrics
+
 # pdflatex specific files
 !out
 out/*
 !out/index.pdf
+!out/notes.pdf
 
 # Editor settings
 .vscode

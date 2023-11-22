@@ -1,9 +1,9 @@
-% set spacing in itemize to minimum
+% Set spacing in itemize to minimum
 \let\savedItemize=\itemize
 \let\savedEndItemize=\enditemize
 \renewenvironment{itemize}{\savedItemize\setlength\itemsep{0px}}{\savedEndItemize}
 
-% disable overfull hbox warnings
+% Disable overfull hbox warnings
 \hfuzz=50px
 \hbadness=1000
 

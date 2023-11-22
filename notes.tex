@@ -1,0 +1,284 @@
+\documentclass{article}
+\usepackage{hyperref}
+\usepackage{csquotes}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{array}
+
+
+\title{Notes}
+\author{Valentin Huber}
+\begin{document}
+\include{settings}
+
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section{Related Work}
+\begin{longtable}{|P{0.44\textwidth}|P{0.32\textwidth}|r|r|}
+    \hline
+    \tableh{Article Title}                                                                                                                        & \tableh{Paper}                                             & \tableh{Cit\#} & \tableh{Date} \\\hline
+    \endhead
+    Symbolic execution for software testing in practice: preliminary assessment\cite{PreliminaryAssessment}                                       & Conference on Software Engineering                         & 492            & 05/2011       \\\hline
+    Fuzzing: The State of the Art\cite{FuzzingTheStateOfTheArt}                                                                                   & DSTO Defence Science and Technology Organisation Australia & 98             & 02/2012       \\\hline
+    Symbolic execution for software testing: three decades later\cite{ReviewThreeDecades}                                                         & ACM Computing Surveys                                      & 1035           & 02/2013       \\\hline
+    Network protocol fuzz testing for information systems and applications: a survey and taxonomy\cite{Network}                                   & Multimedia Tools and Applications                          & 21             & 11/2016       \\\hline
+    A Survey of Dynamic Analysis and Test Generation for JavaScript                                                                               & ACM Computing Surveys                                      & 93             & 09/2017       \\\hline
+    A systematic review of fuzzing techniques\cite{Science}                                                                                       & Science Computers \& Security                              & 112            & 06/2018       \\\hline
+    Fuzzing: A Survey\cite{FuzzingASurvey}                                                                                                        & Open Access                                                & 242            & 06/2018       \\\hline
+    Fuzzing: State of the Art\cite{FuzzingStateOfTheArt2018}                                                                                      & IEEE Transactions on Reliability                           & 196            & 06/2018       \\\hline
+    Evaluating Fuzz Testing\cite{EvaluatingFuzzTesting}                                                                                           & CCS SIGSAC                                                 & 561            & 10/2018       \\\hline
+    Fuzzing: hack, art, and science\cite{HackArtScience}                                                                                          & Comms of the ACM                                           & 113            & 01/2020       \\\hline
+    A Systematic Review of Search Strategies in Dynamic Symbolic Execution\cite{SearchStrategies}                                                 & Computer Standards \& Interfaces                           & 7              & 10/2020       \\\hline
+    Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems\cite{IoT} & IEEE IoT Journal                                           & 23             & 02/2021       \\\hline
+    Fuzzing: Challenges and Reflections\cite{ChallengesAndReflections}                                                                            & IEEE Software                                              & 96             & 05/2021       \\\hline
+    Firmware Fuzzing: The State of the Art\cite{Firmware}                                                                                         & ACM Internetware                                           & 5              & 07/2021       \\\hline
+    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection                                                                    & IEEE Access                                                & 0              & 09/2021       \\\hline
+    Research on Fuzzing Technology for JavaScript Engines\cite{JavaScript}                                                                        & ACM CSAE                                                   & 3              & 10/2021       \\\hline
+    The Art, Science, and Engineering of Fuzzing: A Survey\cite{ArtScienceEngineeringFuzzing}                                                     & IEEE Transactions on Software Engineering                  & 395            & 11/2021       \\\hline
+    Ethereum Smart Contract Analysis Tools: A Systematic Review\cite{Ethereum}                                                                    & IEEE Access                                                & 41             & 04/2022       \\\hline
+    Fuzzing: A Survey for Roadmap\cite{FuzzingASurveyforRoadmap}                                                                                  & ACM Computing Surveys                                      & 81             & 09/2022       \\\hline
+    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions\cite{FuzzingVulnerabilityDiscoveryTechniques}            & Science Computers \& Security                              & 16             & 09/2022       \\\hline
+    Embedded fuzzing: a review of challenges, tools, and solutions\cite{Embedded2}                                                                & Springer Cybersecurity                                     & 7              & 09/2022       \\\hline
+    Fuzzing of Embedded Systems: A Survey\cite{Embedded}                                                                                          & ACM Computing Surveys                                      & 11             & 07/2023       \\\hline
+    A Survey on the Development of Network Protocol Fuzzing Techniques\cite{Network2023}                                                          & MDPI Electronics                                           & 0              & 07/2023       \\\hline
+    Demystify the Fuzzing Methods: A Comprehensive Survey\cite{Demystifying}                                                                      & ACM Computing Surveys                                      & 0              & 10/2023       \\\hline
+    A systematic review of fuzzing\cite{SystematicReview2023}                                                                                     & Application of soft computing                              & 0              & 10/2023       \\\hline
+\end{longtable}
+
+\pagebreak
+\section{Authors}
+\begin{longtable}{|l|p{0.7\textwidth}|l|}\hline
+    \tableh{Author} & \tableh{Works}                                                                                                                                                                                                                                      & \tableh{Reviews}             \\\hline
+    \endhead
+    Cristian Cadar  & KLEE\cite{KLEE}, KLEE-FP\cite{KLEEFP} EXE\cite{EXE}, RWset\cite{RWset}, Covrig\cite{Covrig}, KATCH\cite{KATCH}, Automatic testing of symbolic execution engines\cite{AutomaticTestingSymbex}, JFS\cite{JFS}, ZESTI\cite{ZESTI}                      & \cite{ReviewThreeDecades}    \\\hline
+    Koushik Sen     & DART\cite{DART}, CUTE\cite{CUTE}, ZEST\cite{ZEST}, FuzzFactory\cite{FuzzFactory}, FairFuzz\cite{FairFuzz}, JQF\cite{JQF}, PerfFuzz\cite{PerfFuzz}, RFUZZ\cite{RFUZZ}, RLCheck\cite{RLCheck}, QuickSampler\cite{QuickSampler}, PARTEMU\cite{PARTEMU} & \cite{ReviewThreeDecades}    \\\hline
+    George Klees    &                                                                                                                                                                                                                                                     & \cite{EvaluatingFuzzTesting} \\\hline
+    Andrew Ruef     & Build It, Break It, Fix It\cite{BuildItBreakItFixIt}                                                                                                                                                                                                & \cite{EvaluatingFuzzTesting} \\\hline
+    Benji Cooper    &                                                                                                                                                                                                                                                     & \cite{EvaluatingFuzzTesting} \\\hline
+    Shiyi Wei       & FIXREVERTER\cite{FIXREVERTER}                                                                                                                                                                                                                       & \cite{EvaluatingFuzzTesting} \\\hline
+    Michael Hicks   & FIXREVERTER\cite{FIXREVERTER}, Build It, Break It, Fix It\cite{BuildItBreakItFixIt}, ZAFL\cite{ZAFL}, UnTracer\cite{UnTracer}, Hardware Fuzzing Pipeline\cite{HardwareFuzzingPipeline}, CGPT\cite{CGPT}                                             & \cite{EvaluatingFuzzTesting} \\\hline
+\end{longtable}
+
+\pagebreak
+\section{Review Papers}
+\subsection{Symbolic execution for software testing: three decades later}
+\begin{itemize}
+    \item \cite{ReviewThreeDecades}
+    \item \textquote{Note that we do not aim to provide here a comprehensive survey of existing work in the area, but instead choose to illustrate some of the main challenges and proposed solutions by using examples from the authors' own work.}\cite{ReviewThreeDecades}
+    \item \textquote{A key disadvantage of classical symbolic execution is that it cannot generate an input if the symbolic path constraint along a feasible execution path contains formulas that cannot be (efficiently) solved by a constraint solver (for example, nonlinear constraints).}\cite{ReviewThreeDecades}
+    \item Two techniques that alleviate this problem:
+          \begin{itemize}
+              \item Concolic Testing (like DART\cite{DART}): Run concrete and symbolic execution at the same time, keep mapping between values, solve path constraint with one sub-constraint flipped to get input for an other path.
+              \item Execution-Generated Testing (EGT) (like EXE\cite{EXE} and KLEE\cite{KLEE}): Only execute symbolically if any operands are symbolic
+          \end{itemize}
+    \item These handle imprecision in symbex (like interaction with outside code (that is not instrumented for symbex), constraint solving timeouts, unhandled instructions (floating point), or system calls) by just using concrete values.
+          \begin{itemize}
+              \item If none of the operands are symbolically, just use them
+              \item If any are, use the concrete values (direct in concolic, solution from path constraint in EGT)
+          \end{itemize}
+    \item Downside: missing some feasible paths, and therefore sacrificing completeness.
+    \item Challenges:
+          \begin{itemize}
+              \item Path Explosion: program path count usually exponential in the number of static branches in the code.
+                    \begin{itemize}
+                        \item Symbex helps by only looking at possible branches. Example: EXE\cite{EXE} on \code{tcpdump}: only 42\% of instructions contained symbolic operands, less than 20\% of of symbolic branches have both sides feasible\cite{EXE}
+                        \item Prioritization of which path to explore next using heuristics (like statement or branch coverage (and using static analysis to guide), favouring statements that were run the fewest number of times, or random)
+                        \item Interleave random and symbolic execution
+                        \item Pruning redundant paths (\textquote{if a program path reaches the same program point with the same symbolic constraints as a previously explored path, then this path will continue to execute exactly the same from that point on and thus can be discarded.}\cite{RWset})
+                        \item Lazy test generation
+                        \item Static path merging
+                    \end{itemize}
+              \item Constraint Solving: Dominates runtime
+                    \begin{itemize}
+                        \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration.
+                        \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions.
+                    \end{itemize}
+              \item Memory Modeling: Things like modelling \code{int}s as mathematical integers being imprecise since it ignores over-/underflows, and pointers being hard to deal with. \textquote{On the one end of the spectrum is a system like DART\cite{DART} that only reasons about concrete pointers, or systems like CUTE\cite{CUTE} and CREST\cite{CREST} that support only equality and inequality constraints for pointers, which can be efficiently solved.35 At the other end are systems like EXE\cite{EXE}, and more recently KLEE\cite{KLEE} and SAGE\cite{SAGE} that model pointers using the theory of arrays with selections and updates implemented by solvers like STP or Z3.}\cite{ReviewThreeDecades}
+              \item Handling Concurrency: Testing usually difficult because of the inherent non-determinism. \textquote{Concolic testing was successfully combined with a variant of partial order reduction to test concurrent programs effectively.}\cite{ReviewThreeDecades}
+          \end{itemize}
+\end{itemize}
+
+\subsection{Evaluating Fuzz Testing}
+\begin{itemize}
+    \item \cite{EvaluatingFuzzTesting}
+    \item \textquote{We examined 32 recently published papers on fuzz testing located by perusing top-conference proceedings and other quality venues, and studied their experimental evaluations.}\cite{EvaluatingFuzzTesting}
+    \item \textquote{14 out of 32 papers we examined used AFL as a baseline in their evaluation.}\cite{EvaluatingFuzzTesting}
+    \item On \code{nm}, \code{objdump}, \code{cxxfilt}, \code{gif2png}, and \code{FFmpeg}
+    \item To do proper evaluation on algorithm \code{A}, do this:
+          \begin{itemize}
+              \item Choose baseline fuzzer \code{B}
+              \item Choose benchmark suite
+              \item Choose performance metric (ideal: number of bugs)
+              \item Choose set of config parameters like seed and duration of run
+          \end{itemize}
+    \item If not done right:
+          \begin{itemize}
+              \item \textquote{Fuzzing performance under the same configuration can vary substantially from run to run.}\cite{EvaluatingFuzzTesting} This happens if only one run is looked at, because they are nondeterministic and based on randomness. Perform many runs and check for statistically significant differences.
+              \item \textquote{Fuzzing performance can vary over the course of a run.}\cite{EvaluatingFuzzTesting}
+              \item Different seeds can lead to very different results.
+              \item \textquote{14 out of 32 papers we examined used code coverage to assess fuzzing effectiveness.}\cite{EvaluatingFuzzTesting} This might seem decent, but isn't necessarily, and looking at number of bugs is more precise. Deduplicating inputs that trigger the same bug is ineffective (\textquote{We found that all 57,142 crashing inputs deemed “unique” by coverage profiles were addressed by 9 distinct patches.}\cite{EvaluatingFuzzTesting}). Stack hashes aren't great either and are subject to false negatives. Solution: Assess against different versions of a program with/without applied bugfixes, or by using a synthetic suite.
+              \item Performance varies based on the chosen program under test. Choosing a diverse collection of programs is therefore critical.
+          \end{itemize}
+    \item \textquote{There are many different dynamic analyses that can be described as “fuzzing.” A unifying feature of fuzzers is that they operate on, and produce, concrete inputs. Otherwise, fuzzers might be instantiated with many different design choices and many different parameter settings.}\cite{EvaluatingFuzzTesting}
+    \item Papers between 2012 and 2018, 25/32 between 2016 and 2018
+    \item Started with 10 high-impact papers published in top security venues, chased citations, keyword search.
+    \item Advances discussed in papers:
+          \begin{itemize}
+              \item Initial seed selection: up-front analysis\cite{Skyfire, Orthrus, DIFUZE}, grammar\cite{QuickFuzz, QuickFuzz2}
+              \item Mutation: symbex to choose how many bits to flip\cite{SYMFUZZ}, taint analysis\cite{Mayhem, Angora, Steelix, VUzzer}, dynamic slicing\cite{MutaGen}, seed properties\cite{SDF}, grammars\cite{SCADA, IMF}, language constructs knowledge\cite{Chizpurfle}
+              \item Eval: symbex when stuck\cite{Driller, Mayhem}, general symbex\cite{S2F}, speedup through OS optimizations\cite{OS} or other low-level primitives\cite{IMF, VDF, kAFL}, removing checks\cite{TFuzz}, fine-grained runtime analysis\cite{MEDS}
+              \item Observation: longer running time\cite{SlowFuzz}, different behavior\cite{NEZHA}, additional instrumentation\cite{Steelix, Angora}, static analysis-guided searching\cite{Dowser, VUzzer}
+              \item Seed selection: areas of interest reached\cite{AFLGo, CGF, FairFuzz, VUzzer}, different algorithm\cite{SeedSelection, Scheduling}
+          \end{itemize}
+\end{itemize}
+
+
+
+
+
+
+\pagebreak
+\section{Random notes}
+\begin{itemize}
+    \item \textquote{Today, testing is the primary way to check the correctness of software. Billions of dollars are spent on testing in the software industry, as testing usually accounts for about 50\% of the cost of software development. It was recently estimated that software failures currently cost the US economy alone about \$60 billion every year, and that improvements in software testing infrastructure might save one-third of this cost.}\cite{DART}
+    \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GrammarBasedWhiteboxFuzzing}
+    \item \textquote{KLEE is a redesign of EXE}\cite{ReviewThreeDecades}
+    \item I think the EXE paper also introduced STP
+    \item \textquote{The process begins by choosing a corpus of “seed” inputs with which to test the target program. The fuzzer then repeatedly mutates these inputs and evaluates the program under test. If the result produces “interesting” behavior, the fuzzer keeps the mutated input for future use and records what was observed. Eventually the fuzzer stops, either due to reaching a particular goal (e.g., finding a certain sort of bug) or reaching a timeout.}\cite{EvaluatingFuzzTesting}
+    \item \textquote{Different fuzzers record different observations when running the program under test. In a “black box” fuzzer, a single observation is made: whether the program crashed. In “gray box” fuzzing, observations also consist of intermediate information about the execution, for example, the branches taken during execution as determined by pairs of basic block identifiers executed directly in sequence. “White box” fuzzers can make observations and modifications by exploiting the semantics of application source (or binary) code, possibly involving sophisticated reasoning. Gathering additional observations adds overhead. Different fuzzers make different choices, hoping to trade higher overhead for better bug-finding effectiveness.}\cite{EvaluatingFuzzTesting}
+    \item \textquote{In any of these cases, the output from the fuzzer is some concrete input(s) and configurations that can be used from outside of the fuzzer to reproduce the observation. This allows software developers to confirm, reproduce, and debug issues.}\cite{EvaluatingFuzzTesting}
+\end{itemize}
+
+\pagebreak
+\section{Primary Papers}
+\subsection{An Empirical Study of the Reliability of UNIX Utilities (1990)}
+\begin{itemize}
+    \item \cite{UNIX}
+    \item OG Fuzzing paper
+    \item Started because in a stormy night, electrical interference on a dial-up connection
+    \item Authors were surprised by amount of crashes, and artificially produced those.
+    \item Generates random data (all chars/only printable chars, with or without NULL), throws them against a program
+    \item Were able to crash or hang between 24 and 33\% of programs on different UNIX systems
+    \item Different error categories: pointer and array errors, unchecked return codes, input functions, sub-processes, interaction effects, bad error handling, signed characters, race conditions and undetermined.
+\end{itemize}
+
+\subsection{DART (2005)}
+\begin{itemize}
+    \item \cite{DART}
+    \item Automated extraction of interface and env based on static source-code parsing
+    \item Starts with random input, then uses symbex (without calling it symbex) to choose a different path
+    \item Introduces a lot of concepts that I understand to be base level for symbex
+    \item Has a unclear distinction to symbex, argues that symbex is stuck at expressions that aren't an issue with the symbex I know
+    \item Concolic execution, fallback on concrete value whenever stuck
+    \item Works on C code
+    \item Positioned against static code analysis, which produces a lot of false positives while errors reported by DART are \textquote{trivially sound}\cite{DART}
+    \item Run on a Pentium III 800MHz
+    \item \textquote{As illustrated by the examples in Section 2, DART is able to alleviate some of the limitations of symbolic execution by exploiting dynamic information obtained from a concrete execution matching the symbolic constraints, by using dynamic test generation, and by instrumenting the program to check whether the input values generated next have the expected effect on the program.}\cite{DART}
+\end{itemize}
+
+\subsection{SAGE (2008)}
+\begin{itemize}
+    \item \cite{SAGE}
+    \item First Whitebox Fuzzing paper so far.
+    \item Developed at Microsoft.
+    \item Does minor optimization to be able to perform partial symbex
+    \item New invention: "Generational Search" — flips every branching condition after a symbex run to test in the next run, thus requiring fewer symbex runs overall.
+    \item Uses concolic symbex whenever it gets too complex (i.e. interaction with the environment). It then checks whether the expected execution path is actually chosen and if not recovers (so-called "divergence").
+    \item Runs on x86, Windows, file-reading applications.
+    \item Found some vulnerabilities in media parsing engines and Office 2007.
+    \item Further findings: symbex is slow (duh), at least two orders of magnitude compared to concrete execution.
+    \item Divergences are common (60\% of runs). This is because a lot of instructions were concretized to help with performance.
+    \item No clear correlation between coverage and crashes, only weak effect when using a block coverage based heuristic to choose next execution.
+    \item tl;dr: Runs concolic symbex, records run, flips every branch condition on its own, and solves the constraint formulas to generate inputs that choose a different path at each branch.
+    \item Struggles with highly structured input like compilers and interpreters. Issue: \textquote{Due to the enormous number of control paths in early processing stages, whitebox fuzzing rarely reaches parts of the application beyond these first stages.}\cite{GrammarBasedWhiteboxFuzzing}.
+    \item Also: Parsers sometimes use hash functions to match tokens, which make symbex impossible because they cannot be inverted.\cite{GrammarBasedWhiteboxFuzzing}.
+\end{itemize}
+
+\subsection{KLEE (2008)}
+\begin{itemize}
+    \item \cite{KLEE}
+    \item Wide array of tests including GNU COREUTILS, BUSYBOX, MINIX, and HISTAR (430K LOC, 452 programs)
+    \item Tests programs and OS Kernel (HISTAR)
+    \item Found multiple high-profile errors (ten fatals in COREUTILS, three older than 15 years)
+    \item Compares functionality of different implementations of the same specs
+    \item Checks each error on the real binary, so no false positives theoretically (but because non-determinism and bugs in KLEE there are some in practice)
+    \item Works on LLVM basis (so not binary, doesn't work for projects where source code is unavailable)
+    \item Extensive env modelling, including command line args, files, file metadata, env variables, failing system calls
+    \item Path explosion combated with copy-on-write in state
+    \item Performs query optimization (expression rewriting like mathematical simplifications, and using more efficient operations), constraint set simplification, constraint independence and a counter-example cache
+    \item Alternates between random and coverage-optimized choice of next branch to execute
+    \item New development: Better env modelling (not just dropping back on concrete values)
+    \item \textquote{KLEE uses search heuristics on symbolic execution to achieve high code coverage.}\cite{Science}
+\end{itemize}
+
+\subsection{Grammar-based Whitebox Fuzzing (2008)}
+\begin{itemize}
+    \item \cite{GrammarBasedWhiteboxFuzzing}
+    \item Follow-up to SAGE\cite{SAGE}
+    \item SAGE struggled with highly structured inputs. Which is where this paper comes in.
+    \item \textquote{We present a dynamic test generation algorithm where symbolic execution directly generates grammar-based constraints whose satisfiability is checked using a custom grammar-based constraint solver.}\cite{GrammarBasedWhiteboxFuzzing}
+    \item Two main parts:
+          \begin{enumerate}
+              \item \textquote{Generation of higher-level symbolic constraints, expressed in terms of symbolic grammar tokens returned by the lexer, instead of the traditional symbolic bytes read as input.}\cite{GrammarBasedWhiteboxFuzzing}
+              \item \textquote{A custom constraint solver that solves constraints on symbolic grammar tokens. The solver looks for solutions that satisfy the constraints and are accepted by a given (context-free) grammar.}\cite{GrammarBasedWhiteboxFuzzing}
+          \end{enumerate}
+    \item Basically wrote their own custom token-based (as opposed to bit/byte-based) symbex engine.
+    \item Does not mark input bytes as symbolic, but the tokens returned by the tokenization function in the parser, implemented based on SAGE\cite{SAGE}
+          \begin{itemize}
+              \item Also tries to only do this without using a grammar, so symbex based on tokens without pruning invalid inputs.
+          \end{itemize}
+    \item When negating constraints allows to generate input that will be parsed (does not use \textit{any} byte, but one that will conform to the manually provided context-free grammar).
+    \item Also allows to quickly prove that flipping certain conditions isn't possible (while still conforming to the grammar) without even running the code.
+    \item If the parser has more constraints than the context-free grammar provided (like basic type checks or, e. g. in network protocols, the number $k$ followed by $k$ records, which cannot be represented as context-free grammar), this makes the system less efficient, but the outputs are still complete.
+    \item Requires no source modifications
+    \item \textquote{We use the official JavaScript grammar. The grammar is quite large: 189 productions, 82 terminals (tokens), and 102 nonterminals.}\cite{GrammarBasedWhiteboxFuzzing}
+    \item Downside: Requires some domain knowledge:\begin{itemize}
+              \item Formal grammar structure (available for many input formats)
+              \item Identifying the tokenization function in the parser that needs to be instrumented (apparently usually fairly straight-forward, by looking for functions with names that contain \textit{token, nextToken, scan} or something similar)
+              \item Creating a de-tokenization function to generate input byte strings from input token strings generated by a context-free constraint solver.
+          \end{itemize}
+    \item This system doesn't check the lexer and parser for bugs, but one can just use traditional whitebox fuzzing (they say that coverage is similar to other approaches, but will likely not cover the error handling as well)
+    \item Tested on IE7s JS engine
+\end{itemize}
+
+\pagebreak
+\section{TODOs}
+\subsection{Related}
+\begin{itemize}
+    \item AFLGo (Directed Greybox Fuzzing)\cite{AFLGo} (follow-up to Grammar-based Whitebox Fuzzing I think)
+    \item SAGE: Whitebox Fuzzing for Security Testing: SAGE has had a remarkable impact at Microsoft.\cite{SAGEImpact}
+\end{itemize}
+
+\subsection{New}
+\begin{itemize}
+    \item CUTE: a concolic unit testing engine for C (2005)\cite{CUTE} (discussed as early idea in \cite{Science})
+    \item CREST: Heuristics for Scalable Dynamic Test Generation\cite{CREST} (discussed in \cite{ReviewThreeDecades})
+    \item TaintScope: A Checksum-Aware Directed Fuzzing Tool for Automatic Software Vulnerability Detection\cite{TaintScope} (Tainting, discussed in \cite{Science} as improving the efficiency of fuzzing by reducing search space)
+    \item BuzzFuzz: Taint-based directed whitebox fuzzing\cite{BuzzFuzz} (discussed in \cite{Science} as improving the efficiency of fuzzing by reducing search space, specifically library and system calls)
+    \item Dowser: A Guided Fuzzer for Finding Buffer Overflow Vulnerabilities\cite{Dowser,DowserArticle} (discussed in \cite{Science})
+    \item The BORG: Nanoprobing Binaries for Buffer Overreads\cite{BORG}
+    \item MoWF — Model-based whitebox fuzzing for program binaries\cite{MoWF}
+    \item Driller: Augmenting Fuzzing Through Selective Symbolic Execution\cite{Driller}
+    \item ! S2E: a platform for in-vivo multi-path analysis of software systems\cite{S2E}
+    \item ! Mayhem: Unleashing MAYHEM on Binary Code\cite{Mayhem}
+    \item VUzzer: Application-aware Evolutionary Fuzzing\cite{VUzzer}
+    \item SYMFUZZ: Program-Adaptive Mutational Fuzzing\cite{SYMFUZZ}
+    \item Improving Function Coverage with Munch: A Hybrid Fuzzing and Directed Symbolic Execution Approach\cite{Munch}
+    \item Magma: A Ground-Truth Fuzzing Benchmark\cite{Magma}
+\end{itemize}
+
+\subsection{Non-Symbex}
+\begin{itemize}
+    \item AFL++\cite{AFLPlusPlus}
+    \item Learn\&Fuzz: Machine Learning for Input Fuzzing\cite{LearnFuzz}
+    \item T-Fuzz: fuzzing by program transformation\cite{TFuzz}
+\end{itemize}
+
+\pagebreak
+\addcontentsline{toc}{section}{Bibliography}
+\bibliographystyle{ieeetr}
+\bibliography{sources}
+
+\end{document}
