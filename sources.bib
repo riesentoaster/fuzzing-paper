@@ -1811,3 +1811,82 @@
   url      = {https://doi.org/10.1007/s100090050043}
 }
 
+@article{SurveySymbex,
+  author     = {Baldoni, Roberto and Coppa, Emilio and D’elia, Daniele Cono and Demetrescu, Camil and Finocchi, Irene},
+  title      = {A Survey of Symbolic Execution Techniques},
+  year       = {2018},
+  issue_date = {May 2019},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {51},
+  number     = {3},
+  issn       = {0360-0300},
+  url        = {https://doi.org/10.1145/3182657},
+  doi        = {10.1145/3182657},
+  abstract   = {Many security and software testing applications require checking whether certain properties of a program hold for any possible usage scenario. For instance, a tool for identifying software vulnerabilities may need to rule out the existence of any backdoor to bypass a program’s authentication. One approach would be to test the program using different, possibly random inputs. As the backdoor may only be hit for very specific program workloads, automated exploration of the space of possible inputs is of the essence. Symbolic execution provides an elegant solution to the problem, by systematically exploring many possible execution paths at the same time without necessarily requiring concrete inputs. Rather than taking on fully specified input values, the technique abstractly represents them as symbols, resorting to constraint solvers to construct actual instances that would cause property violations. Symbolic execution has been incubated in dozens of tools developed over the past four decades, leading to major practical breakthroughs in a number of prominent software reliability applications. The goal of this survey is to provide an overview of the main ideas, challenges, and solutions developed in the area, distilling them for a broad audience.},
+  journal    = {ACM Comput. Surv.},
+  month      = {05},
+  articleno  = {50},
+  numpages   = {39},
+  keywords   = {Symbolic execution, static analysis, software testing, concolic execution}
+}
+
+@inproceedings{SurveyHybrid,
+  author    = {Zhang, Tao and Jiang, Yu and Guo, Runsheng and Zheng, Xiaoran and Lu, Hui},
+  title     = {A Survey of Hybrid Fuzzing Based on Symbolic Execution},
+  year      = {2021},
+  isbn      = {9781450387828},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3444370.3444570},
+  doi       = {10.1145/3444370.3444570},
+  abstract  = {Fuzzing has now developed into an efficient method of vulnerability mining. Symbolic execution is also a popular software vulnerability mining technology. Both are research hotspots in the field of network and information security. Hybrid fuzzing is the addition of symbolic execution technology on the basis of traditional fuzzing, and has now developed into a new branch of fuzzing. This article studies the existing hybrid fuzzing methods, reviews the development and evolution process and technical core of hybrid fuzzing, and compares the performance of currently well-known hybrid fuzzing through an experimental method based on symbolic execution. Finally, it discusses the existing problems in the field of hybrid fuzzing testing, and tries to look forward to its future development trend.},
+  booktitle = {Proceedings of the 2020 International Conference on Cyberspace Innovation of Advanced Technologies},
+  pages     = {192–196},
+  numpages  = {5},
+  keywords  = {symbolic execution, Hybrid fuzzing, Fuzzing},
+  location  = {Guangzhou, China},
+  series    = {CIAT 2020}
+}
+
+@inproceedings{angr,
+  author    = {Wang, Fish and Shoshitaishvili, Yan},
+  booktitle = {2017 IEEE Cybersecurity Development (SecDev)},
+  title     = {Angr - The Next Generation of Binary Analysis},
+  year      = {2017},
+  volume    = {},
+  number    = {},
+  pages     = {8-9},
+  doi       = {10.1109/SecDev.2017.14}
+}
+
+@article{FUZZOLIC,
+  title    = {FUZZOLIC: Mixing fuzzing and concolic execution},
+  journal  = {Computers \& Security},
+  volume   = {108},
+  pages    = {102368},
+  year     = {2021},
+  issn     = {0167-4048},
+  doi      = {https://doi.org/10.1016/j.cose.2021.102368},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0167404821001929},
+  author   = {Luca Borzacchiello and Emilio Coppa and Camil Demetrescu},
+  keywords = {Bug detection, Concolic execution, Fuzzing testing, SMT Solver, Hybrid fuzzing},
+  abstract = {In the last few years, a large variety of approaches and methodologies have been explored in the context of software testing, ranging from black-box techniques, such as fuzzing, to white-box techniques, such as concolic execution, with a full spectrum of instances in between. Using these techniques, developers and security researchers have been able to identify in the last decade a large number of critical vulnerabilities in thousands of software projects. In this article, we investigate how to improve the performance and effectiveness of concolic execution, proposing two main enhancements to the original approach. On one side, we devise a novel concolic executor that can analyze complex binary programs while running under QEMU and efficiently produce symbolic queries, which could generate valuable program inputs when solved. On the other side, we investigate whether techniques borrowed from the fuzzing domain can be applied to solve the symbolic queries generated by concolic execution, providing a viable alternative to accurate but expensive SMT solving techniques. We show that the combination of our concolic engine, Fuzzolic, and our approximate solver, Fuzzy-Sat, can perform better in terms of code coverage than popular state-of-the-art fuzzers on a variety of complex programs and can identify different unknown bugs in several real-world applications.}
+}
+
+@inproceedings{CONFETTI,
+  author    = {Kukucka, James and Pina, Lu\'{\i}s and Ammann, Paul and Bell, Jonathan},
+  title     = {CONFETTI: Amplifying Concolic Guidance for Fuzzers},
+  year      = {2022},
+  isbn      = {9781450392211},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3510003.3510628},
+  doi       = {10.1145/3510003.3510628},
+  abstract  = {Fuzz testing (fuzzing) allows developers to detect bugs and vulnerabilities in code by automatically generating defect-revealing inputs. Most fuzzers operate by generating inputs for applications and mutating the bytes of those inputs, guiding the fuzzing process with branch coverage feedback via instrumentation. Whitebox guidance (e.g., taint tracking or concolic execution) is sometimes integrated with coverage-guided fuzzing to help cover tricky-to-reach branches that are guarded by complex conditions (so-called "magic values"). This integration typically takes the form of a targeted input mutation, e.g., placing particular byte values at a specific offset of some input in order to cover a branch. However, these dynamic analysis techniques are not perfect in practice, which can result in the loss of important relationships between input bytes and branch predicates, thus reducing the effective power of the technique. We introduce a new, surprisingly simple, but effective technique, global hinting, which allows the fuzzer to insert these interesting bytes not only at a targeted position, but in any position of any input. We implemented this idea in Java, creating Confetti, which uses both targeted and global hints for fuzzing. In an empirical comparison with two baseline approaches, a state-of-the-art greybox Java fuzzer and a version of Confetti without global hinting, we found that Confetti covers more branches and finds 15 previously unreported bugs, including 9 that neither baseline could find. By conducting a post-mortem analysis of Confetti's execution, we determined that global hinting was at least as effective at revealing new coverage as traditional, targeted hinting.},
+  booktitle = {Proceedings of the 44th International Conference on Software Engineering},
+  pages     = {438–450},
+  numpages  = {13},
+  location  = {Pittsburgh, Pennsylvania},
+  series    = {ICSE '22}
+}

@@ -22,8 +22,12 @@
 \section{Introduction}
 \begin{itemize}
     \item \textquote{Today, testing is the primary way to check the correctness of software. Billions of dollars are spent on testing in the software industry, as testing usually accounts for about 50\% of the cost of software development. It was recently estimated that software failures currently cost the US economy alone about \$60 billion every year, and that improvements in software testing infrastructure might save one-third of this cost.}\cite{DART}
+    \item \textquote{The attack startled the global economy by hitting its impact on around 230K–300K computers in about 150 countries, leading to an estimated substantial financial impact of US \$4–\$8 billion worldwide}\cite{Demystifying}
     \item \textquote{Software testing is the most commonly used technique for validating the quality of software, but it is typically a mostly manual process that accounts for a large fraction of software development and maintenance.}\cite{PreliminaryAssessment}
     \item \textquote{There are many different dynamic analyses that can be described as “fuzzing.” A unifying feature of fuzzers is that they operate on, and produce, concrete inputs. Otherwise, fuzzers might be instantiated with many different design choices and many different parameter settings.}\cite{EvaluatingFuzzTesting}
+    \item \textquote{Google could find 20K vulnerabilities in Chrome using fuzz testing}\cite{Demystifying}
+    \item Fuzzing is used by lots of big players: Google, Microsoft, DoD, Cisco, Adobe all employ fuzzing, and many of those have contributed to or written their own open-source or commercial fuzzers \cite{Demystifying}.
+    \item
 \end{itemize}
 
 \section{Theoretical Principles}
@@ -64,6 +68,11 @@ Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}.
     \item Further Ideas: Special Constraint Solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL})
 \end{itemize}
 
+\subsubsection{System Calls}
+\begin{itemize}
+    \item \textquote{Additionally, symbolic execution creates conflicts while handling system calls, since it does not support modeling all possible system calls and inter-process communication, such as pipes or sockets. Likewise, the non-deterministic behavior of system calls complicates the generation of inputs that consistently trigger specific paths.}\cite{Demystifying}
+\end{itemize}
+
 \subsubsection{Environment Interaction}
 \begin{itemize}
     \item \textquote{[…KLEE's\cite{KLEE}] ability to handle interactions with the outside environment — e.g., with data read from the file system or over the network — by providing models designed to explore all possible legal interactions with the outside world.}\cite{PreliminaryAssessment}
@@ -97,6 +106,7 @@ Dominates runtime
     \item Mocking and stubbing: Moles\cite{Moles}
     \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
     \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, or STP\cite{STP} built during the development of EXE\cite{EXE})
+    \item Approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC} generate interesting inputs based on a SMT query without relying on classic (and expensive) SMT solvers.
 \end{itemize}
 
 \subsubsection{Memory Modelling}
@@ -114,6 +124,11 @@ Things like modelling \code{int}s as mathematical integers being imprecise since
 \begin{itemize}
     \item \textquote{GSE handles input recursive data structures by using lazy initialization. GSE starts execution of the method on inputs with uninitialized fields and non-deterministically initializes fields when they are first ac- cessed during the method's symbolic execution.}\cite{PreliminaryAssessment}
     \item \textquote{Pex\cite{Pex} supports the generation of test inputs of primitive types as well as (recursive) complex data types, for which Pex automatically computes a factory method which creates an instance of a complex data type by invoking a constructor and a sequence of methods, whose parameters are also determined by Pex.}\cite{PreliminaryAssessment}
+\end{itemize}
+
+\subsubsection{Selective Symbolic Execution}
+\begin{itemize}
+    \item Tools like Driller\cite{Driller} perform classical fuzzing (in the case of Driller using AFL\cite{AFLPlusPlus}) until they are \textit{stuck}, meaning they are unable to produce inputs that discover additional paths. Driller then, and only then, invokes its concolic execution engine (Driller uses angr\cite{angr}) to trace the program under investigation executed with one of the previously generated inputs. Finally, it solves the resulting path constraints with one condition flipped to produce an input that will reach new parts of the software. Because Driller does not use symbolic execution for its primary discovery tool, it does not suffer from issues such as path explosion, because it only ever executes one path at a time using symbolic execution.
 \end{itemize}
 
 \section{Improvements in Papers}
@@ -135,6 +150,13 @@ Things like modelling \code{int}s as mathematical integers being imprecise since
               \item New
               \item Specific topics to see if challenges and solutions differ
           \end{itemize}
+    \item Gathered by
+          \begin{itemize}
+              \item Search engines
+              \item Cited in review papers
+              \item Lists in review papers (as in \cite{Demystifying})
+              \item Cited in important primary papers
+          \end{itemize}
 \end{itemize}
 
 \subsection{Survey Papers}
@@ -147,13 +169,14 @@ Things like modelling \code{int}s as mathematical integers being imprecise since
     \item    Fuzzing: A Survey (\citeyear{FuzzingASurvey})\cite{FuzzingASurvey}
     \item    Fuzzing: State of the Art (\citeyear{FuzzingStateOfTheArt2018})\cite{FuzzingStateOfTheArt2018}
     \item    Fuzzing: hack, art, and science (\citeyear{HackArtScience})\cite{HackArtScience}
+    \item A Survey of Symbolic Execution Techniques (\citeyear{SurveySymbex})\cite{SurveySymbex}
     \item    A Systematic Review of Search Strategies in Dynamic Symbolic Execution (\citeyear{SearchStrategies})\cite{SearchStrategies}
+    \item A Survey of Hybrid Fuzzing based on Symbolic Execution (\citeyear{SurveyHybrid})\cite{SurveyHybrid}
     \item    Fuzzing: Challenges and Reflections (\citeyear{ChallengesAndReflections})\cite{ChallengesAndReflections}
     \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citeyear{Hybrid})\cite{Hybrid}
     \item    The Art, Science, and Engineering of Fuzzing: A Survey (\citeyear{ArtScienceEngineeringFuzzing})\cite{ArtScienceEngineeringFuzzing}
     \item    Fuzzing: A Survey for Roadmap (\citeyear{FuzzingASurveyforRoadmap})\cite{FuzzingASurveyforRoadmap}
     \item    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (\citeyear{FuzzingVulnerabilityDiscoveryTechniques})\cite{FuzzingVulnerabilityDiscoveryTechniques}
-    \item    Demystify the Fuzzing Methods: A Comprehensive Survey (\citeyear{Demystifying})\cite{Demystifying}
     \item    A systematic review of fuzzing (\citeyear{SystematicReview2023})\cite{SystematicReview2023}
 \end{itemize}
 
@@ -166,6 +189,8 @@ This survey paper, as the title suggests, focuses on symbolic execution. Startin
 \paragraph{Evaluating Fuzz Testing (\citeyear{ReviewThreeDecades})}
 While not a classic survey paper, \textit{Evaluating Fuzz Testing} finds issues in how all 32 papers performed the evaluation of the system they introduced. It further proposes rules to follow to make an evaluation robust. Last, it contains a list of what advances each paper examined claims to introduce.\cite{EvaluatingFuzzTesting}
 
+\paragraph{Demystify the Fuzzing Methods: A Comprehensive Survey (\citeyear{Demystifying})}
+This paper dedicates one of its chapter to first explaining the fundamental logic of symbolic execution, and then presenting three implementations (Driller\cite{Driller}, CONFETTI\cite{CONFETTI}, and FUZZOLIC\cite{FUZZOLIC}). It further investigates advances in IoT firmware and kernel fuzzers, but does not explain where up- and downsides of using symbolic execution in these domains lay.\cite{Demystifying}
 
 \subsubsection{Specific Survey Papers}
 \begin{itemize}
