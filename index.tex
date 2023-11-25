@@ -99,8 +99,9 @@
                   \item \textquote{CREST\cite{CREST} is an extensible platform for building and experimenting with heuristics for selecting which paths to explore}\cite{ReviewThreeDecades}
                   \item \textquote{we propose a novel approach called Fitnex, a search strategy that uses state-dependent fitness values (computed through a fitness function) to guide path exploration. The fitness function measures how close an already discovered feasible path is to a particular test target (e.g., covering a not-yet-covered branch)}\cite{Fitnex}
                   \item Let users select uninteresting parts of the code and avoid it (as in \cite{Chopped})
-                  \item Probabilistic approach: Estimate the probability of exercising each path using grey-box fuzzing to then let the white-box fuzzer focus on the paths that are believed to be most challenging for grey-box fuzzing\cite{DigFuzz}
-                  \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
+                  \item Weigh the approximate cost of executing a certain path against its demand, as done in QuickFuzz\cite{QuickFuzz}
+                  \item Probabilistic approach: Use Monte Carlo path optimization to quantify the difficulty of each path using grey-box fuzzing to then let the white-box fuzzer focus on the paths that are believed to be most challenging for grey-box fuzzing to make progress.\cite{DigFuzz}
+                  \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, potential bugs according to UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} in SAVIOR\cite{SAVIOR} or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
               \end{itemize}
         \item Pruning redundant paths (\textquote{if a program path reaches the same program point with the same symbolic constraints as a previously explored path, then this path will continue to execute exactly the same from that point on and thus can be discarded.}\cite{RWset}) Eliminating redundant paths by analyzing the values read and written by the program.
         \item Sharing among states/copy on write: KLEE\cite{KLEE}
@@ -120,8 +121,10 @@
         \item Optimizing SMT queries before passing them to the solver. The optimization itself, however, can already be too complex to compute to employ this strategy effectively.
         \item Mocking and stubbing: Moles\cite{Moles}
         \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
-        \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, or STP\cite{STP} built during the development of EXE\cite{EXE})
-        \item Approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC} generate interesting inputs based on a SMT query without relying on classic (and expensive) SMT solvers.
+        \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
+        \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
+        \item Approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}, generate interesting inputs based on a SMT query without relying on classic (and expensive) SMT solvers.
+        \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
     \end{itemize}
 
     \subsubsection{Memory Modelling}
@@ -138,7 +141,6 @@
                   \item Other systems like DART\cite{DART} and CUTE\cite{CUTE} cannot handle non-linear constraints and therefore cannot deal with symbolic references.
               \end{itemize}
         \item \textquote{On the one end of the spectrum is a system like DART\cite{DART} that only reasons about concrete pointers, or systems like CUTE\cite{CUTE} and CREST\cite{CREST} that support only equality and inequality constraints for pointers, which can be efficiently solved.\cite{CUTE} At the other end are systems like EXE\cite{EXE}, and more recently KLEE\cite{KLEE} and SAGE\cite{SAGE} that model pointers using the theory of arrays with selections and updates implemented by solvers like STP or Z3.}\cite{ReviewThreeDecades}
-
     \end{itemize}
 
     \subsubsection{Handling Concurrency}
@@ -201,7 +203,6 @@
     \subsection{Survey Papers}
     \subsubsection{General Survey Papers}
     \begin{itemize}
-        \item    All You Ever Wanted to Know about Dynamic Taint Analysis and Forward Symbolic Execution (but Might Have Been Afraid to Ask) (\citeyear{AllYouEverWanted})\cite{AllYouEverWanted}
         \item    Fuzzing: The State of the Art (\citeyear{FuzzingTheStateOfTheArt})\cite{FuzzingTheStateOfTheArt}
         \item    An orchestrated survey of methodologies for automated software test case generation (\citeyear{Orchestrated})\cite{Orchestrated}
         \item    A systematic review of fuzzing techniques (\citeyear{Science})\cite{Science}
@@ -215,7 +216,6 @@
         \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citeyear{Hybrid})\cite{Hybrid}
         \item    Fuzzing: A Survey for Roadmap (\citeyear{FuzzingASurveyforRoadmap})\cite{FuzzingASurveyforRoadmap}
         \item    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (\citeyear{FuzzingVulnerabilityDiscoveryTechniques})\cite{FuzzingVulnerabilityDiscoveryTechniques}
-        \item    A systematic review of fuzzing (\citeyear{SystematicReview2023})\cite{SystematicReview2023}
     \end{itemize}
 
     \paragraph{All You Ever Wanted to Know about Dynamic Taint Analysis and Forward Symbolic Execution (but Might Have Been Afraid to Ask) (\citeyear{AllYouEverWanted})}
@@ -232,6 +232,9 @@
 
     \paragraph{The Art, Science, and Engineering of Fuzzing: A Survey (\citeyear{ArtScienceEng})}
     Starting with proposing a taxonomy for fuzzing itself and categorizing fuzzers, this paper proposes a general-purpose model of fuzzing, explaining the steps and approaches common fuzzers share. It further presents a genealogy, tracing the origins of important papers back to the work of \citeauthor*{UNIX}. However, it \textquote{does not provide a comprehensive survey on DSE}\cite{ArtScienceEng}, but only discusses whitebox fuzzing in a subsection and refers to other survey papers such as \cite{Orchestrated, AllYouEverWanted} for a more complete overview.\cite{ArtScienceEng}
+
+    \paragraph{A systematic review of fuzzing (\citeyear{SystematicReview2023})}
+    The authors of this paper guide the reader through advances in fuzzing along the works that introduced those. It includes a section about symbolic execution, which considers the following systems: Driller\cite{Driller}, QSYM\cite{QSYM}, SAVIOR\cite{SAVIOR}, DigFuzz\cite{DigFuzz}, Pangolin\cite{Pangolin}, and QuickFuzz\cite{QuickFuzz}.
 
     \paragraph{Demystify the Fuzzing Methods: A Comprehensive Survey (\citeyear{Demystifying})}
     This paper dedicates one of its chapter to first explaining the fundamental logic of symbolic execution, and then presenting three implementations (Driller\cite{Driller}, CONFETTI\cite{CONFETTI}, and FUZZOLIC\cite{FUZZOLIC}). It further investigates advances in IoT firmware and kernel fuzzers, but does not explain where up- and downsides of using symbolic execution in these domains lay.\cite{Demystifying}
