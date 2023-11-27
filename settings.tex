@@ -17,6 +17,10 @@
 % Font size for bibliography
 \renewcommand*{\bibfont}{\footnotesize}
 
+% introduce non-breaking space before citations
+\let\savedCite=\cite
+\renewcommand{\cite}{\unskip~\savedCite}
+
 % --------
 % WARNINGS
 % --------
