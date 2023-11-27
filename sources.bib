@@ -2060,3 +2060,75 @@
   pages     = {1613-1627},
   doi       = {10.1109/SP40000.2020.00063}
 }
+
+@inproceedings{IFL,
+  author    = {He, Jingxuan and Balunovi\'{c}, Mislav and Ambroladze, Nodar and Tsankov, Petar and Vechev, Martin},
+  title     = {Learning to Fuzz from Symbolic Execution with Application to Smart Contracts},
+  year      = {2019},
+  isbn      = {9781450367479},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3319535.3363230},
+  doi       = {10.1145/3319535.3363230},
+  abstract  = {Fuzzing and symbolic execution are two complementary techniques for discovering software vulnerabilities. Fuzzing is fast and scalable, but can be ineffective when it fails to randomly select the right inputs. Symbolic execution is thorough but slow and often does not scale to deep program paths with complex path conditions. In this work, we propose to learn an effective and fast fuzzer from symbolic execution, by phrasing the learning task in the framework of imitation learning. During learning, a symbolic execution expert generates a large number of quality inputs improving coverage on thousands of programs. Then, a fuzzing policy, represented with a suitable architecture of neural networks, is trained on the generated dataset. The learned policy can then be used to fuzz new programs. We instantiate our approach to the problem of fuzzing smart contracts, a domain where contracts often implement similar functionality (facilitating learning) and security is of utmost importance. We present an end-to-end system, ILF (for Imitation Learning based Fuzzer), and an extensive evaluation over >18K contracts. Our results show that ILF is effective: (i) it is fast, generating 148 transactions per second, (ii) it outperforms existing fuzzers (e.g., achieving 33\% more coverage), and (iii) it detects more vulnerabilities than existing fuzzing and symbolic execution tools for Ethereum.},
+  booktitle = {Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security},
+  pages     = {531–548},
+  numpages  = {18},
+  keywords  = {symbolic execution, imitation learning, smart contracts, fuzzing},
+  location  = {London, United Kingdom},
+  series    = {CCS '19}
+}
+
+@inproceedings{HFL,
+  title     = {HFL: Hybrid Fuzzing on the Linux Kernel},
+  author    = {Kim, Kyungtae and Jeong, Dae R and Kim, Chung Hwan and Jang, Yeongjin and Shin, Insik and Lee, Byoungyoung},
+  year      = {2020},
+  booktitle = {Network and Distributed System Security Symposium}
+}
+
+@inproceedings{Intriguer,
+  author    = {Cho, Mingi and Kim, Seoyoung and Kwon, Taekyoung},
+  title     = {Intriguer: Field-Level Constraint Solving for Hybrid Fuzzing},
+  year      = {2019},
+  isbn      = {9781450367479},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3319535.3354249},
+  doi       = {10.1145/3319535.3354249},
+  abstract  = {Hybrid fuzzing, which combines fuzzing and concolic execution, is promising in light of the recent performance improvements in concolic engines. We have observed that there is room for further improvement: symbolic emulation is still slow, unnecessary constraints dominate solving time, resources are overly allocated, and hard-to-trigger bugs are missed. To address these problems, we present a new hybrid fuzzer named Intriguer. The key idea of Intriguer is field-level constraint solving, which optimizes symbolic execution with field-level knowledge. Intriguer performs instruction-level taint analysis and records execution traces without data transfer instructions like mov. Intriguer then reduces the execution traces for tainted instructions that accessed a wide range of input bytes, and infers input fields to build field transition trees. With these optimizations, Intriguer can efficiently perform symbolic emulation for more relevant instructions and invoke a solver for complicated constraints only. Our evaluation results indicate that Intriguer outperforms the state-of-the-art fuzzers: Intriguer found all the bugs in the LAVA-M(5h) benchmark dataset for ground truth performance, and also discovered 43 new security bugs in seven real-world programs. We reported the bugs and received 23 new CVEs.},
+  booktitle = {Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security},
+  pages     = {515–530},
+  numpages  = {16},
+  keywords  = {constraint solving, fuzzing, hybrid fuzzing},
+  location  = {London, United Kingdom},
+  series    = {CCS '19}
+}
+
+@inproceedings{Eclipser,
+  author    = {Choi, Jaeseung and Jang, Joonun and Han, Choongwoo and Cha, Sang Kil},
+  booktitle = {2019 IEEE/ACM 41st International Conference on Software Engineering (ICSE)},
+  title     = {Grey-Box Concolic Testing on Binary Code},
+  year      = {2019},
+  volume    = {},
+  number    = {},
+  pages     = {736-747},
+  doi       = {10.1109/ICSE.2019.00082}
+}
+
+@inproceedings{JFI,
+  author    = {Liew, Daniel and Cadar, Cristian and Donaldson, Alastair F. and Stinnett, J. Ryan},
+  title     = {Just Fuzz It: Solving Floating-Point Constraints Using Coverage-Guided Fuzzing},
+  year      = {2019},
+  isbn      = {9781450355728},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3338906.3338921},
+  doi       = {10.1145/3338906.3338921},
+  abstract  = {We investigate the use of coverage-guided fuzzing as a means of proving satisfiability of SMT formulas over finite variable domains, with specific application to floating-point constraints. We show how an SMT formula can be encoded as a program containing a location that is reachable if and only if the program’s input corresponds to a satisfying assignment to the formula. A coverage-guided fuzzer can then be used to search for an input that reaches the location, yielding a satisfying assignment. We have implemented this idea in a tool, Just Fuzz-it Solver (JFS), and we present a large experimental evaluation showing that JFS is both competitive with and complementary to state-of-the-art SMT solvers with respect to solving floating-point constraints, and that the coverage-guided approach of JFS provides significant benefit over naive fuzzing in the floating-point domain. Applied in a portfolio manner, the JFS approach thus has the potential to complement traditional SMT solvers for program analysis tasks that involve reasoning about floating-point constraints.},
+  booktitle = {Proceedings of the 2019 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering},
+  pages     = {521–532},
+  numpages  = {12},
+  keywords  = {Constraint solving, feedback-directed fuzzing},
+  location  = {Tallinn, Estonia},
+  series    = {ESEC/FSE 2019}
+}
