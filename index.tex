@@ -161,7 +161,7 @@
     Symbolic target addresses of jump instructions are an obvious issue for symbolic execution based systems. Standard ways of handling these include:
     \begin{itemize}
         \item Concolic execution: Perform and trace the execution of a program under test, let it jump to the concrete address observed during this run, and finally perform symbolic execution on the trace. This leaves some potentially possible program states unexplored. Examples include CUTE\cite{CUTE}.
-        \item Pass the reasoning issue to the SMT solver. This however makes the SMT queries more complicated and since constraint solving is already an issue in many cases (see section \ref{ConstraintSolving}), this may not solve the issue after all.
+        \item Pass the reasoning issue to the SMT solver. This however makes the SMT queries more complicated and since constraint solving is already an issue in many cases (see Section \ref{ConstraintSolving}), this may not solve the issue after all.
         \item Use static analysis to locate possible jump targets.
     \end{itemize}
 
