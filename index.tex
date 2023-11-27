@@ -51,13 +51,83 @@
                   \item \textquote{Different fuzzers record different observations when running the program under test. In a “black box” fuzzer, a single observation is made: whether the program crashed. In “gray box” fuzzing, observations also consist of intermediate information about the execution, for example, the branches taken during execution as determined by pairs of basic block identifiers executed directly in sequence. “White box” fuzzers can make observations and modifications by exploiting the semantics of application source (or binary) code, possibly involving sophisticated reasoning. Gathering additional observations adds overhead. Different fuzzers make different choices, hoping to trade higher overhead for better bug-finding effectiveness.}\cite{EvaluatingFuzzTesting}
                   \item \textquote{In any of these cases, the output from the fuzzer is some concrete input(s) and configurations that can be used from outside of the fuzzer to reproduce the observation. This allows software developers to confirm, reproduce, and debug issues.}\cite{EvaluatingFuzzTesting}
               \end{itemize}
-        \item With time and in many projects, parts of one approach has been introduced to the other to use where one excels to aid where the other has drawbacks.
-        \item Further approaches have also been introduced into the mix.
         \item \textquote{Many of these tools also automatically find well-defined bugs, such as assertion errors, divisions by zero, NULL pointer dereferences, etc.}\cite{AllYouEverWanted}
     \end{itemize}
 
+
+    \section{Related Works and Methods}
+    \label{Methods}
+    \begin{itemize}
+        \item Large scientific body of work
+        \item Review papers
+              \begin{itemize}
+                  \item Well cited
+                  \item New
+                  \item Specific topics to see if challenges and solutions differ
+              \end{itemize}
+        \item Gathered by
+              \begin{itemize}
+                  \item Search engines
+                  \item Cited in review papers
+                  \item Lists in review papers (as in \cite{Demystifying})
+                  \item Cited in important primary papers
+              \end{itemize}
+    \end{itemize}
+
+    \subsection{Survey Papers}
+    \subsubsection{General Survey Papers}
+    \begin{itemize}
+        \item    Fuzzing: The State of the Art (\citeyear{FuzzingTheStateOfTheArt})\cite{FuzzingTheStateOfTheArt}
+        \item    An orchestrated survey of methodologies for automated software test case generation (\citeyear{Orchestrated})\cite{Orchestrated}
+        \item    A systematic review of fuzzing techniques (\citeyear{Science})\cite{Science}
+        \item    Fuzzing: A Survey (\citeyear{FuzzingASurvey})\cite{FuzzingASurvey}
+        \item    Fuzzing: State of the Art (\citeyear{FuzzingStateOfTheArt2018})\cite{FuzzingStateOfTheArt2018}
+        \item    Fuzzing: hack, art, and science (\citeyear{HackArtScience})\cite{HackArtScience}
+        \item    A Survey of Symbolic Execution Techniques (\citeyear{SurveySymbex})\cite{SurveySymbex}
+        \item    A Systematic Review of Search Strategies in Dynamic Symbolic Execution (\citeyear{SearchStrategies})\cite{SearchStrategies}
+        \item    A Survey of Hybrid Fuzzing based on Symbolic Execution (\citeyear{SurveyHybrid})\cite{SurveyHybrid}
+        \item    Fuzzing: Challenges and Reflections (\citeyear{ChallengesAndReflections})\cite{ChallengesAndReflections}
+        \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citeyear{Hybrid})\cite{Hybrid}
+        \item    Fuzzing: A Survey for Roadmap (\citeyear{FuzzingASurveyforRoadmap})\cite{FuzzingASurveyforRoadmap}
+        \item    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (\citeyear{FuzzingVulnerabilityDiscoveryTechniques})\cite{FuzzingVulnerabilityDiscoveryTechniques}
+    \end{itemize}
+
+    \paragraph{All You Ever Wanted to Know about Dynamic Taint Analysis and Forward Symbolic Execution (but Might Have Been Afraid to Ask) (\citeyear{AllYouEverWanted})}
+    Using a simple intermediate language (SIMPIL), this paper discusses taint analysis and forward symbolic execution, including examples and analysis of the theoretical foundations of symbolic execution. While fuzzing is mentioned in multiple instances, it is not the main focus. However, it still lists many of the drawbacks and advantages fuzzers based on symbolic execution have, and the additional perspective was valuable in assembling this review.
+
+    \paragraph{Symbolic Execution for Software Testing in Practice – Preliminary Assessment (\citeyear{PreliminaryAssessment})}
+    After giving a short overview of issues faced by symbolic execution based fuzzers, this paper focuses on eight high impact fuzzing tools (JPF-SE and Symbolic (Java) PathFinder\cite{JPFSE, JavaPathFinder}, DART\cite{DART}, CUTE\cite{CUTE} and jCUTE\cite{ExplicitPathModelChecking}, CREST\cite{CREST}, SAGE\cite{SAGE}, Pex\cite{Pex}, EXE\cite{EXE}, and KLEE\cite{KLEE}).
+
+    \paragraph{Symbolic Execution for Software Testing: Three Decades Later (\citeyear{ReviewThreeDecades})}
+    This survey paper, as the title suggests, focuses on symbolic execution. Starting with an explanation of classical symbolic execution, it then provides a list of issues that fuzzing tools based on symbolic execution face, along with attempts to mitigate those by adapting and extending the algorithms. Finally, the authors present five high-impact tools they worked on: DART\cite{DART}, CUTE\cite{CUTE}, CREST\cite{CREST}, EXE\cite{EXE}, and KLEE\cite{KLEE}.\cite{ReviewThreeDecades}
+
+    \paragraph{Evaluating Fuzz Testing (\citeyear{ReviewThreeDecades})}
+    While not a classic survey paper, \textit{Evaluating Fuzz Testing} finds issues in how all 32 papers performed the evaluation of the system they introduced. It further proposes rules to follow to make an evaluation robust. Last, it contains a list of what advances each paper examined claims to introduce.\cite{EvaluatingFuzzTesting}
+
+    \paragraph{The Art, Science, and Engineering of Fuzzing: A Survey (\citeyear{ArtScienceEng})}
+    Starting with proposing a taxonomy for fuzzing itself and categorizing fuzzers, this paper proposes a general-purpose model of fuzzing, explaining the steps and approaches common fuzzers share. It further presents a genealogy, tracing the origins of important papers back to the work of \citeauthor*{UNIX}. However, it \textquote{does not provide a comprehensive survey on DSE}\cite{ArtScienceEng}, but only discusses whitebox fuzzing in a subsection and refers to other survey papers such as \cite{Orchestrated, AllYouEverWanted} for a more complete overview.\cite{ArtScienceEng}
+
+    \paragraph{A systematic review of fuzzing (\citeyear{SystematicReview2023})}
+    The authors of this paper guide the reader through advances in fuzzing along the works that introduced those. It includes a section about symbolic execution, which considers the following systems: Driller\cite{Driller}, QSYM\cite{QSYM}, SAVIOR\cite{SAVIOR}, DigFuzz\cite{DigFuzz}, Pangolin\cite{Pangolin}, and QuickFuzz\cite{QuickFuzz}.
+
+    \paragraph{Demystify the Fuzzing Methods: A Comprehensive Survey (\citeyear{Demystifying})}
+    This paper dedicates one of its chapter to first explaining the fundamental logic of symbolic execution, and then presenting three implementations (Driller\cite{Driller}, CONFETTI\cite{CONFETTI}, and FUZZOLIC\cite{FUZZOLIC}). It further investigates advances in IoT firmware and kernel fuzzers, but does not explain where up- and downsides of using symbolic execution in these domains lay.\cite{Demystifying}
+
+    \subsubsection{Specific Survey Papers}
+    \begin{itemize}
+        \item    Network protocol fuzz testing for information systems and applications: a survey and taxonomy (\citeyear{Network})\cite{Network}
+        \item    A Survey of Dynamic Analysis and Test Generation for JavaScript (\citeyear{JavaScript2})\cite{JavaScript2}
+        \item    Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems (\citeyear{IoT})\cite{IoT}
+        \item    Firmware Fuzzing: The State of the Art (\citeyear{Firmware})\cite{Firmware}
+        \item    Research on Fuzzing Technology for JavaScript Engines (\citeyear{JavaScript})\cite{JavaScript}
+        \item    Ethereum Smart Contract Analysis Tools: A Systematic Review (\citeyear{Ethereum})\cite{Ethereum}
+        \item    A Survey on the Development of Network Protocol Fuzzing Techniques (\citeyear{Network2023})\cite{Network2023}
+        \item    Embedded fuzzing: a review of challenges, tools, and solutions (\citeyear{Embedded2})\cite{Embedded2}
+        \item    Fuzzing of Embedded Systems: A Survey (\citeyear{Embedded})\cite{Embedded}
+    \end{itemize}
+
     \subsection{Problems and Mitigation}
-    Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}.
+    Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}, extended based on information from all other information considered as listed in Section\ref{Methods}.
 
     \subsubsection{Impossible Constraints}
     \begin{itemize}
@@ -161,7 +231,7 @@
     Symbolic target addresses of jump instructions are an obvious issue for symbolic execution based systems. Standard ways of handling these include:
     \begin{itemize}
         \item Concolic execution: Perform and trace the execution of a program under test, let it jump to the concrete address observed during this run, and finally perform symbolic execution on the trace. This leaves some potentially possible program states unexplored. Examples include CUTE\cite{CUTE}.
-        \item Pass the reasoning issue to the SMT solver. This however makes the SMT queries more complicated and since constraint solving is already an issue in many cases (see Section \ref{ConstraintSolving}), this may not solve the issue after all.
+        \item Pass the reasoning issue to the SMT solver. This however makes the SMT queries more complicated and since constraint solving is already an issue in many cases (see Section\ref{ConstraintSolving}), this may not solve the issue after all.
         \item Use static analysis to locate possible jump targets.
     \end{itemize}
 
@@ -173,87 +243,7 @@
         \item Tools like Driller\cite{Driller} perform classical fuzzing (in the case of Driller using AFL\cite{AFLPlusPlus}) until they are \textit{stuck}, meaning they are unable to produce inputs that discover additional paths. Driller then, and only then, invokes its concolic execution engine (Driller uses angr\cite{angr}) to trace the program under investigation executed with one of the previously generated inputs. Finally, it solves the resulting path constraints with one condition flipped to produce an input that will reach new parts of the software. Because Driller does not use symbolic execution for its primary discovery tool, it does not suffer from issues such as path explosion, because it only ever executes one path at a time using symbolic execution.
     \end{itemize}
 
-    \section{Improvements in Papers}
-    \begin{itemize}
-        \item Initial seed selection: up-front analysis\cite{Skyfire, Orthrus, DIFUZE}, grammar\cite{QuickFuzz, QuickFuzz2}
-        \item Mutation: symbex to choose how many bits to flip\cite{SYMFUZZ}, taint analysis\cite{Mayhem, Angora, Steelix, VUzzer}, dynamic slicing\cite{MutaGen}, seed properties\cite{SDF}, grammars\cite{SCADA, IMF}, language constructs knowledge\cite{Chizpurfle}
-        \item Eval: symbex when stuck\cite{Driller, Mayhem}, general symbex\cite{S2F}, speedup through OS optimizations\cite{OS} or other low-level primitives\cite{IMF, VDF, kAFL}, removing checks\cite{TFuzz}, fine-grained runtime analysis\cite{MEDS}
-        \item Observation: longer running time\cite{SlowFuzz}, different behavior\cite{NEZHA}, additional instrumentation\cite{Steelix, Angora}, static analysis-guided searching\cite{Dowser, VUzzer}
-        \item Seed selection: areas of interest reached\cite{AFLGo, CGF, FairFuzz, VUzzer}, different algorithm\cite{SeedSelection, Scheduling}
-    \end{itemize}
-
-    \section{Related Works and Methods}
-    \begin{itemize}
-        \item Large scientific body of work
-        \item Review papers
-              \begin{itemize}
-                  \item Well cited
-                  \item New
-                  \item Specific topics to see if challenges and solutions differ
-              \end{itemize}
-        \item Gathered by
-              \begin{itemize}
-                  \item Search engines
-                  \item Cited in review papers
-                  \item Lists in review papers (as in \cite{Demystifying})
-                  \item Cited in important primary papers
-              \end{itemize}
-    \end{itemize}
-
-    \subsection{Survey Papers}
-    \subsubsection{General Survey Papers}
-    \begin{itemize}
-        \item    Fuzzing: The State of the Art (\citeyear{FuzzingTheStateOfTheArt})\cite{FuzzingTheStateOfTheArt}
-        \item    An orchestrated survey of methodologies for automated software test case generation (\citeyear{Orchestrated})\cite{Orchestrated}
-        \item    A systematic review of fuzzing techniques (\citeyear{Science})\cite{Science}
-        \item    Fuzzing: A Survey (\citeyear{FuzzingASurvey})\cite{FuzzingASurvey}
-        \item    Fuzzing: State of the Art (\citeyear{FuzzingStateOfTheArt2018})\cite{FuzzingStateOfTheArt2018}
-        \item    Fuzzing: hack, art, and science (\citeyear{HackArtScience})\cite{HackArtScience}
-        \item    A Survey of Symbolic Execution Techniques (\citeyear{SurveySymbex})\cite{SurveySymbex}
-        \item    A Systematic Review of Search Strategies in Dynamic Symbolic Execution (\citeyear{SearchStrategies})\cite{SearchStrategies}
-        \item    A Survey of Hybrid Fuzzing based on Symbolic Execution (\citeyear{SurveyHybrid})\cite{SurveyHybrid}
-        \item    Fuzzing: Challenges and Reflections (\citeyear{ChallengesAndReflections})\cite{ChallengesAndReflections}
-        \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citeyear{Hybrid})\cite{Hybrid}
-        \item    Fuzzing: A Survey for Roadmap (\citeyear{FuzzingASurveyforRoadmap})\cite{FuzzingASurveyforRoadmap}
-        \item    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (\citeyear{FuzzingVulnerabilityDiscoveryTechniques})\cite{FuzzingVulnerabilityDiscoveryTechniques}
-    \end{itemize}
-
-    \paragraph{All You Ever Wanted to Know about Dynamic Taint Analysis and Forward Symbolic Execution (but Might Have Been Afraid to Ask) (\citeyear{AllYouEverWanted})}
-    Using a simple intermediate language (SIMPIL), this paper discusses taint analysis and forward symbolic execution, including examples and analysis of the theoretical foundations of symbolic execution. While fuzzing is mentioned in multiple instances, it is not the main focus. However, it still lists many of the drawbacks and advantages fuzzers based on symbolic execution have, and the additional perspective was valuable in assembling this review.
-
-    \paragraph{Symbolic Execution for Software Testing in Practice – Preliminary Assessment (\citeyear{PreliminaryAssessment})}
-    After giving a short overview of issues faced by symbolic execution based fuzzers, this paper focuses on eight high impact fuzzing tools (JPF-SE and Symbolic (Java) PathFinder\cite{JPFSE, JavaPathFinder}, DART\cite{DART}, CUTE\cite{CUTE} and jCUTE\cite{ExplicitPathModelChecking}, CREST\cite{CREST}, SAGE\cite{SAGE}, Pex\cite{Pex}, EXE\cite{EXE}, and KLEE\cite{KLEE}).
-
-    \paragraph{Symbolic Execution for Software Testing: Three Decades Later (\citeyear{ReviewThreeDecades})}
-    This survey paper, as the title suggests, focuses on symbolic execution. Starting with an explanation of classical symbolic execution, it then provides a list of issues that fuzzing tools based on symbolic execution face, along with attempts to mitigate those by adapting and extending the algorithms. Finally, the authors present five high-impact tools they worked on: DART\cite{DART}, CUTE\cite{CUTE}, CREST\cite{CREST}, EXE\cite{EXE}, and KLEE\cite{KLEE}.\cite{ReviewThreeDecades}
-
-    \paragraph{Evaluating Fuzz Testing (\citeyear{ReviewThreeDecades})}
-    While not a classic survey paper, \textit{Evaluating Fuzz Testing} finds issues in how all 32 papers performed the evaluation of the system they introduced. It further proposes rules to follow to make an evaluation robust. Last, it contains a list of what advances each paper examined claims to introduce.\cite{EvaluatingFuzzTesting}
-
-    \paragraph{The Art, Science, and Engineering of Fuzzing: A Survey (\citeyear{ArtScienceEng})}
-    Starting with proposing a taxonomy for fuzzing itself and categorizing fuzzers, this paper proposes a general-purpose model of fuzzing, explaining the steps and approaches common fuzzers share. It further presents a genealogy, tracing the origins of important papers back to the work of \citeauthor*{UNIX}. However, it \textquote{does not provide a comprehensive survey on DSE}\cite{ArtScienceEng}, but only discusses whitebox fuzzing in a subsection and refers to other survey papers such as \cite{Orchestrated, AllYouEverWanted} for a more complete overview.\cite{ArtScienceEng}
-
-    \paragraph{A systematic review of fuzzing (\citeyear{SystematicReview2023})}
-    The authors of this paper guide the reader through advances in fuzzing along the works that introduced those. It includes a section about symbolic execution, which considers the following systems: Driller\cite{Driller}, QSYM\cite{QSYM}, SAVIOR\cite{SAVIOR}, DigFuzz\cite{DigFuzz}, Pangolin\cite{Pangolin}, and QuickFuzz\cite{QuickFuzz}.
-
-    \paragraph{Demystify the Fuzzing Methods: A Comprehensive Survey (\citeyear{Demystifying})}
-    This paper dedicates one of its chapter to first explaining the fundamental logic of symbolic execution, and then presenting three implementations (Driller\cite{Driller}, CONFETTI\cite{CONFETTI}, and FUZZOLIC\cite{FUZZOLIC}). It further investigates advances in IoT firmware and kernel fuzzers, but does not explain where up- and downsides of using symbolic execution in these domains lay.\cite{Demystifying}
-
-    \subsubsection{Specific Survey Papers}
-    \begin{itemize}
-        \item    Network protocol fuzz testing for information systems and applications: a survey and taxonomy (\citeyear{Network})\cite{Network}
-        \item    A Survey of Dynamic Analysis and Test Generation for JavaScript (\citeyear{JavaScript2})\cite{JavaScript2}
-        \item    Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems (\citeyear{IoT})\cite{IoT}
-        \item    Firmware Fuzzing: The State of the Art (\citeyear{Firmware})\cite{Firmware}
-        \item    Research on Fuzzing Technology for JavaScript Engines (\citeyear{JavaScript})\cite{JavaScript}
-        \item    Ethereum Smart Contract Analysis Tools: A Systematic Review (\citeyear{Ethereum})\cite{Ethereum}
-        \item    A Survey on the Development of Network Protocol Fuzzing Techniques (\citeyear{Network2023})\cite{Network2023}
-        \item    Embedded fuzzing: a review of challenges, tools, and solutions (\citeyear{Embedded2})\cite{Embedded2}
-        \item    Fuzzing of Embedded Systems: A Survey (\citeyear{Embedded})\cite{Embedded}
-    \end{itemize}
-
     \section{Conclusions}
-
     \subsection{Future Work}
     \begin{itemize}
         \item Look at author overlap between the survey papers and influential primary papers to guide which review papers seem important (if you independently collect primary papers), if survey paper authors overemphasize their own contributions and maybe even miss other important developments
@@ -262,7 +252,7 @@
 
     \subsubsection{Bibliometry}
 
-    % \pagebreak
+    \newpage
     \addcontentsline{toc}{section}{Bibliography}
     \printbibliography
 \end{multicols}
