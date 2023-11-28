@@ -64,7 +64,7 @@
   Benji Cooper      &                                                                                                                                                                                                                                                     & \cite{EvaluatingFuzzTesting}                     \\\hline
   Shiyi Wei         & FIXREVERTER\cite{FIXREVERTER}                                                                                                                                                                                                                       & \cite{EvaluatingFuzzTesting}                     \\\hline
   Michael Hicks     & FIXREVERTER\cite{FIXREVERTER}, Build It, Break It, Fix It\cite{BuildItBreakItFixIt}, ZAFL\cite{ZAFL}, UnTracer\cite{UnTracer}, Hardware Fuzzing Pipeline\cite{HardwareFuzzingPipeline}, CGPT\cite{CGPT}                                             & \cite{EvaluatingFuzzTesting}                     \\\hline
-  Patrice Godefroid & DART\cite{DART}, SMART\cite{SMART}, SAGE\cite{SAGE}, Learn\&fuzz\cite{LearnFuzz}, GWF\cite{GrammarBasedWhiteboxFuzzing}                                                                                                                             & \cite{PreliminaryAssessment}                     \\\hline
+  Patrice Godefroid & DART\cite{DART}, SMART\cite{SMART}, SAGE\cite{SAGE}, Learn\&fuzz\cite{LearnFuzz}, GWF\cite{GWF}                                                                                                                                                     & \cite{PreliminaryAssessment}                     \\\hline
 \end{longtable}
 
 \pagebreak
@@ -159,7 +159,7 @@
 \section{Random notes}
 \begin{itemize}
   \item \textquote{Today, testing is the primary way to check the correctness of software. Billions of dollars are spent on testing in the software industry, as testing usually accounts for about 50\% of the cost of software development. It was recently estimated that software failures currently cost the US economy alone about \$60 billion every year, and that improvements in software testing infrastructure might save one-third of this cost.}\cite{DART}
-  \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GrammarBasedWhiteboxFuzzing}
+  \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GWF}
   \item \textquote{KLEE is a redesign of EXE}\cite{ReviewThreeDecades}
   \item I think the EXE paper also introduced STP
   \item \textquote{The process begins by choosing a corpus of “seed” inputs with which to test the target program. The fuzzer then repeatedly mutates these inputs and evaluates the program under test. If the result produces “interesting” behavior, the fuzzer keeps the mutated input for future use and records what was observed. Eventually the fuzzer stops, either due to reaching a particular goal (e.g., finding a certain sort of bug) or reaching a timeout.}\cite{EvaluatingFuzzTesting}
@@ -208,8 +208,8 @@
   \item Divergences are common (60\% of runs). This is because a lot of instructions were concretized to help with performance.
   \item No clear correlation between coverage and crashes, only weak effect when using a block coverage based heuristic to choose next execution.
   \item tl;dr: Runs concolic symbex, records run, flips every branch condition on its own, and solves the constraint formulas to generate inputs that choose a different path at each branch.
-  \item Struggles with highly structured input like compilers and interpreters. Issue: \textquote{Due to the enormous number of control paths in early processing stages, whitebox fuzzing rarely reaches parts of the application beyond these first stages.}\cite{GrammarBasedWhiteboxFuzzing}.
-  \item Also: Parsers sometimes use hash functions to match tokens, which make symbex impossible because they cannot be inverted.\cite{GrammarBasedWhiteboxFuzzing}.
+  \item Struggles with highly structured input like compilers and interpreters. Issue: \textquote{Due to the enormous number of control paths in early processing stages, whitebox fuzzing rarely reaches parts of the application beyond these first stages.}\cite{GWF}.
+  \item Also: Parsers sometimes use hash functions to match tokens, which make symbex impossible because they cannot be inverted.\cite{GWF}.
 \end{itemize}
 
 \subsection{KLEE (2008)}
@@ -231,14 +231,14 @@
 
 \subsection{Grammar-based Whitebox Fuzzing (2008)}
 \begin{itemize}
-  \item \cite{GrammarBasedWhiteboxFuzzing}
+  \item \cite{GWF}
   \item Follow-up to SAGE\cite{SAGE}
   \item SAGE struggled with highly structured inputs. Which is where this paper comes in.
-  \item \textquote{We present a dynamic test generation algorithm where symbolic execution directly generates grammar-based constraints whose satisfiability is checked using a custom grammar-based constraint solver.}\cite{GrammarBasedWhiteboxFuzzing}
+  \item \textquote{We present a dynamic test generation algorithm where symbolic execution directly generates grammar-based constraints whose satisfiability is checked using a custom grammar-based constraint solver.}\cite{GWF}
   \item Two main parts:
         \begin{enumerate}
-          \item \textquote{Generation of higher-level symbolic constraints, expressed in terms of symbolic grammar tokens returned by the lexer, instead of the traditional symbolic bytes read as input.}\cite{GrammarBasedWhiteboxFuzzing}
-          \item \textquote{A custom constraint solver that solves constraints on symbolic grammar tokens. The solver looks for solutions that satisfy the constraints and are accepted by a given (context-free) grammar.}\cite{GrammarBasedWhiteboxFuzzing}
+          \item \textquote{Generation of higher-level symbolic constraints, expressed in terms of symbolic grammar tokens returned by the lexer, instead of the traditional symbolic bytes read as input.}\cite{GWF}
+          \item \textquote{A custom constraint solver that solves constraints on symbolic grammar tokens. The solver looks for solutions that satisfy the constraints and are accepted by a given (context-free) grammar.}\cite{GWF}
         \end{enumerate}
   \item Basically wrote their own custom token-based (as opposed to bit/byte-based) symbex engine.
   \item Does not mark input bytes as symbolic, but the tokens returned by the tokenization function in the parser, implemented based on SAGE\cite{SAGE}
@@ -249,7 +249,7 @@
   \item Also allows to quickly prove that flipping certain conditions isn't possible (while still conforming to the grammar) without even running the code.
   \item If the parser has more constraints than the context-free grammar provided (like basic type checks or, e. g. in network protocols, the number $k$ followed by $k$ records, which cannot be represented as context-free grammar), this makes the system less efficient, but the outputs are still complete.
   \item Requires no source modifications
-  \item \textquote{We use the official JavaScript grammar. The grammar is quite large: 189 productions, 82 terminals (tokens), and 102 nonterminals.}\cite{GrammarBasedWhiteboxFuzzing}
+  \item \textquote{We use the official JavaScript grammar. The grammar is quite large: 189 productions, 82 terminals (tokens), and 102 nonterminals.}\cite{GWF}
   \item Downside: Requires some domain knowledge:\begin{itemize}
           \item Formal grammar structure (available for many input formats)
           \item Identifying the tokenization function in the parser that needs to be instrumented (apparently usually fairly straight-forward, by looking for functions with names that contain \textit{token, nextToken, scan} or something similar)
