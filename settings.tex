@@ -23,6 +23,9 @@
 \let\savedRef=\ref
 \renewcommand{\ref}{\unskip~\savedRef}
 
+% per default print paper title not with quotation marks but in italics
+\DeclareFieldFormat*{citetitle}{\textit{#1}}
+
 % --------
 % WARNINGS
 % --------
@@ -39,4 +42,11 @@
 
 \newcommand{\tableh}[1]{\multicolumn{1}{|c|}{\textbf{#1}}} % table header
 \newcommand{\code}{\texttt}
-\newcommand{\papertitle}[1]{\citetitle{#1} (\citedate{#1})\cite{#1}}
+\newcommand{\papertitle}[1]{%
+    \subsubsection
+    [\texorpdfstring{\citefield{#1}{title}}{#1}]
+    {%
+        \texorpdfstring{%
+            \citetitle{#1} (\mbox{\citedate{#1}})\cite{#1}%
+        }{#1}%
+    }}
