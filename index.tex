@@ -130,10 +130,10 @@
         \item    Fuzzing of Embedded Systems: A Survey (\citeyear{Embedded})\cite{Embedded}
     \end{itemize}
 
-    \subsection{Problems and Mitigation}
+    \section{Challenges and Mitigation}
     Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}, extended based on information from all other information considered as listed in Section\ref{Methods}.
 
-    \subsubsection{Impossible Constraints}
+    \subsection{Impossible Constraints}
     \begin{itemize}
         \item \textquote{A key disadvantage of classical symbolic execution is that it cannot generate an input if the symbolic path constraint along a feasible execution path contains formulas that cannot be (efficiently) solved by a constraint solver (for example, nonlinear constraints).}\cite{ReviewThreeDecades}
         \item Two techniques that alleviate this problem:
@@ -150,18 +150,18 @@
         \item Further Ideas: Special Constraint Solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL})
     \end{itemize}
 
-    \subsubsection{System Calls}
+    \subsection{System Calls}
     \begin{itemize}
         \item \textquote{Additionally, symbolic execution creates conflicts while handling system calls, since it does not support modeling all possible system calls and inter-process communication, such as pipes or sockets. Likewise, the non-deterministic behavior of system calls complicates the generation of inputs that consistently trigger specific paths.}\cite{Demystifying}
         \item HFL\cite{HFL} is a kernel fuzzer that heavily relies on symbolic execution. It lists three main issues the authors had to overcome: \textquote{(1) indirect control transfers determined by system call arguments (2) controlling and matching internal system state via system calls, and (3) nested argument type inference for invoking system calls}\cite{HFL}. To solve those issues, HFL \textquote{(1) converts implicit control transfers to explicit transfers, (2) infers system call sequence to build a consistent system state, and (3) identifies nested arguments types of system calls}\cite{HFL}.
     \end{itemize}
 
-    \subsubsection{Environment Interaction}
+    \subsection{Environment Interaction}
     \begin{itemize}
         \item \textquote{[…KLEE's\cite{KLEE}] ability to handle interactions with the outside environment — e.g., with data read from the file system or over the network — by providing models designed to explore all possible legal interactions with the outside world.}\cite{PreliminaryAssessment}
     \end{itemize}
 
-    \subsubsection{Path Explosion}
+    \subsection{Path Explosion}
     Path Explosion: program path count usually exponential in the number of static branches in the code.
     \begin{itemize}
         \item Simple depth-first search, however this naïve approach gets stuck in non-terminating loops with symbolic conditions and is therefore rarely used. Both EXE\cite{EXE} and KLEE\cite{KLEE} can however be configured to run in this mode.
@@ -187,7 +187,7 @@
         \item Compact representation of path constraints (as in SAGE\cite{SAGE})
     \end{itemize}
 
-    \subsubsection{Constraint Solving}
+    \subsection{Constraint Solving}
     \label{ConstraintSolving}
     Dominates runtime
     \begin{itemize}
@@ -205,7 +205,7 @@
         \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFI\cite{JFI} uses this technique to find solutions to floating-point constraints.
     \end{itemize}
 
-    \subsubsection{Memory Modelling}
+    \subsection{Memory Modelling}
     Things like modelling \code{int}s as mathematical integers being imprecise since it ignores over-/underflows, and pointers being hard to deal with.
     \begin{itemize}
         \item Issue: Dereferencing symbolic pointer, as in pointer which can be influenced from the input.
@@ -221,7 +221,7 @@
         \item \textquote{On the one end of the spectrum is a system like DART\cite{DART} that only reasons about concrete pointers, or systems like CUTE\cite{CUTE} and CREST\cite{CREST} that support only equality and inequality constraints for pointers, which can be efficiently solved.\cite{CUTE} At the other end are systems like EXE\cite{EXE}, and more recently KLEE\cite{KLEE} and SAGE\cite{SAGE} that model pointers using the theory of arrays with selections and updates implemented by solvers like STP or Z3.}\cite{ReviewThreeDecades}
     \end{itemize}
 
-    \subsubsection{Handling Concurrency}
+    \subsection{Handling Concurrency}
     \begin{itemize}
         \item Testing usually difficult because of the inherent non-determinism.
         \item \textquote{Concolic testing was successfully combined with a variant of partial order reduction to test concurrent programs effectively.\cite{ScalableAutomatedMethods, OpenDistributedPrograms, ExplicitPathModelChecking,RaceDetection}}\cite{ReviewThreeDecades}
@@ -229,13 +229,13 @@
         \item \textquote{This method requires that a sequential version of the program be provided, to serve as the specification for the parallel one. The key idea is to use model checking, together with symbolic execution, to establish the equivalence of the two programs.}\cite{SPIN} (complex parallel numerical computations)
     \end{itemize}
 
-    \subsubsection{Recursive Data Structures}
+    \subsection{Recursive Data Structures}
     \begin{itemize}
         \item \textquote{GSE handles input recursive data structures by using lazy initialization. GSE starts execution of the method on inputs with uninitialized fields and non-deterministically initializes fields when they are first ac- cessed during the method's symbolic execution.}\cite{PreliminaryAssessment}
         \item \textquote{Pex\cite{Pex} supports the generation of test inputs of primitive types as well as (recursive) complex data types, for which Pex automatically computes a factory method which creates an instance of a complex data type by invoking a constructor and a sequence of methods, whose parameters are also determined by Pex.}\cite{PreliminaryAssessment}
     \end{itemize}
 
-    \subsubsection{Symbolic Jump Addresses}
+    \subsection{Symbolic Jump Addresses}
     Symbolic target addresses of jump instructions are an obvious issue for symbolic execution based systems. Standard ways of handling these include:
     \begin{itemize}
         \item Concolic execution: Perform and trace the execution of a program under test, let it jump to the concrete address observed during this run, and finally perform symbolic execution on the trace. This leaves some potentially possible program states unexplored. Examples include CUTE\cite{CUTE}.
@@ -243,10 +243,10 @@
         \item Use static analysis to locate possible jump targets.
     \end{itemize}
 
-    \subsubsection{System Calls and OS Interactions}
+    \subsection{System Calls and OS Interactions}
     System calls (such as calls to \code{read} or interrupts) pose an obvious obstacle to pure symbolic execution, since they may introduce new symbolic variables or, more importantly, have side effects. This can be mitigated by manually creating summaries of these side effects (as done in EXE\cite{EXE} and KLEE\cite{KLEE}), or, again, employing concolic execution with all the upsides and drawbacks discussed before.
 
-    \subsubsection{Selective Symbolic Execution}
+    \subsection{Selective Symbolic Execution}
     Not exhaustive.
     \begin{itemize}
         \item Tools like Driller\cite{Driller} perform classical fuzzing (in the case of Driller using AFL\cite{AFLPlusPlus}) until they are \textit{stuck}, meaning they are unable to produce inputs that discover additional paths. Driller then, and only then, invokes its concolic execution engine (Driller uses angr\cite{angr}) to trace the program under investigation executed with one of the previously generated inputs. Finally, it solves the resulting path constraints with one condition flipped to produce an input that will reach new parts of the software. Because Driller does not use symbolic execution for its primary discovery tool, it does not suffer from issues such as path explosion, because it only ever executes one path at a time using symbolic execution.
