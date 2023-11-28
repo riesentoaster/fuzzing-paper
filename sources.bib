@@ -35,12 +35,14 @@
   series    = {PLDI '05}
 }
 
+
 @inproceedings{SAGE,
-  title     = {Automated Whitebox Fuzz Testing},
-  author    = {Patrice Godefroid and Michael Y. Levin and David A. Molnar},
-  booktitle = {Network and Distributed System Security Symposium},
-  year      = {2008},
-  url       = {https://api.semanticscholar.org/CorpusID:1296783}
+  author   = {Godefroid, Patrice and Levin, Michael Y. and Molnar, David},
+  title    = {Automated Whitebox Fuzz Testing},
+  year     = {2008},
+  month    = {11},
+  abstract = {Fuzz testing is an effective technique for finding security vulnerabilities in software. Traditionally, fuzz testing tools apply random mutations to well-formed inputs of a program and test the resulting values. We present an alternative whitebox fuzz testing approach inspired by recent advances in symbolic execution and dynamic test generation. Our approach records an actual run of the program under test on a well-formed input, symbolically evaluates the recorded trace, and gathers constraints on inputs capturing how the program uses these. The collected constraints are then negated one by one and solved with a constraint solver, producing new inputs that exercise different control paths in the program. This process is repeated with the help of a code-coverage maximizing heuristic designed to find defects as fast as possible. We have implemented this algorithm in SAGE (Scalable, Automated, Guided Execution), a new tool employing x86 instruction-level tracing and emulation for whitebox fuzzing of arbitrary file-reading Windows applications. We describe key optimizations needed to make dynamic test generation scale to large input files and long execution traces with hundreds of millions of instructions. We then present detailed experiments with several Windows applications. Notably, without any format-specific knowledge, SAGE detects the MS07-017 ANI vulnerability, which was missed by extensive blackbox fuzzing and static analysis tools. Furthermore, while still in an early stage of development, SAGE has already discovered 30+ new bugs in large shipped Windows applications including image processors, media players, and file decoders. Several of these bugs are potentially exploitable memory access violations.},
+  url      = {https://www.microsoft.com/en-us/research/publication/automated-whitebox-fuzz-testing/}
 }
 
 @inproceedings{GrammarBasedWhiteboxFuzzing,
@@ -92,10 +94,9 @@
 
 @inproceedings{Driller,
   title     = {Driller: Augmenting Fuzzing Through Selective Symbolic Execution},
-  author    = {Nick Stephens and John Grosen and Christopher Salls and Andrew Dutcher and Ruoyu Wang and Jacopo Corbetta and Yan Shoshitaishvili and Christopher Kr{\"u}gel and Giovanni Vigna},
-  booktitle = {Network and Distributed System Security Symposium},
-  year      = {2016},
-  url       = {https://api.semanticscholar.org/CorpusID:2388545}
+  author    = {Stephens, Nick and Grosen, John and Salls, Christopher and Dutcher, Andrew and Wang, Ruoyu and Corbetta, Jacopo and Shoshitaishvili, Yan and Kruegel, Christopher and Vigna, Giovanni},
+  booktitle = {Proceedings of the 2016 Network and Distributed System Security Symposium (NDSS)},
+  year      = {2016}
 }
 
 @inproceedings{AFLPlusPlus,
@@ -349,15 +350,6 @@
   numpages   = {8}
 }
 
-@article{DowserArticle,
-  title   = {Dowser: A Guided Fuzzer for Finding Buffer Overflow Vulnerabilities},
-  author  = {Istv{\'a}n Haller and Asia Slowinska and Matthias Neugschwandtner and Herbert Bos},
-  journal = {login Usenix Mag.},
-  year    = {2013},
-  volume  = {38},
-  url     = {https://api.semanticscholar.org/CorpusID:56594822}
-}
-
 @inproceedings{Dowser,
   author    = {Haller, Istvan and Slowinska, Asia and Neugschwandtner, Matthias and Bos, Herbert},
   title     = {Dowsing for Overflows: A Guided Fuzzer to Find Buffer Boundary Violations},
@@ -441,11 +433,13 @@
 }
 
 @inproceedings{VUzzer,
-  title     = {VUzzer: Application-aware Evolutionary Fuzzing},
-  author    = {Sanjay Rawat and Vivek Jain and Ashish Kumar and Lucian Cojocar and Cristiano Giuffrida and Herbert Bos},
-  booktitle = {Network and Distributed System Security Symposium},
-  year      = {2017},
-  url       = {https://api.semanticscholar.org/CorpusID:2354736}
+  title     = {VUzzer: Application-aware Evolutionary Fuzzing.},
+  author    = {Rawat, Sanjay and Jain, Vivek and Kumar, Ashish and Cojocar, Lucian and Giuffrida, Cristiano and Bos, Herbert},
+  booktitle = {Proceedings of the 2017 Network and Distributed System Security Symposium (NDSS)},
+  booktitle = {NDSS},
+  volume    = {17},
+  pages     = {1--14},
+  year      = {2017}
 }
 
 @inproceedings{SYMFUZZ,
@@ -501,8 +495,8 @@
   journal = {DSTO Defence Science and Technology Organisation},
   author  = {Richard McNally and Kenneth Kwok-Hei Yiu and Duncan A. Grove and Damien Gerhardy},
   year    = {2012},
-  month   = {02},
-  url     = {https://api.semanticscholar.org/CorpusID:15447929}
+  month   = {02}
+}
 }
 
 @article{SystematicReview2023,
@@ -1357,8 +1351,7 @@
   title     = {Enhancing Memory Error Detection for Large-Scale Applications and Fuzz Testing},
   author    = {Wookhyun Han and Byunggill Joe and Byoungyoung Lee and Chengyu Song and Insik Shin},
   booktitle = {Network and Distributed System Security Symposium},
-  year      = {2018},
-  url       = {https://api.semanticscholar.org/CorpusID:3837287}
+  year      = {2018}
 }
 
 @inproceedings{SlowFuzz,
