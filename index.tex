@@ -71,6 +71,8 @@
                   \item Lists in review papers (as in \cite{Demystifying})
                   \item Cited in important primary papers
               \end{itemize}
+        \item Excluded survey papers that specifically focus on a different approach such as machine learning such as \cite{ML1, ML2}
+        \item This section summarizes their contribution and lists relevant primary works (as opposed to survey papers) discussed. Primary works mentioned without discussion are omitted.
     \end{itemize}
 
     \subsection{General Survey Papers}
@@ -84,7 +86,6 @@
         \item    A Survey of Hybrid Fuzzing based on Symbolic Execution (\citedate{SurveyHybrid})\cite{SurveyHybrid}
         \item    Fuzzing: Challenges and Reflections (\citedate{ChallengesAndReflections})\cite{ChallengesAndReflections}
         \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citedate{Hybrid})\cite{Hybrid}
-        \item    Fuzzing vulnerability discovery techniques: Survey, challenges and future directions (\citedate{FuzzingVulnerabilityDiscoveryTechniques})\cite{FuzzingVulnerabilityDiscoveryTechniques}
     \end{itemize}
 
     \papertitle{AllYouEverWanted}
@@ -110,6 +111,9 @@
 
     \papertitle{FuzzingASurveyforRoadmap}
     Similar to what is attempted in this paper, \citetitle{FuzzingASurveyforRoadmap} lists issues along common steps in fuzzing along with attempted solutions, but without the focus on symbolic execution. It does contain a short section about symbolic execution in the context input search space handling, but only discusses very few papers directly while often mentioning entire families of papers, with only some relying on symbolic execution.
+
+    \papertitle{FuzzingVulnerabilityDiscoveryTechniques}
+    After a short chapter on fuzzer classification, the main focus of this paper are steps and issues along a typical fuzzer workflow, told through the papers that made advances in each category. Finally, it presents current challenges in research and how they could be approached. The discussed papers include some that rely on symbolic execution: Angora\cite{Angora}, T-FUZZ\cite{TFuzz}, MoWF\cite{MoWF}, and HFL\cite{HFL}.
 
     \papertitle{SystematicReview2023}
     The authors of this paper guide the reader through advances in fuzzing along the works that introduced those. It includes a section about symbolic execution, which considers the following systems: Driller\cite{Driller}, QSYM\cite{QSYM}, SAVIOR\cite{SAVIOR}, DigFuzz\cite{DigFuzz}, Pangolin\cite{Pangolin}, and QuickFuzz\cite{QuickFuzz}.
@@ -170,17 +174,18 @@
         \item Symbex inherently helps by only looking at possible branches. Example: EXE\cite{EXE} on \code{tcpdump}: only 42\% of instructions contained symbolic operands, less than 20\% of of symbolic branches have both sides feasible\cite{EXE}
         \item Prioritization of which path to explore next using heuristics (like statement or branch coverage (and using static analysis to guide), favouring statements that were run the fewest number of times, or random). Examples: EXE\cite{EXE}, SAGE\cite{SAGE}, CREST\cite{CREST}
               \begin{itemize}
-                  \item Interleave random and symbolic execution. Examples: Hybrid Concolic Testing\cite{HCT, Driller, Cyberdyne}
-                  \item Guide towards changes in a patch: Directed Incremental Symbolic Execution\cite{DiSE} and Directed Test Suite Augmentation\cite{DTSA}
                   \item \textquote{CREST\cite{CREST} is an extensible platform for building and experimenting with heuristics for selecting which paths to explore}\cite{ReviewThreeDecades}
+                  \item Interleave random and symbolic execution. Examples: Hybrid Concolic Testing\cite{HCT, Driller, Cyberdyne}
+                  \item Guide towards changes in a patch: Directed Incremental Symbolic Execution\cite{DiSE}, Directed Test Suite Augmentation\cite{DTSA} and KATCH\cite{KATCH}, which is based on KLEE\cite{KLEE}.
+                  \item Chopped symbolic execution ignores (resp. only lazily executes) certain functions deemed uninteresting to focus on certain parts of the PUT and prevent path explosion. This can either be done manually or automatically based on some heuristics (like code unassociated with changes in a patch in Chopper\cite{Chopped}).
                   \item Prioritize inputs that increase path coverage the most, as implemented in many fuzzers, including SAGE\cite{SAGE}
                   \item \textquote{we propose a novel approach called Fitnex, a search strategy that uses state-dependent fitness values (computed through a fitness function) to guide path exploration. The fitness function measures how close an already discovered feasible path is to a particular test target (e.g., covering a not-yet-covered branch)}\cite{Fitnex}
-                  \item Let users select uninteresting parts of the code and avoid it (as in \cite{Chopped})
                   \item Weigh the approximate cost of executing a certain path against its demand, as done in QuickFuzz\cite{QuickFuzz}
                   \item Probabilistic approach: Use Monte Carlo path optimization to quantify the difficulty of each path using grey-box fuzzing to then let the white-box fuzzer focus on the paths that are believed to be most challenging for grey-box fuzzing to make progress.\cite{DigFuzz}
                   \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, potential bugs according to UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} in SAVIOR\cite{SAVIOR} or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
               \end{itemize}
         \item Pruning redundant paths (\textquote{if a program path reaches the same program point with the same symbolic constraints as a previously explored path, then this path will continue to execute exactly the same from that point on and thus can be discarded.}\cite{RWset}) Eliminating redundant paths by analyzing the values read and written by the program.
+        \item Similarly, MoWF\cite{MoWF} uses knowledge gained by its built-in blackbox fuzzer to prune invalid inputs and thus prevents its symbolic execution engine to get stuck in input checking and error handling code.
         \item Sharing among states/copy on write: KLEE\cite{KLEE}
         \item Caching function summaries for later use by higher-level functions. Example: SMART\cite{SMART}
         \item Lazy test generation (as in LATEST\cite{LATEST})
@@ -201,10 +206,15 @@
         \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
         \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
         \item Intriguer\cite{Intriguer} uses taint analysis to discover instructions accessing a wide range of input bytes, and then performs symbolic execution for those instructions deemed important and only invoke the underlying SMT solver for complicated queries.
-        \item Approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}, generate interesting inputs based on a SMT query without relying on classic (and expensive) SMT solvers.
-        \item Similarly, Eclipser\cite{Eclipser} uses instrumentation on the PUT to generate partial path conditions, which can then be solved without invoking SMT solvers to generate further inputs.
-        \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
         \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFI\cite{JFI} uses this technique to find solutions to floating-point constraints.
+        \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
+        \item While technically not using symbolic execution, analyzing the dependency between input data and state space and approximating solutions to path constraints based on those to prevent expensive calls to an SMT solver is fairly common\cite{WEIZZ}:
+              \begin{itemize}
+                  \item Eclipser\cite{Eclipser} uses instrumentation on the PUT to generate partial path conditions, which can then be solved without invoking SMT solvers to generate further inputs.
+                  \item Angora\cite{Angora} uses solves path constraints by using a combination of context-sensitive branch coverage, scalable byte-level taint tracking, gradient descent searching, input length exploration, and type and shape inference.
+                  \item REDQUEEN\cite{REDQUEEN} exploits the fact that much of the input data ends up in the state-space and uses simple transformations on the input data as opposed to relying on taint analysis or symbolic execution to bypass checksums.
+                  \item Other proposals include approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}.
+              \end{itemize}
     \end{itemize}
 
     \subsection{Memory Modelling}
@@ -255,6 +265,11 @@
         \item By removing code blocks that are deemed irrelevant, T-FUZZ\cite{TFuzz} prevents its mutation-based fuzzer (which does not use symbolic execution) from getting stuck. It then employs symbolic execution to validate the bugs found.
         \item IFL\cite{IFL} generates quality input to a smart contract based on a symbolic execution engine and then uses them to train a neural network. This can then be used to fuzz other smart contracts since they often implement similar functionality.
         \item TaintScope\cite{TaintScope} uses taint analysis to bypass checksum checks and then symbolic execution to fix checksum fields in malformed test cases.
+    \end{itemize}
+
+    \subsection{Using Symbolic Execution in Other Contexts}
+    \begin{itemize}
+        \item PYGMALION\cite{PYGMALION} uses symbolic execution to generate a grammar from a program, generates valid inputs from that, and finally uses those in fuzzers (AFL\cite{AFLPlusPlus} and KLEE\cite{KLEE}) to measure the achieved code coverage. AUTOGRAM\cite{AUTOGRAM} accomplishes a similar goal of producing a context-free grammar a PUT accepts by executing it with different inputs based on taint analysis.
     \end{itemize}
 
     \section{Conclusions}

@@ -436,7 +436,6 @@
   title     = {VUzzer: Application-aware Evolutionary Fuzzing.},
   author    = {Rawat, Sanjay and Jain, Vivek and Kumar, Ashish and Cojocar, Lucian and Giuffrida, Cristiano and Bos, Herbert},
   booktitle = {Proceedings of the 2017 Network and Distributed System Security Symposium (NDSS)},
-  booktitle = {NDSS},
   volume    = {17},
   pages     = {1--14},
   year      = {2017}
@@ -2230,4 +2229,67 @@
   author    = {Takanen, Ari and Demott, Jared D and Miller, Charles and Kettunen, Atte},
   year      = {2018},
   publisher = {Artech House}
+}
+
+@inproceedings{REDQUEEN,
+  title     = {REDQUEEN: Fuzzing with Input-to-State Correspondence.},
+  author    = {Aschermann, Cornelius and Schumilo, Sergej and Blazytko, Tim and Gawlik, Robert and Holz, Thorsten},
+  booktitle = {Proceedings of the 2016 Network and Distributed System Security Symposium (NDSS)},
+  volume    = {19},
+  pages     = {1--15},
+  year      = {2019}
+}
+
+@inproceedings{WEIZZ,
+  author    = {Fioraldi, Andrea and D'Elia, Daniele Cono and Coppa, Emilio},
+  title     = {WEIZZ: Automatic Grey-Box Fuzzing for Structured Binary Formats},
+  year      = {2020},
+  isbn      = {9781450380089},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3395363.3397372},
+  doi       = {10.1145/3395363.3397372},
+  abstract  = {Fuzzing technologies have evolved at a fast pace in recent years, revealing bugs in programs with ever increasing depth and speed. Applications working with complex formats are however more difficult to take on, as inputs need to meet certain format-specific characteristics to get through the initial parsing stage and reach deeper behaviors of the program.  Unlike prior proposals based on manually written format specifications, we propose a technique to automatically generate and mutate inputs for unknown chunk-based binary formats. We identify dependencies between input bytes and comparison instructions, and use them to assign tags that characterize the processing logic of the program. Tags become the building block for structure-aware mutations involving chunks and fields of the input.  Our technique can perform comparably to structure-aware fuzzing proposals that require human assistance. Our prototype implementation WEIZZ revealed 16 unknown bugs in widely used programs.},
+  booktitle = {Proceedings of the 29th ACM SIGSOFT International Symposium on Software Testing and Analysis},
+  pages     = {1–13},
+  numpages  = {13},
+  keywords  = {binary testing, structural mutations, Fuzzing, chunk-based formats},
+  location  = {Virtual Event, USA},
+  series    = {ISSTA 2020}
+}
+
+@article{ML1,
+  title   = {A review of machine learning applications in fuzzing},
+  author  = {Saavedra, Gary J and Rodhouse, Kathryn N and Dunlavy, Daniel M and Kegelmeyer, Philip W},
+  journal = {arXiv preprint arXiv:1906.11133},
+  year    = {2019}
+}
+
+@article{ML2,
+  title     = {A systematic review of fuzzing based on machine learning techniques},
+  author    = {Wang, Yan and Jia, Peng and Liu, Luping and Huang, Cheng and Liu, Zhonglin},
+  journal   = {PloS one},
+  volume    = {15},
+  number    = {8},
+  pages     = {e0237749},
+  year      = {2020},
+  publisher = {Public Library of Science San Francisco, CA USA}
+}
+
+@article{PYGMALION,
+  title   = {Sample-free learning of input grammars for comprehensive software fuzzing},
+  author  = {Gopinath, Rahul and Mathis, Bj{\"o}rn and H{\"o}schele, Mathias and Kampmann, Alexander and Zeller, Andreas},
+  journal = {arXiv preprint arXiv:1810.08289},
+  year    = {2018}
+}
+
+@inproceedings{AUTOGRAM,
+  author    = {Hoschele, Matthias and Zeller, Andreas},
+  booktitle = {2017 IEEE/ACM 39th International Conference on Software Engineering Companion (ICSE-C)},
+  title     = {Mining Input Grammars with AUTOGRAM},
+  year      = {2017},
+  volume    = {},
+  number    = {},
+  pages     = {31-34},
+  doi       = {10.1109/ICSE-C.2017.14}
 }
