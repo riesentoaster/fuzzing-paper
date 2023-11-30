@@ -22,19 +22,30 @@
 \pagebreak
 \begin{multicols}{2}
     \section{Introduction}
+    In 2022, the cost of poor software quality was estimated to be more than \$2.4 trillion in the US alone.\cite{CostPoorSoftware} Individual cyber attacks have had estimated financial impacts of up to \$8 billion worldwide.\cite{Demystifying} Testing software amounts to approximately 50\% of the development cost\cite{DART}, but it is typically a mostly manual process\cite{PreliminaryAssessment}. Since manual testing requires a lot of developer hours with in-depth knowledge of the system to be tested, it does not scale well. Automated testing promises to be more cost-effective at finding software defects, and thus has become the most popular vulnerability discovery solution, especially in the industry.\cite{FuzzingASurvey}
+
+    One such automated vulnerability and bug testing technique is fuzzing.\cite{VulnerabilityDiscoveryTechniques} In the seminal work by \citeauthor{UNIX} in \citeyear{UNIX}, the term \textquote{fuzz} is defined as a program that \textquote{generates a stream of random characters to be consumed by a target program}\cite{UNIX}. Since then, a rich ecosystem of fuzzing systems has developed in both industry and academia, drawing design inspiration from widely different software engineering concepts that combine into programs which produce different concrete inputs which are then repeatedly fed into a certain program under test (PUT) and then check the program for illegal states or crashes.\cite{EvaluatingFuzzTesting}
+
+    Fuzzing is widely used in industry, which major technology companies and government agencies such as Google, Microsoft, the US Department of Defense, Cisco, and Adobe developing proprietary and contributing to open source fuzzers. These are then used to great effect, Google alone found 20K vulnerabilities in Chrome alone using fuzz testing.\cite{Demystifying}
+
+    Symbolic execution is another approach to automated software testing. By not running programs with concrete inputs, but instead with variables representing all possible values. By tracking how these values are used, pure symbolic execution based systems can then reason about, and even proof certain hypotheses in, a PUT. However, because essentially needs to emulate the whole program including all possible program states, pure symbolic execution only works on trivial programs and breaks down with real-world programs because of their size. Naïve implementations further cannot handle non-trivial software that may be multi-threaded or interact with its environment.
+
+    In the past decades, many fuzzers\cite{BitBlaze,CORAL,CREST,CUTE,CVC5,CVCLite,Chopped,Cyberdyne,DART,DTSA,DiSE,DigFuzz,Dowser,Driller,EGT,EXE,Fitnex,FloPSy,GRT,GSE,HCT,HFL,IFL,Intriguer,JFI,KATCH,KLEE,KLEEFP,LATEST,MoWF,Moles,PYGMALION,Pangolin,Pex,QSYM,QuickFuzz,RWset,SAGE,SAVIOR,SMART,SPIN,STP,ScalableAutomatedMethods,TFuzz,TaintScope,VUzzer} have employed symbolic execution based techniques.
+
+    Since the academic research in this field is vast, existing survey papers are used to filter works on the topic at hand to the most important ones.
+
+    In short, this paper makes the following contributions:
     \begin{itemize}
-        \item \textquote{Today, testing is the primary way to check the correctness of software. Billions of dollars are spent on testing in the software industry, as testing usually accounts for about 50\% of the cost of software development. It was recently estimated that software failures currently cost the US economy alone about \$60 billion every year, and that improvements in software testing infrastructure might save one-third of this cost.}\cite{DART}
-        \item \textquote{The attack (WannaCry) startled the global economy by hitting its impact on around 230K–300K computers in about 150 countries, leading to an estimated substantial financial impact of US \$4–\$8 billion worldwide}\cite{Demystifying}
-        \item \textquote{Software testing is the most commonly used technique for validating the quality of software, but it is typically a mostly manual process that accounts for a large fraction of software development and maintenance.}\cite{PreliminaryAssessment}
-        \item Fuzzing is one of several software vulnerability techniques.\cite{VulnerabilityDiscoveryTechniques}
-        \item \textquote{Compared with other techniques, fuzzing requires few knowledge of targets and could be easily scaled up to large applications, and thus has become the most popular vulnerability discovery solution, especially in the industry.}\cite{FuzzingASurvey}
-        \item \textquote{The term “fuzz” was originally coined by Miller et al. in 1990 to refer to a program that “generates a stream of random characters to be consumed by a target program”\cite{UNIX}}\cite{ArtScienceEng}
-        \item \textquote{There are many different dynamic analyses that can be described as “fuzzing.” A unifying feature of fuzzers is that they operate on, and produce, concrete inputs. Otherwise, fuzzers might be instantiated with many different design choices and many different parameter settings.}\cite{EvaluatingFuzzTesting}
-        \item \textquote{Google could find 20K vulnerabilities in Chrome using fuzz testing}\cite{Demystifying}
-        \item Fuzzing is used by lots of big players: Google, Microsoft, DoD, Cisco, Adobe all employ fuzzing as part of their secure development practices, and many of those have contributed to or written their own open-source or commercial fuzzers \cite{Demystifying}.
+        \item First, it explains theoretical principles behind fuzzing and symbolic execution in section\ref{Theory}.
+        \item Second, it gives an overview of existing survey papers investigating the state of fuzzing and provides a short summary of each in section\ref{Methods}.
+        \item It then lists challenges fuzzing tools face when implementing symbolic execution techniques, and mitigation attempts at each, along examples of works that implement them in section\ref{Results}.
+        \item Finally, it discusses limitations and possible additions to this work in section\ref{Discussion}.
     \end{itemize}
 
+
+
     \section{Theoretical Principles}
+    \label{Theory}
     \begin{itemize}
         \item Program under test (PUT)
         \item Two approaches: Random mutation as described in \textit{An Empirical Study of the Reliability of UNIX Utilities} by Miller et al.\cite{UNIX} and pure symbolic execution, as introduced in \cite{Symbex}.
@@ -135,6 +146,7 @@
     \end{itemize}
 
     \section{Challenges and Mitigation}
+    \label{Results}
     Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}, extended based on information from all other information considered as listed in Section\ref{Methods}.
 
     This section focuses on attempts to mitigate inherent issues with symbolic execution. Many of the listed papers implemented further more general efficiency improvements, like SAGE's\cite{SAGE} (and multiple other papers inspired by it) generational search, which generates multiple new inputs from just one run of the symbolic execution engine by solving the constraint formula with the constraint from each branch flipped independently.
@@ -272,7 +284,8 @@
         \item PYGMALION\cite{PYGMALION} uses symbolic execution to generate a grammar from a program, generates valid inputs from that, and finally uses those in fuzzers (AFL\cite{AFLPlusPlus} and KLEE\cite{KLEE}) to measure the achieved code coverage. AUTOGRAM\cite{AUTOGRAM} accomplishes a similar goal of producing a context-free grammar a PUT accepts by executing it with different inputs based on taint analysis.
     \end{itemize}
 
-    \section{Conclusions}
+    \section{Discussion and Future Work}
+    \label{Discussion}
     \subsection{Future Work}
     \begin{itemize}
         \item Look at author overlap between the survey papers and influential primary papers to guide which review papers seem important (if you independently collect primary papers), if survey paper authors overemphasize their own contributions and maybe even miss other important developments
