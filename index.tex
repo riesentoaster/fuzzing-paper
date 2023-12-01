@@ -316,9 +316,8 @@
     \subsubsection{Bibliometry}
 
     \newpage
-    \section*{Bibliography}
-    \addcontentsline{toc}{section}{Bibliography}
-
+    \defbibheading{bibliography}[\bibname]{\section*{#1}}
+    \addcontentsline{toc}{section}{\bibname}
     \printbibliography
 
     \renewcommand{\thesubsection}{\arabic{subsection}}
