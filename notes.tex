@@ -181,6 +181,26 @@
   \item Fuzzing is used by lots of big players: Google, Microsoft, DoD, Cisco, Adobe all employ fuzzing as part of their secure development practices, and many of those have contributed to or written their own open-source or commercial fuzzers \cite{Demystifying}.
 \end{itemize}
 
+\subsection{Theoretical Principles}
+
+\begin{itemize}
+  \item Two approaches: Random mutation as described in \textit{An Empirical Study of the Reliability of UNIX Utilities} by Miller et al.\cite{UNIX} and pure symbolic execution, as introduced in \cite{Symbex}.
+  \item The latter is infeasible for large programs and for any program that interacts with the environment, the former in its purest form is not very effective.
+        \begin{itemize}
+          \item \textquote{A key disadvantage of classical symbolic execution is that it cannot generate an input if the symbolic path constraint along a feasible execution path contains formulas that cannot be (efficiently) solved by a constraint solver (for example, nonlinear constraints).}\cite{ReviewThreeDecades}
+          \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GWF}
+        \end{itemize}
+  \item Generally:
+        \begin{itemize}
+          \item \textquote{The process begins by choosing a corpus of “seed” inputs with which to test the target program. The fuzzer then repeatedly mutates these inputs and evaluates the program under test. If the result produces “interesting” behavior, the fuzzer keeps the mutated input for future use and records what was observed. Eventually the fuzzer stops, either due to reaching a particular goal (e.g., finding a certain sort of bug) or reaching a timeout.}\cite{EvaluatingFuzzTesting}
+          \item \textquote{Different fuzzers record different observations when running the program under test. In a “black box” fuzzer, a single observation is made: whether the program crashed. In “gray box” fuzzing, observations also consist of intermediate information about the execution, for example, the branches taken during execution as determined by pairs of basic block identifiers executed directly in sequence. “White box” fuzzers can make observations and modifications by exploiting the semantics of application source (or binary) code, possibly involving sophisticated reasoning. Gathering additional observations adds overhead. Different fuzzers make different choices, hoping to trade higher overhead for better bug-finding effectiveness.}\cite{EvaluatingFuzzTesting}
+          \item \textquote{In any of these cases, the output from the fuzzer is some concrete input(s) and configurations that can be used from outside of the fuzzer to reproduce the observation. This allows software developers to confirm, reproduce, and debug issues.}\cite{EvaluatingFuzzTesting}
+        \end{itemize}
+  \item \textquote{Many of these tools also automatically find well-defined bugs, such as assertion errors, divisions by zero, NULL pointer dereferences, etc.}\cite{AllYouEverWanted}
+  \item Symbex-based fuzzing is powerful: SAGE\cite{SAGE} \textquote{reportedly found a third of the Windows 7 bugs between 2007-2009}\cite{FuzzingTheStateOfTheArt}
+\end{itemize}
+
+
 \pagebreak
 \section{Primary Papers}
 \subsection{An Empirical Study of the Reliability of UNIX Utilities (1990)}

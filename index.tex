@@ -33,7 +33,7 @@
 
     Another approach to automated software testing is symbolic execution\cite{Symbex}. Test frameworks based on symbolic execution do not run programs with concrete inputs, but with variables representing all possible values. By tracking how these values are used, systems based on pure symbolic execution can then reason about and even prove certain hypotheses in a PUT. However, because these systems must essentially emulate the entire program, including all possible program states, pure symbolic execution only works on trivial programs, and breaks down on real-world programs because of their size. Naïve implementations further cannot handle non-trivial software that may be multi-threaded or interact with its environment.
 
-    Over the past decades, many fuzzers\cite{BitBlaze,CORAL,CREST,CUTE,CVC5,CVCLite,Chopped,Cyberdyne,DART,DTSA,DiSE,DigFuzz,Dowser,Driller,EGT,EXE,Fitnex,FloPSy,GRT,GSE,HCT,HFL,IFL,Intriguer,JFI,KATCH,KLEE,KLEEFP,LATEST,MoWF,Moles,PYGMALION,Pangolin,Pex,QSYM,QuickFuzz,RWset,SAGE,SAVIOR,SMART,SPIN,STP,ScalableAutomatedMethods,TFuzz,TaintScope,VUzzer} have employed symbolic execution based techniques.
+    Over the past decades, many fuzzers\cite{BitBlaze,CORAL,CREST,CUTE,CVC5,CVCLite,Chopped,Cyberdyne,DART,DTSA,DiSE,DigFuzz,Dowser,Driller,EGT,EXE,Fitnex,FloPSy,GRT,GSE,HCT,HFL,IFL,Intriguer,JFI,KATCH,KLEE,KLEEFP,LATEST,MoWF,Moles,PYGMALION,Pangolin,Pex,QSYM,QuickFuzz,RWset,SAGE,SAVIOR,SMART,SPIN,STP,ScalableAutomatedMethods,TFuzz,TaintScope,VUzzer} have employed symbolic execution based techniques, with great success: SAGE\cite{SAGE} \textquote{reportedly found a third of the Windows 7 bugs between 2007-2009}\cite{FuzzingTheStateOfTheArt}.
 
     Since the academic research in this area is vast, existing reviews are used to filter the work on the topic at hand to the most important. The following contributions are made on this basis:
     \begin{itemize}
@@ -42,7 +42,6 @@
         \item Third, the challenges fuzzing tools face in implementing symbolic execution techniques, and attempts to mitigate each of them, are listed along with examples of works that implement them in section\ref{Results}.
         \item Finally, limitations and possible additions to this work are discussed in section\ref{Discussion}.
     \end{itemize}
-
 
     \section{Theoretical Principles}
     \label{Theory}
@@ -60,7 +59,7 @@
         \label{fig:FuzzingSteps}
     \end{figure*}
 
-    Ever since then, these fuzzing systems have become more sophisticated. Most systems still contain similar parts responsible for the steps during the execution. Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzing system.
+    Ever since then, these fuzzing systems have become more sophisticated and different techniques have been integrated. However, certain characteristics remain similar between all fuzzing systems. They output some concrete input(s) and configurations that can then be used to reproduce the observation, allowing confirmation, reproduction, and debugging of the discovered issues.\cite{EvaluatingFuzzTesting} They automatically find well-defined bugs, such as assertion errors, divisions by zero, NULL pointer dereferences, etc.\cite{AllYouEverWanted} Further, most systems contain similar parts responsible for the steps during the execution. Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzing system.
 
     \subsubsection{Target Program}
     The target program (also known as the program under test, or PUT) is the software to be tested. Different fuzzers have different requirements for the kind of PUT they support: Some require access to source code to add instrumentation during the compilation or because they work on a intermediate representation (IR), such as LLVM bytecode.
@@ -72,7 +71,7 @@
     The list of inputs that put a PUT into an illegal state may contain duplicates, in a sense that the exploit the same software defect. The bug filter attempts to deduplicate this list based on some heuristics like the order basic blocks were executed in or stack hashes.
 
     \subsubsection{Test Case Generator}
-    The test case generator's job is to generate and select the next input to be tested. Based on the test case generator, fuzzing systems can be categorized as either mutation-based (where past inputs are mutated to generate the next input) or generation-based (where inputs are generated based on the grammar the PUT accepts).
+    The test case generator's job is to generate and select the next input to be tested. Based on the test case generator, fuzzing systems can be categorized as either mutation-based or generation-based. Mutation-based fuzzers take some input to the PUT as their input, and then repeatedly mutate those if the results produce \textquote{interesting} behavior\cite{EvaluatingFuzzTesting}.
 
     The prioritization is either done randomly or based on some heuristic, which assign each possible next input a value used to select the next input to be passed to the delivery module. Heuristics often take into account information produced by the monitor like coverage or distance to target instructions. These approaches can further be combined, e.g. by alternating random and heuristic-based input selection.
 
@@ -80,34 +79,29 @@
     The delivery module is responsible to pass the generated test case to the PUT in the expected form and trigger the actual execution. This might be as simple as starting a command line utility with certain command line arguments, but might also include creating files that are accessed by the PUT or even emulating user interaction.
 
     \subsubsection{Monitor}
-    Fuzzing systems can further be classified based on how much access the monitor module has to the PUT. Blackbox fuzzers have very limited access, usually only the output value and if the program ended up in an illegal state.
-
-    Graybox fuzzers have limited access to the PUT during execution. Typical information extracted by graybox fuzzers includes basic block, statement, or instruction coverage.
-
-    Whitebox fuzzers have full access to the PUT. Systems that employ taint analysis or symbolic execution are categorized as whitebox fuzzers, since they deeply examine the program structure during their analysis.
+    Fuzzing systems can further be classified based on how much access the monitor module has to the PUT. Blackbox fuzzers make a single observation: whether or not the PUT crashed. Graybox fuzzers have limited access to the PUT during execution. Typical information extracted by graybox fuzzers includes which basic blocks were executed in what order, or generally code coverage based on instruction, basic block, or statement. Whitebox fuzzers have full access to the PUT and allow for sophisticated reasoning about the program structure. Systems that employ taint analysis or symbolic execution are categorized as whitebox fuzzers, since they deeply examine the program structure during their analysis. Different systems make different tradeoffs, accepting higher analysis cost, in the hope of better bug-finding effectiveness.\cite{EvaluatingFuzzTesting}
 
     \subsubsection{Static Analyizer}
     The static analyzer, as its name suggests, attempts to extract information by statically examining the PUT's source code, IR or binary. Such information might include grammars accepted by the PUT or program paths deemed high-risk.
 
     \subsection{Symbolic Execution}
+    The concept of symbolic execution in the context of program testing was introduced in \citeyear{Symbex} by \citeauthor{Symbex}.\cite{Symbex} By not executing a PUT with concrete values (such as the number \code{23} or the string \code{"Hello World!"}) but instead modelling certain or all values with mathematical variables, it allows to explore all possible paths of a program. Different engines (such as angr\cite{angr} or Triton\cite{Triton}) allow performing symbolic execution on source code, an IR, or a binary of a PUT.
 
+    \subsubsection{Performing Symbolic Execution}
+    During execution of a certain program, with each instruction, a symbolic execution engine computes and updates the so-called symbolic state. It contains:
     \begin{itemize}
-        \item Two approaches: Random mutation as described in \textit{An Empirical Study of the Reliability of UNIX Utilities} by Miller et al.\cite{UNIX} and pure symbolic execution, as introduced in \cite{Symbex}.
-        \item The latter is infeasible for large programs and for any program that interacts with the environment, the former in its purest form is not very effective.
-              \begin{itemize}
-                  \item \textquote{A key disadvantage of classical symbolic execution is that it cannot generate an input if the symbolic path constraint along a feasible execution path contains formulas that cannot be (efficiently) solved by a constraint solver (for example, nonlinear constraints).}\cite{ReviewThreeDecades}
-                  \item \textquote{The blackbox and whitebox strategies achieved similar results in all categories. This shows that, when testing applications with highly-structured inputs in a limited amount of time (2 hours), whitebox fuzzing, with the power of symbolic execution, does not improve much over simple blackbox fuzzing. In fact, in the code generator, those grammar-less strategies do not improve coverage much above the initial set of seed inputs.}\cite{GWF}
-              \end{itemize}
-        \item Generally:
-              \begin{itemize}
-                  \item \textquote{The process begins by choosing a corpus of “seed” inputs with which to test the target program. The fuzzer then repeatedly mutates these inputs and evaluates the program under test. If the result produces “interesting” behavior, the fuzzer keeps the mutated input for future use and records what was observed. Eventually the fuzzer stops, either due to reaching a particular goal (e.g., finding a certain sort of bug) or reaching a timeout.}\cite{EvaluatingFuzzTesting}
-                  \item \textquote{Different fuzzers record different observations when running the program under test. In a “black box” fuzzer, a single observation is made: whether the program crashed. In “gray box” fuzzing, observations also consist of intermediate information about the execution, for example, the branches taken during execution as determined by pairs of basic block identifiers executed directly in sequence. “White box” fuzzers can make observations and modifications by exploiting the semantics of application source (or binary) code, possibly involving sophisticated reasoning. Gathering additional observations adds overhead. Different fuzzers make different choices, hoping to trade higher overhead for better bug-finding effectiveness.}\cite{EvaluatingFuzzTesting}
-                  \item \textquote{In any of these cases, the output from the fuzzer is some concrete input(s) and configurations that can be used from outside of the fuzzer to reproduce the observation. This allows software developers to confirm, reproduce, and debug issues.}\cite{EvaluatingFuzzTesting}
-              \end{itemize}
-        \item \textquote{Many of these tools also automatically find well-defined bugs, such as assertion errors, divisions by zero, NULL pointer dereferences, etc.}\cite{AllYouEverWanted}
-        \item Symbex-based fuzzing is powerful: SAGE\cite{SAGE} \textquote{reportedly found a third of the Windows 7 bugs between 2007-2009}\cite{FuzzingTheStateOfTheArt}
+        \item the inputs marked as symbolic as symbols $\alpha_i$,
+        \item the symbolic expression store $\sigma$, which in turn contains
+        \item symbolic expressions $\phi_j$, which are either a reference to a symbol $\alpha_i$, or an arithmetic combination of symbolic expressions, such as $\phi_j=\phi_k-\phi_l$, and finally
+        \item the path constraint $\pi$, which is the conjunction of all branch constraints, which are the conditions on symbolic expressions to end up at a certain point in the program, such as $\phi_1\leq2$ and $\phi_2=\phi_3$.
     \end{itemize}
 
+    During execution, the symbolic state is changed according to the specific instruction currently executed. If it performs some form of manipulation on existing data, this is represented by adding new symbolic expressions to the symbolic store. If a branch is (not) taken based on a check on variables or registers containing symbolic expressions, the path constraint is amended with an appropriate condition. The exploration of a program can follow different heuristics, such as breath- or depth-first search.
+
+    \subsubsection{Categoryzing Symbolic Execution Implementations}
+    Symbolic execution implementations can be categorized in several ways: Where static dynamic execution exclusively and exhaustively performs the process described above, dynamic (or concolic, a portmanteau of concrete and symbolic) symbolic execution executes a program symbolically and with concrete values in parallel.
+
+    Online symbolic execution allows calculating multiple paths in parallel, while offline symbolic execution examines one path after the other. Finally, one can distinguish between partial and full symbolic execution, where only a part, or all the variable, and therefore calculation is done symbolically.\cite{Ghidrion}
 
     \section{Related Works and Methods}
     \label{Methods}
