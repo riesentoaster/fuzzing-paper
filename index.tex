@@ -8,6 +8,9 @@
 \addbibresource{sources.bib}
 \usepackage{todonotes}
 \usepackage{multicol}
+\usepackage{float}
+\usepackage{graphicx}
+
 
 \title{Looking at Challenges and Mitigation in Symbolic Execution Based Fuzzing Through the Lens of Survey Papers}
 \author{Valentin Huber}
@@ -28,7 +31,7 @@
 
     Fuzzing is widely used in industry, with major technology companies and government agencies such as Google, Microsoft, the US Department of Defense, Cisco and Adobe developing proprietary fuzzers and contributing to open source fuzzers. These are then used to great effect, with Google alone finding 20,000 vulnerabilities in Chrome alone using fuzz testing.\cite{Demystifying}
 
-    Another approach to automated software testing is symbolic execution. Test frameworks based on symbolic execution do not run programs with concrete inputs, but with variables representing all possible values. By tracking how these values are used, systems based on pure symbolic execution can then reason about and even prove certain hypotheses in a PUT. However, because these systems must essentially emulate the entire program, including all possible program states, pure symbolic execution only works on trivial programs, and breaks down on real-world programs because of their size. Naïve implementations further cannot handle non-trivial software that may be multi-threaded or interact with its environment.
+    Another approach to automated software testing is symbolic execution\cite{Symbex}. Test frameworks based on symbolic execution do not run programs with concrete inputs, but with variables representing all possible values. By tracking how these values are used, systems based on pure symbolic execution can then reason about and even prove certain hypotheses in a PUT. However, because these systems must essentially emulate the entire program, including all possible program states, pure symbolic execution only works on trivial programs, and breaks down on real-world programs because of their size. Naïve implementations further cannot handle non-trivial software that may be multi-threaded or interact with its environment.
 
     Over the past decades, many fuzzers\cite{BitBlaze,CORAL,CREST,CUTE,CVC5,CVCLite,Chopped,Cyberdyne,DART,DTSA,DiSE,DigFuzz,Dowser,Driller,EGT,EXE,Fitnex,FloPSy,GRT,GSE,HCT,HFL,IFL,Intriguer,JFI,KATCH,KLEE,KLEEFP,LATEST,MoWF,Moles,PYGMALION,Pangolin,Pex,QSYM,QuickFuzz,RWset,SAGE,SAVIOR,SMART,SPIN,STP,ScalableAutomatedMethods,TFuzz,TaintScope,VUzzer} have employed symbolic execution based techniques.
 
@@ -43,8 +46,52 @@
 
     \section{Theoretical Principles}
     \label{Theory}
+
+    To understand the limitations of symbolic execution and innovations introduced in papers, a fundamental understanding of both general fuzzing procedures and symbolic execution is crucial.
+
+    \subsection{Fuzzing}
+
+    \citeauthor{UNIX} both invented the term and layed the foundation for fuzzing. They observed that, during a stormy night, lightning strikes would introduce interference in their dial-up based communication channel to a UNIX system, which changed the intended inputs and crashed the tools they were using. They then attempted to reproduce this systematically by repeatedly running tools with random inputs containing printable, non-printable and \code{NULL} bytes. On different UNIX systems, they were able to crash between 25 and 30\% of all tested utility programs.\cite{UNIX}
+
+    \begin{figure*}[!tp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{assets/FuzzingSteps.jpg}
+        \caption{Architectural Diagram of a Fuzzing System\cite{Science}}
+        \label{fig:FuzzingSteps}
+    \end{figure*}
+
+    Ever since then, these fuzzing systems have become more sophisticated. Most systems still contain similar parts responsible for the steps during the execution. Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzing system.
+
+    \subsubsection{Target Program}
+    The target program (also known as the program under test, or PUT) is the software to be tested. Different fuzzers have different requirements for the kind of PUT they support: Some require access to source code to add instrumentation during the compilation or because they work on a intermediate representation (IR), such as LLVM bytecode.
+
+    \subsubsection{Bug Detector}
+    The bug detector observes the PUT during execution for illegal states. The simplest implementations trigger on program crashes, more sophisticated bug detectors might check if certain protected parts of the PUT are accessed, for example to check the authentication implemented.
+
+    \subsubsection{Bug Filter}
+    The list of inputs that put a PUT into an illegal state may contain duplicates, in a sense that the exploit the same software defect. The bug filter attempts to deduplicate this list based on some heuristics like the order basic blocks were executed in or stack hashes.
+
+    \subsubsection{Test Case Generator}
+    The test case generator's job is to generate and select the next input to be tested. Based on the test case generator, fuzzing systems can be categorized as either mutation-based (where past inputs are mutated to generate the next input) or generation-based (where inputs are generated based on the grammar the PUT accepts).
+
+    The prioritization is either done randomly or based on some heuristic, which assign each possible next input a value used to select the next input to be passed to the delivery module. Heuristics often take into account information produced by the monitor like coverage or distance to target instructions. These approaches can further be combined, e.g. by alternating random and heuristic-based input selection.
+
+    \subsubsection{Delivery Module}
+    The delivery module is responsible to pass the generated test case to the PUT in the expected form and trigger the actual execution. This might be as simple as starting a command line utility with certain command line arguments, but might also include creating files that are accessed by the PUT or even emulating user interaction.
+
+    \subsubsection{Monitor}
+    Fuzzing systems can further be classified based on how much access the monitor module has to the PUT. Blackbox fuzzers have very limited access, usually only the output value and if the program ended up in an illegal state.
+
+    Graybox fuzzers have limited access to the PUT during execution. Typical information extracted by graybox fuzzers includes basic block, statement, or instruction coverage.
+
+    Whitebox fuzzers have full access to the PUT. Systems that employ taint analysis or symbolic execution are categorized as whitebox fuzzers, since they deeply examine the program structure during their analysis.
+
+    \subsubsection{Static Analyizer}
+    The static analyzer, as its name suggests, attempts to extract information by statically examining the PUT's source code, IR or binary. Such information might include grammars accepted by the PUT or program paths deemed high-risk.
+
+    \subsection{Symbolic Execution}
+
     \begin{itemize}
-        \item Program under test (PUT)
         \item Two approaches: Random mutation as described in \textit{An Empirical Study of the Reliability of UNIX Utilities} by Miller et al.\cite{UNIX} and pure symbolic execution, as introduced in \cite{Symbex}.
         \item The latter is infeasible for large programs and for any program that interacts with the environment, the former in its purest form is not very effective.
               \begin{itemize}
