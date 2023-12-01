@@ -38,8 +38,9 @@
     Since the academic research in this area is vast, existing reviews are used to filter the work on the topic at hand to the most important. The following contributions are made on this basis:
     \begin{itemize}
         \item First, the theoretical principles behind fuzzing and symbolic execution are explained in section\ref{Theory}.
-        \item Second, an overview of existing survey papers investigating the state of fuzzing is given in section\ref{Methods}, along with a short summary of each paper.
-        \item Third, the challenges fuzzing tools face in implementing symbolic execution techniques, and attempts to mitigate each of them, are listed along with examples of works that implement them in section\ref{Results}.
+        \item Second, the author explains their reasoning behind using existing survey papers to base this work on in section\ref{Methods}.
+        \item Third, an overview of existing survey papers investigating the state of fuzzing is given in section\ref{SurveyPapers}, along with a short summary of each paper.
+        \item Forth, the challenges fuzzing tools face in implementing symbolic execution techniques, and attempts to mitigate each of them, are listed along with examples of works that implement them in section\ref{Results}.
         \item Finally, limitations and possible additions to this work are discussed in section\ref{Discussion}.
     \end{itemize}
 
@@ -103,39 +104,26 @@
 
     Online symbolic execution allows calculating multiple paths in parallel, while offline symbolic execution examines one path after the other. Finally, one can distinguish between partial and full symbolic execution, where only a part, or all the variable, and therefore calculation is done symbolically.\cite{Ghidrion}
 
-    \section{Related Works and Methods}
+    \section{Methods}
     \label{Methods}
+    Fuzzing is an extensively researched topic. For the search term \textquote{Fuzzing}, Web of Science\cite{WebOfScience} finds 2,741, Scopus\cite{Scopus} 2,410, and Google Scholar\cite{GoogleScholar} approximately 29,300 works. Even when filtered by top venues, to summarize the current state of symbolic execution in fuzzing would be a task beyond what is feasible in this project.
+
+    However, since fuzzing is such a well-published topic, other researchers have taken on the work of summarizing the state of the art, each group with a slightly different focus. These survey papers can therefore be used to approximate a complete picture of the current state of the art. This is the approach chosen by the author of this paper. Section\ref{SurveyPapers} contains a list of survey papers taken into consideration. To ensure accuracy and a consistent level of detail, works discussed in these review papers (primary works) are used to corroborate or refute how review papers discuss the contributions of each primary work.
+
+    To select review papers to consider, the following rules were applied:
     \begin{itemize}
-        \item Large scientific body of work
-        \item Review papers
-              \begin{itemize}
-                  \item Well cited
-                  \item New
-                  \item Specific topics to see if challenges and solutions differ
-              \end{itemize}
-        \item Gathered by
-              \begin{itemize}
-                  \item Search engines
-                  \item Cited in review papers
-                  \item Lists in review papers (as in \cite{Demystifying})
-                  \item Cited in important primary papers
-              \end{itemize}
-        \item Excluded survey papers that specifically focus on a different approach such as machine learning such as \cite{ML1, ML2}
-        \item This section summarizes their contribution and lists relevant primary works (as opposed to survey papers) discussed. Primary works mentioned without discussion are omitted.
+        \item First, different search engines were used to create a list of survey papers in the field of fuzzing.
+        \item Then, further review papers discussed or listed in other review papers were added (such as works listed in \cite{Demystifying}).
+        \item Furthermore, review papers cited in review papers or primary works were added to list.
+        \item Then, a selection of additional works were added to the list based on the author's intuition.
+        \item Review papers that had a specific focus (such as machine learning in fuzzing\cite{ML1, ML2}) were disregarded.
+        \item Finally, works that focused on a specific use case for fuzzing, such as testing internet of things devices, network protocols, or JavaScript engines were disregarded. A list of these can be found in Appendix\ref{SpecificSurveyPapers}.
     \end{itemize}
 
-    \subsection{General Survey Papers}
-    \begin{itemize}
-        \item    An orchestrated survey of methodologies for automated software test case generation (\citedate{Orchestrated})\cite{Orchestrated}
-        \item    A Survey of Symbolic Execution Techniques (\citedate{SurveySymbex})\cite{SurveySymbex}
-        \item    A systematic review of fuzzing techniques (\citedate{Science})\cite{Science}
-        \item    Fuzzing: State of the Art (\citedate{FuzzingStateOfTheArt2018})\cite{FuzzingStateOfTheArt2018}
-        \item    Fuzzing: hack, art, and science (\citedate{HackArtScience})\cite{HackArtScience}
-        \item    A Systematic Review of Search Strategies in Dynamic Symbolic Execution (\citedate{SearchStrategies})\cite{SearchStrategies}
-        \item    A Survey of Hybrid Fuzzing based on Symbolic Execution (\citedate{SurveyHybrid})\cite{SurveyHybrid}
-        \item    Fuzzing: Challenges and Reflections (\citedate{ChallengesAndReflections})\cite{ChallengesAndReflections}
-        \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citedate{Hybrid})\cite{Hybrid}
-    \end{itemize}
+    \section{Survey Papers}
+    \label{SurveyPapers}
+
+    This section summarizes contributions of existing survey papers selected as described in Section\ref{Methods} and lists relevant primary works discussed in each. Primary works mentioned without discussion are omitted.
 
     \papertitle{AllYouEverWanted}
     Using a simple intermediate language (SIMPIL), this paper discusses taint analysis and forward symbolic execution, including examples and analysis of the theoretical foundations of symbolic execution. While fuzzing is mentioned in multiple instances, it is not the main focus. However, it still lists many of the drawbacks and advantages fuzzers based on symbolic execution have, and the additional perspective was valuable in assembling this review.
@@ -170,22 +158,22 @@
     \papertitle{Demystifying}
     This paper dedicates one of its chapter to first explaining the fundamental logic of symbolic execution, and then presenting three implementations (Driller\cite{Driller}, CONFETTI\cite{CONFETTI}, and FUZZOLIC\cite{FUZZOLIC}). It further investigates advances in IoT firmware and kernel fuzzers, but does not explain where up- and downsides of using symbolic execution in these domains lay.
 
-    \subsection{Specific Survey Papers}
+    \subsection{TODO}
     \begin{itemize}
-        \item    Network protocol fuzz testing for information systems and applications: a survey and taxonomy (\citedate{Network})\cite{Network}
-        \item    A Survey of Dynamic Analysis and Test Generation for JavaScript (\citedate{JavaScript2})\cite{JavaScript2}
-        \item    Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems (\citedate{IoT})\cite{IoT}
-        \item    Firmware Fuzzing: The State of the Art (\citedate{Firmware})\cite{Firmware}
-        \item    Research on Fuzzing Technology for JavaScript Engines (\citedate{JavaScript})\cite{JavaScript}
-        \item    Ethereum Smart Contract Analysis Tools: A Systematic Review (\citedate{Ethereum})\cite{Ethereum}
-        \item    Embedded fuzzing: a review of challenges, tools, and solutions (\citedate{Embedded2})\cite{Embedded2}
-        \item    Fuzzing of Embedded Systems: A Survey (\citedate{Embedded})\cite{Embedded}
-        \item    A Survey on the Development of Network Protocol Fuzzing Techniques (\citedate{Network2023})\cite{Network2023}
+        \item    An orchestrated survey of methodologies for automated software test case generation (\citedate{Orchestrated})\cite{Orchestrated}
+        \item    A Survey of Symbolic Execution Techniques (\citedate{SurveySymbex})\cite{SurveySymbex}
+        \item    A systematic review of fuzzing techniques (\citedate{Science})\cite{Science}
+        \item    Fuzzing: State of the Art (\citedate{FuzzingStateOfTheArt2018})\cite{FuzzingStateOfTheArt2018}
+        \item    Fuzzing: hack, art, and science (\citedate{HackArtScience})\cite{HackArtScience}
+        \item    A Systematic Review of Search Strategies in Dynamic Symbolic Execution (\citedate{SearchStrategies})\cite{SearchStrategies}
+        \item    A Survey of Hybrid Fuzzing based on Symbolic Execution (\citedate{SurveyHybrid})\cite{SurveyHybrid}
+        \item    Fuzzing: Challenges and Reflections (\citedate{ChallengesAndReflections})\cite{ChallengesAndReflections}
+        \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citedate{Hybrid})\cite{Hybrid}
     \end{itemize}
 
     \section{Challenges and Mitigation}
     \label{Results}
-    Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}, extended based on information from all other information considered as listed in Section\ref{Methods}.
+    Heavily based on \cite{ReviewThreeDecades, PreliminaryAssessment}, extended based on information from all other information considered as listed in Section\ref{SurveyPapers}.
 
     This section focuses on attempts to mitigate inherent issues with symbolic execution. Many of the listed papers implemented further more general efficiency improvements, like SAGE's\cite{SAGE} (and multiple other papers inspired by it) generational search, which generates multiple new inputs from just one run of the symbolic execution engine by solving the constraint formula with the constraint from each branch flipped independently.
 
@@ -333,8 +321,32 @@
     \subsubsection{Bibliometry}
 
     \newpage
+    \section*{Bibliography}
     \addcontentsline{toc}{section}{Bibliography}
+
     \printbibliography
+
+    \renewcommand{\thesubsection}{\arabic{subsection}}
+    \renewcommand{\thesubsubsection}{\arabic{subsection}.\arabic{subsubsection}}
+    \setcounter{subsection}{0}
+    \setcounter{subsubsection}{0}
+    \section*{Appendix}
+    \addcontentsline{toc}{section}{Appendix}
+
+    \subsection{List of Survey Papers Focused on a Specific Use Case}
+    \label{SpecificSurveyPapers}
+    \begin{itemize}
+        \item    Network protocol fuzz testing for information systems and applications: a survey and taxonomy (\citedate{Network})\cite{Network}
+        \item    A Survey of Dynamic Analysis and Test Generation for JavaScript (\citedate{JavaScript2})\cite{JavaScript2}
+        \item    Fuzzing the Internet of Things: A Review on the Techniques and Challenges for Efficient Vulnerability Discovery in Embedded Systems (\citedate{IoT})\cite{IoT}
+        \item    Firmware Fuzzing: The State of the Art (\citedate{Firmware})\cite{Firmware}
+        \item    Research on Fuzzing Technology for JavaScript Engines (\citedate{JavaScript})\cite{JavaScript}
+        \item    Ethereum Smart Contract Analysis Tools: A Systematic Review (\citedate{Ethereum})\cite{Ethereum}
+        \item    Embedded fuzzing: a review of challenges, tools, and solutions (\citedate{Embedded2})\cite{Embedded2}
+        \item    Fuzzing of Embedded Systems: A Survey (\citedate{Embedded})\cite{Embedded}
+        \item    A Survey on the Development of Network Protocol Fuzzing Techniques (\citedate{Network2023})\cite{Network2023}
+    \end{itemize}
+
 \end{multicols}
 
 \end{document}
