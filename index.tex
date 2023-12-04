@@ -113,12 +113,11 @@
 
     To select review papers to consider, the following rules were applied:
     \begin{itemize}
-        \item First, different search engines were used to create a list of survey papers in the field of fuzzing.
-        \item Then, further review papers discussed or listed in other review papers were added (such as works listed in \cite{Demystifying}).
-        \item Furthermore, review papers cited in review papers or primary works were added to list.
-        \item Then, a selection of additional works were added to the list based on the author's intuition.
-        \item Review papers that had a specific focus (such as machine learning in fuzzing\cite{ML1, ML2}) were disregarded.
-        \item Finally, works that focused on a specific use case for fuzzing, such as testing internet of things or other embedded devices\cite{IoT, Embedded, Embedded2}, network protocols\cite{Network, Network2023}, smart contracts\cite{Ethereum}, or JavaScript engines\cite{JavaScript, JavaScript2} were disregarded.
+        \item First, different search engines were used to create a list of survey papers in the field of fuzzing. Since even the amount of survey papers is overwhelming (Google Scholar\cite{GoogleScholar} returns more than 25,000 results for the search term \textquote{fuzzing survey}), works were only included if their title, abstract, or keywords contained the word \textquote{fuzz} or \textquote{fuzzing}, Google Scholar\cite{GoogleScholar} reports that they were cited more than 5 times, or if they were published in a high-impact venue.
+        \item Then, further review papers discussed, listed, or cited in other review papers were added (such as works listed in \cite{Demystifying}).
+        \item Then, review papers focusing on a specific technique (such as machine learning\cite{ML1, ML2}) were disregarded.
+        \item Works focusing on a specific use case for fuzzing, such as testing internet of things or other embedded devices\cite{IoT, Embedded, Embedded2}, network protocols\cite{Network, Network2023}, smart contracts\cite{Ethereum}, or JavaScript engines\cite{JavaScript, JavaScript2} were disregarded.
+        \item Finally, a selection of additional works were added to the list based on the author's intuition.
     \end{itemize}
 
     \section{Related Work}
@@ -165,10 +164,8 @@
     \subsection{TODO}
     \begin{itemize}
         \item    An orchestrated survey of methodologies for automated software test case generation (\citedate{Orchestrated})\cite{Orchestrated}
-        \item    A Survey of Symbolic Execution Techniques (\citedate{SurveySymbex})\cite{SurveySymbex}
         \item    Fuzzing: State of the Art (\citedate{FuzzingStateOfTheArt2018})\cite{FuzzingStateOfTheArt2018}
         \item    Fuzzing: hack, art, and science (\citedate{HackArtScience})\cite{HackArtScience}
-        \item    A Systematic Review of Search Strategies in Dynamic Symbolic Execution (\citedate{SearchStrategies})\cite{SearchStrategies}
         \item    A Survey of Hybrid Fuzzing based on Symbolic Execution (\citedate{SurveyHybrid})\cite{SurveyHybrid}
         \item    Fuzzing: Challenges and Reflections (\citedate{ChallengesAndReflections})\cite{ChallengesAndReflections}
         \item    Exploratory Review of Hybrid Fuzzing for Automated Vulnerability Detection (\citedate{Hybrid})\cite{Hybrid}
@@ -324,6 +321,9 @@
         \item Look at author overlap between the survey papers and influential primary papers to guide which review papers seem important (if you independently collect primary papers), if survey paper authors overemphasize their own contributions and maybe even miss other important developments
         \item History and composition of systems: Which influenced which, which builds on top of/extends which, etc.
     \end{itemize}
+
+    \subsubsection{Additional Review Papers to Consider}
+    Section\ref{Methods} mentions different criteria, according to which survey papers were excluded from this work. However, they might still contain important information missed by excluding them. Specifically, certain works\cite{DSETestGeneration, SurveySymbex, SearchStrategies, NewTrendsSymbex} focus on symbolic execution based software testing, but do not focus on fuzzing.
 
     \subsubsection{Bibliometry}
 

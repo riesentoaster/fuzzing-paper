@@ -270,17 +270,6 @@
   abstract = {Fuzzing is a powerful tool for vulnerability discovery in software, with much progress being made in the field in recent years. There is limited literature available on the fuzzing vulnerability discovery approaches. Hence, in this paper, an attempt has been made to explore the recent advances in the area of fuzzing vulnerability discovery and to propose a refinement to the classification of fuzzers. Furthermore, we have identified key research challenges and potential future areas of research that might provide new insight to researchers.}
 }
 
-@inproceedings{TaintScope,
-  author    = {Wang, Tielei and Wei, Tao and Gu, Guofei and Zou, Wei},
-  booktitle = {2010 IEEE Symposium on Security and Privacy},
-  title     = {TaintScope: A Checksum-Aware Directed Fuzzing Tool for Automatic Software Vulnerability Detection},
-  year      = {2010},
-  volume    = {},
-  number    = {},
-  pages     = {497-512},
-  doi       = {10.1109/SP.2010.37}
-}
-
 @article{ReviewThreeDecades,
   author     = {Cadar, Cristian and Sen, Koushik},
   title      = {Symbolic Execution for Software Testing: Three Decades Later},
@@ -2372,4 +2361,38 @@
   keywords  = {grammar based testing, random testing, symbolic grammars, testing C programs, concolic execution},
   location  = {Atlanta, Georgia, USA},
   series    = {ASE '07}
+}
+
+@article{NewTrendsSymbex,
+  author   = {P{\u{a}}s{\u{a}}reanu, Corina S.
+              and Visser, Willem},
+  title    = {A survey of new trends in symbolic execution for software testing and analysis},
+  journal  = {International Journal on Software Tools for Technology Transfer},
+  year     = {2009},
+  month    = {10},
+  day      = {01},
+  volume   = {11},
+  number   = {4},
+  pages    = {339-353},
+  abstract = {Symbolic execution is a well-known program analysis technique which represents program inputs with symbolic values instead of concrete, initialized, data and executes the program by manipulating program expressions involving the symbolic values. Symbolic execution has been proposed over three decades ago but recently it has found renewed interest in the research community, due in part to the progress in decision procedures, availability of powerful computers and new algorithmic developments. We provide here a survey of some of the new research trends in symbolic execution, with particular emphasis on applications to test generation and program analysis. We first describe an approach that handles complex programming constructs such as input recursive data structures, arrays, as well as multithreading. Furthermore, we describe recent hybrid techniques that combine concrete and symbolic execution to overcome some of the inherent limitations of symbolic execution, such as handling native code or availability of decision procedures for the application domain. We follow with a discussion of techniques that can be used to limit the (possibly infinite) number of symbolic configurations that need to be analyzed for the symbolic execution of looping programs. Finally, we give a short survey of interesting new applications, such as predictive testing, invariant inference, program repair, analysis of parallel numerical programs and differential symbolic execution.},
+  issn     = {1433-2787},
+  doi      = {10.1007/s10009-009-0118-1},
+  url      = {https://doi.org/10.1007/s10009-009-0118-1}
+}
+
+@article{DSETestGeneration,
+  title    = {State of the art: Dynamic symbolic execution for automated test generation},
+  journal  = {Future Generation Computer Systems},
+  volume   = {29},
+  number   = {7},
+  pages    = {1758-1773},
+  year     = {2013},
+  month    = {09},
+  note     = {Including Special sections: Cyber-enabled Distributed Computing for Ubiquitous Cloud and Network Services \& Cloud Computing and Scientific Applications — Big Data, Scalable Analytics, and Beyond},
+  issn     = {0167-739X},
+  doi      = {https://doi.org/10.1016/j.future.2012.02.006},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0167739X12000398},
+  author   = {Ting Chen and Xiao-song Zhang and Shi-ze Guo and Hong-yuan Li and Yue Wu},
+  keywords = {Dynamic symbolic execution, Automated test generation, Low false positives, High code-coverage, Challenges and solutions, Tools analysis, Prospects},
+  abstract = {Dynamic symbolic execution for automated test generation consists of instrumenting and running a program while collecting path constraint on inputs from predicates encountered in branch instructions, and of deriving new inputs from a previous path constraint by an SMT (Satisfiability Modulo Theories) solver in order to steer next executions toward new program paths. It has been introduced into several applications, such as automated test generation, automated filter generation and malware analysis mainly for its two intrinsic properties: low false positives and high code-coverage. In this paper, we focus on the topics that are closely related to automated test generation. Our contributions are five-fold. First, we summarize the theoretical foundation of dynamic symbolic execution. Second, we highlight the challenges when turning ideas into reality. Besides, we describe the state-of-the-art solutions including advantages and disadvantages for those challenges. In addition, twelve typical tools are analyzed and many properties of those tools are censused. Finally, we outline the prospects of this research field in detail.}
 }
