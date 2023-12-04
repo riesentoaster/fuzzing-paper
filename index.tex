@@ -60,8 +60,8 @@
     Ever since then, these fuzzing systems have become more sophisticated and different techniques have been integrated. However, certain characteristics remain similar between all fuzzing systems. They output some concrete input(s) and configurations that can then be used to reproduce the fuzzer's observation, allowing confirmation, reproduction, and debugging of the discovered issues.\cite{EvaluatingFuzzTesting} They automatically find well-defined bugs, such as assertion errors, divisions by zero, \code{NULL} pointer dereferences, etc.\cite{AllYouEverWanted}
 
     \subsubsection{Architecture of a Fuzzer}
-
-    Most systems contain similar parts responsible for the steps during the execution. These parts are explained below. Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzing system.
+    \label{ArchitectureFuzzer}
+    Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzer. Most fuzzers contain similar parts responsible for each step during the fuzzing process. These are explained below
 
     \paragraph{Target Program}
     The target program (also known as the program under test, or PUT) is the software to be tested. Different fuzzers have different requirements for the kind of PUT they support: Some require access to source code to add instrumentation during the compilation or because they work on a intermediate representation (IR), such as LLVM bytecode.
@@ -118,7 +118,7 @@
         \item Furthermore, review papers cited in review papers or primary works were added to list.
         \item Then, a selection of additional works were added to the list based on the author's intuition.
         \item Review papers that had a specific focus (such as machine learning in fuzzing\cite{ML1, ML2}) were disregarded.
-        \item Finally, works that focused on a specific use case for fuzzing, such as testing internet of things devices, network protocols, or JavaScript engines were disregarded. A list of these can be found in Appendix\ref{SpecificSurveyPapers}.
+        \item Finally, works that focused on a specific use case for fuzzing, such as testing internet of things or other embedded devices\cite{IoT, Embedded, Embedded2}, network protocols\cite{Network, Network2023}, smart contracts\cite{Ethereum}, or JavaScript engines\cite{JavaScript, JavaScript2} were disregarded.
     \end{itemize}
 
     \section{Related Work}
@@ -137,6 +137,9 @@
 
     \papertitle{ReviewThreeDecades}
     This survey paper, as the title suggests, focuses on symbolic execution. Starting with an explanation of classical symbolic execution, it then provides a list of issues that fuzzing tools based on symbolic execution face, along with attempts to mitigate those by adapting and extending the algorithms. Finally, the authors present five high-impact tools they worked on: DART\cite{DART}, CUTE\cite{CUTE}, CREST\cite{CREST}, EXE\cite{EXE}, and KLEE\cite{KLEE}.
+
+    \papertitle{Science}
+    After discussing the structure of fuzzing systems and different targets observed in literature and industry, this paper focuses on inventions of primary works along the structure of fuzzers. Symbolic execution is discussed in the context of the sample generator and the monitor (see Section\ref{ArchitectureFuzzer}). Discussed primary works include CUTE\cite{CUTE}, KLEE\cite{KLEE}, SAGE\cite{SAGE}, TaintScope\cite{TaintScope}, BuzzFuzz\cite{BuzzFuzz}, GWF\cite{GWF}, Dowser\cite{Dowser}, BORG\cite{BORG}, Driller\cite{Driller}, and MoWF\cite{MoWF}. It further contains a sizeable section comparing symbolic execution based fuzzing systems and their contributions.
 
     \papertitle{EvaluatingFuzzTesting}
     While not a classic survey paper, \citetitle{EvaluatingFuzzTesting} finds issues in how all 32 papers performed the evaluation of the system they introduced. It further proposes rules to follow to make an evaluation robust. Last, it contains a list of what advances each paper examined claims to introduce.
@@ -221,11 +224,13 @@
                   \item \textquote{we propose a novel approach called Fitnex, a search strategy that uses state-dependent fitness values (computed through a fitness function) to guide path exploration. The fitness function measures how close an already discovered feasible path is to a particular test target (e.g., covering a not-yet-covered branch)}\cite{Fitnex}
                   \item Weigh the approximate cost of executing a certain path against its demand, as done in QuickFuzz\cite{QuickFuzz}
                   \item Probabilistic approach: Use Monte Carlo path optimization to quantify the difficulty of each path using grey-box fuzzing to then let the white-box fuzzer focus on the paths that are believed to be most challenging for grey-box fuzzing to make progress.\cite{DigFuzz}
-                  \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, potential bugs according to UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} in SAVIOR\cite{SAVIOR} or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
+                  \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, potential bugs according to UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} in SAVIOR\cite{SAVIOR}, buffer over-reads in BORG\cite{BORG} or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
               \end{itemize}
         \item Pruning redundant paths (\textquote{if a program path reaches the same program point with the same symbolic constraints as a previously explored path, then this path will continue to execute exactly the same from that point on and thus can be discarded.}\cite{RWset}) Eliminating redundant paths by analyzing the values read and written by the program.
-        \item Similarly, MoWF\cite{MoWF} uses knowledge gained by its built-in blackbox fuzzer to prune invalid inputs and thus prevents its symbolic execution engine to get stuck in input checking and error handling code.
+        \item Similarly, MoWF\cite{MoWF} uses knowledge gained by its built-in blackbox fuzzer to prune invalid inputs and thus prevents its symbolic execution engine to get stuck in input checking and error handling code. CESE\cite{CESE} uses context-free grammars to limit its symbolic execution engine to interesting paths, as opposed to error handling during parsing.
+        \item State-merging to reduce the number of states in memory, as in KLEE\cite{KLEE}, Mayhem\cite{Mayhem}, S2E\cite{S2E}, and BORG\cite{BORG}
         \item Sharing among states/copy on write: KLEE\cite{KLEE}
+        \item Transfer state from memory to disk, as in Mayhem\cite{Mayhem}, BORG\cite{BORG}, and SAGE\cite{SAGE}
         \item Caching function summaries for later use by higher-level functions. Example: SMART\cite{SMART}
         \item Lazy test generation (as in LATEST\cite{LATEST})
         \item Static path merging (as in KLEE-FP\cite{KLEEFP})
@@ -239,6 +244,7 @@
     \begin{itemize}
         \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration. This is implemented, among others, in \cite{SAGE}.
         \item Identify independent sub-queries and solve them independently, as is done in EXE\cite{EXE} and KLEE\cite{KLEE}.
+        \item \textquote{loop-guard pattern matching rules to identify a constraint that defines the number of iterations of input-dependent loops during dynamic symbolic execution, then set new constraints representing the pre- and post-loop conditions to summarize sets of executions of that loop}\cite{Science}, as in SAGE\cite{SAGE} and BORG\cite{BORG}.
         \item Optimizing SMT queries before passing them to the solver. The optimization itself, however, can already be too complex to compute to employ this strategy effectively.
         \item Mocking and stubbing: Moles\cite{Moles}
         \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
@@ -256,11 +262,12 @@
               \end{itemize}
     \end{itemize}
 
-    \subsection{Memory Modelling}
+    \subsection{Modelling}
     Things like modelling \code{int}s as mathematical integers being imprecise since it ignores over-/underflows, and pointers being hard to deal with.
     \begin{itemize}
         \item Issue: Dereferencing symbolic pointer, as in pointer which can be influenced from the input.
               \begin{itemize}
+                  \item Separate pointer and integer constraints to still be able to argue about parts of the PUT, even when pointer constraints might be undecidable, as is done in CUTE\cite{CUTE}.
                   \item \textquote{A sound strategy is to consider it a load from any possible satisfying assignment for the expression.}\cite{AllYouEverWanted}
                   \item \textquote{Symbolic memory addresses can lead to aliasing issues even along a single execution path. A potential address alias occurs when two memory operations refer to the same address.}\cite{AllYouEverWanted}
                   \item (Potentially) unsound assumptions: optionally rewrite all memory addresses as scalars based on name, like Vine\cite{BitBlaze}
@@ -326,27 +333,12 @@
     \addcontentsline{toc}{section}{\bibname}
     \printbibliography
 
-    \renewcommand{\thesubsection}{\arabic{subsection}}
-    \renewcommand{\thesubsubsection}{\arabic{subsection}.\arabic{subsubsection}}
-    \setcounter{subsection}{0}
-    \setcounter{subsubsection}{0}
-    \section*{Appendix}
-    \addcontentsline{toc}{section}{Appendix}
-
-    \subsection{List of Survey Papers Focused on a Specific Use Case}
-    \label{SpecificSurveyPapers}
-    \begin{itemize}
-        \item \paperlistentry{Network}
-        \item \paperlistentry{JavaScript2}
-        \item \paperlistentry{IoT}
-        \item \paperlistentry{Firmware}
-        \item \paperlistentry{JavaScript}
-        \item \paperlistentry{Ethereum}
-        \item \paperlistentry{Embedded2}
-        \item \paperlistentry{Embedded}
-        \item \paperlistentry{Network2023}
-    \end{itemize}
-
+    % \renewcommand{\thesubsection}{\arabic{subsection}}
+    % \renewcommand{\thesubsubsection}{\arabic{subsection}.\arabic{subsubsection}}
+    % \setcounter{subsection}{0}
+    % \setcounter{subsubsection}{0}
+    % \section*{Appendix}
+    % \addcontentsline{toc}{section}{Appendix}
 \end{multicols}
 
 \end{document}
