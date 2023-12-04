@@ -22,7 +22,7 @@
     \section{Introduction}
     In 2022, the cost of poor software quality was estimated to be more than \$2.4 trillion in the US alone.\cite{CostPoorSoftware} Individual cyber attacks have had an estimated financial impact of up to \$8 billion worldwide.\cite{Demystifying} Testing software accounts for approximately 50\% of development costs\cite{DART}, but it is typically a mostly manual process\cite{PreliminaryAssessment}. Because manual testing requires many developer hours with in-depth knowledge of the system being tested, it does not scale well. Automated testing promises to be more cost effective in finding software defects and has therefore become the most popular vulnerability discovery solution, especially in the industry.\cite{FuzzingASurvey}
 
-    One such automated vulnerability and bug testing technique is fuzzing.\cite{VulnerabilityDiscoveryTechniques} In the seminal work by \citeauthor{UNIX} in \citeyear{UNIX}, the term \textquote{fuzz} is defined as a program that \textquote{generates a stream of random characters to be consumed by a target program}\cite{UNIX}. Since then, a rich ecosystem of fuzzing systems has developed in both industry and academia, taking design inspiration from a wide variety of software engineering concepts, and combining them into programs that generate various concrete inputs, which are then repeatedly fed into a particular program under test (PUT), and then check the program for illegal states or crashes.\cite{EvaluatingFuzzTesting}
+    One such automated vulnerability and bug testing technique is fuzzing.\cite{VulnerabilityDiscoveryTechniques} In the seminal work by \citeauthor{UNIX} in \citeyear{UNIX}, the term \textquote{fuzz} is defined as a program that \textquote{generates a stream of random characters to be consumed by a target program}\cite{UNIX}. Since then, a rich ecosystem of fuzzing systems has emerged in both industry and academia, taking design inspiration from a wide variety of software engineering concepts. These are combined into programs that generate various concrete inputs, which are then repeatedly fed into a particular program under test (PUT), and check the program for illegal states or crashes.\cite{EvaluatingFuzzTesting}
 
     Fuzzing is widely used in industry, with major technology companies and government agencies such as Google, Microsoft, the US Department of Defense, Cisco and Adobe developing proprietary fuzzers and contributing to open source fuzzers. These are then used to great effect, with Google alone finding 20,000 vulnerabilities in Chrome alone using fuzz testing.\cite{Demystifying}
 
@@ -31,12 +31,13 @@
     Over the past decades, many fuzzers\cite{BitBlaze,CORAL,CREST,CUTE,CVC5,CVCLite,Chopped,Cyberdyne,DART,DTSA,DiSE,DigFuzz,Dowser,Driller,EGT,EXE,Fitnex,FloPSy,GRT,GSE,HCT,HFL,IFL,Intriguer,JFI,KATCH,KLEE,KLEEFP,LATEST,MoWF,Moles,PYGMALION,Pangolin,Pex,QSYM,QuickFuzz,RWset,SAGE,SAVIOR,SMART,SPIN,STP,ScalableAutomatedMethods,TFuzz,TaintScope,VUzzer} have employed symbolic execution based techniques, with great success: SAGE\cite{SAGE} \textquote{reportedly found a third of the Windows 7 bugs between 2007-2009}\cite{FuzzingTheStateOfTheArt}.
 
     Since the academic research in this area is vast, existing reviews are used to filter the work on the topic at hand to the most important. The following contributions are made on this basis:
+
     \begin{itemize}
-        \item First, the theoretical principles behind fuzzing and symbolic execution are explained in section\ref{Theory}.
-        \item Second, the author explains their reasoning behind using existing survey papers to base this work on in section\ref{Methods}.
-        \item Third, an overview of existing survey papers investigating the state of fuzzing is given in section\ref{SurveyPapers}, along with a short summary of each paper.
-        \item Forth, the challenges fuzzing tools face in implementing symbolic execution techniques, and attempts to mitigate each of them, are listed along with examples of works that implement them in section\ref{Results}.
-        \item Finally, limitations and possible additions to this work are discussed in section\ref{Discussion}.
+        \item First, the theoretical principles behind fuzzing and symbolic execution are explained in Section\ref{Theory}.
+        \item Second, Section\ref{Methods} explains the reasoning behind using existing survey papers to base this work on.
+        \item Third, an overview of existing survey papers investigating the state of fuzzing is given in Section\ref{SurveyPapers}, along with a short summary of each paper.
+        \item Fourth, the challenges fuzzing tools face in implementing symbolic execution techniques, and attempts to mitigate each of them, are listed along with examples of works that implement them in Section\ref{Results}.
+        \item Finally, limitations and possible additions to this work are discussed in Section\ref{Discussion}.
     \end{itemize}
 
     \section{Theoretical Principles}
@@ -46,7 +47,7 @@
 
     \subsection{Fuzzing}
 
-    \citeauthor{UNIX} both invented the term and layed the foundation for fuzzing. They observed that, during a stormy night, lightning strikes would introduce interference in their dial-up based communication channel to a UNIX system, which changed the intended inputs and crashed the tools they were using. They then attempted to reproduce this systematically by repeatedly running tools with random inputs containing printable, non-printable and \code{NULL} bytes. On different UNIX systems, they were able to crash between 25 and 30\% of all tested utility programs.\cite{UNIX}
+    \citeauthor{UNIX} in \citeyear{UNIX} both invented the term and laid the foundation for fuzzing. They observed that, during a stormy night, lightning strikes would introduce interference in their dial-up based communication channel to a UNIX system, which changed the intended inputs and crashed the tools they were using. They then attempted to reproduce this systematically by repeatedly running tools with random inputs containing a combination of printable, non-printable and \code{NULL} bytes. On different UNIX systems, they were able to crash between 25 and 30\% of all tested utility programs.\cite{UNIX}
 
     \begin{figure*}[!tp]
         \centering
@@ -55,47 +56,52 @@
         \label{fig:FuzzingSteps}
     \end{figure*}
 
-    Ever since then, these fuzzing systems have become more sophisticated and different techniques have been integrated. However, certain characteristics remain similar between all fuzzing systems. They output some concrete input(s) and configurations that can then be used to reproduce the observation, allowing confirmation, reproduction, and debugging of the discovered issues.\cite{EvaluatingFuzzTesting} They automatically find well-defined bugs, such as assertion errors, divisions by zero, NULL pointer dereferences, etc.\cite{AllYouEverWanted} Further, most systems contain similar parts responsible for the steps during the execution. Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzing system.
+    \subsubsection{Similarities Across Fuzzers}
+    Ever since then, these fuzzing systems have become more sophisticated and different techniques have been integrated. However, certain characteristics remain similar between all fuzzing systems. They output some concrete input(s) and configurations that can then be used to reproduce the fuzzer's observation, allowing confirmation, reproduction, and debugging of the discovered issues.\cite{EvaluatingFuzzTesting} They automatically find well-defined bugs, such as assertion errors, divisions by zero, \code{NULL} pointer dereferences, etc.\cite{AllYouEverWanted}
 
-    \subsubsection{Target Program}
+    \subsubsection{Architecture of a Fuzzer}
+
+    Most systems contain similar parts responsible for the steps during the execution. These parts are explained below. Figure\ref{fig:FuzzingSteps} shows the architecture of a typical fuzzing system.
+
+    \paragraph{Target Program}
     The target program (also known as the program under test, or PUT) is the software to be tested. Different fuzzers have different requirements for the kind of PUT they support: Some require access to source code to add instrumentation during the compilation or because they work on a intermediate representation (IR), such as LLVM bytecode.
 
-    \subsubsection{Bug Detector}
+    \paragraph{Bug Detector}
     The bug detector observes the PUT during execution for illegal states. The simplest implementations trigger on program crashes, more sophisticated bug detectors might check if certain protected parts of the PUT are accessed, for example to check the authentication implemented.
 
-    \subsubsection{Bug Filter}
+    \paragraph{Bug Filter}
     The list of inputs that put a PUT into an illegal state may contain duplicates, in a sense that the exploit the same software defect. The bug filter attempts to deduplicate this list based on some heuristics like the order basic blocks were executed in or stack hashes.
 
-    \subsubsection{Test Case Generator}
+    \paragraph{Test Case Generator}
     The test case generator's job is to generate and select the next input to be tested. Based on the test case generator, fuzzing systems can be categorized as either mutation-based or generation-based. Mutation-based fuzzers take some input to the PUT as their input, and then repeatedly mutate those if the results produce \textquote{interesting} behavior\cite{EvaluatingFuzzTesting}.
 
     The prioritization is either done randomly or based on some heuristic, which assign each possible next input a value used to select the next input to be passed to the delivery module. Heuristics often take into account information produced by the monitor like coverage or distance to target instructions. These approaches can further be combined, e.g. by alternating random and heuristic-based input selection.
 
-    \subsubsection{Delivery Module}
+    \paragraph{Delivery Module}
     The delivery module is responsible to pass the generated test case to the PUT in the expected form and trigger the actual execution. This might be as simple as starting a command line utility with certain command line arguments, but might also include creating files that are accessed by the PUT or even emulating user interaction.
 
-    \subsubsection{Monitor}
+    \paragraph{Monitor}
     Fuzzing systems can further be classified based on how much access the monitor module has to the PUT. Blackbox fuzzers make a single observation: whether or not the PUT crashed. Graybox fuzzers have limited access to the PUT during execution. Typical information extracted by graybox fuzzers includes which basic blocks were executed in what order, or generally code coverage based on instruction, basic block, or statement. Whitebox fuzzers have full access to the PUT and allow for sophisticated reasoning about the program structure. Systems that employ taint analysis or symbolic execution are categorized as whitebox fuzzers, since they deeply examine the program structure during their analysis. Different systems make different tradeoffs, accepting higher analysis cost, in the hope of better bug-finding effectiveness.\cite{EvaluatingFuzzTesting}
 
-    \subsubsection{Static Analyizer}
+    \paragraph{Static Analyizer}
     The static analyzer, as its name suggests, attempts to extract information by statically examining the PUT's source code, IR or binary. Such information might include grammars accepted by the PUT or program paths deemed high-risk.
 
     \subsection{Symbolic Execution}
-    The concept of symbolic execution in the context of program testing was introduced in \citeyear{Symbex} by \citeauthor{Symbex}.\cite{Symbex} By not executing a PUT with concrete values (such as the number \code{23} or the string \code{"Hello World!"}) but instead modelling certain or all values with mathematical variables, it allows to explore all possible paths of a program. Different engines (such as angr\cite{angr} or Triton\cite{Triton}) allow performing symbolic execution on source code, an IR, or a binary of a PUT.
+    The concept of symbolic execution in the context of program testing was introduced in \citeyear{Symbex} by \citeauthor{Symbex}.\cite{Symbex} By not executing a PUT with concrete values (such as the number \code{23} or the string \code{"Hello World!"}) but instead modelling certain or all values with mathematical variables, it allows exploring all possible paths of a program. Different engines (such as angr\cite{angr} or Triton\cite{Triton}) allow performing symbolic execution on source code, an IR, or a binary of a PUT.
 
     \subsubsection{Performing Symbolic Execution}
-    During execution of a certain program, with each instruction, a symbolic execution engine computes and updates the so-called symbolic state. It contains:
+    During execution of a certain program, with each instruction a symbolic execution engine computes and updates the so-called symbolic state. It contains:
     \begin{itemize}
         \item the inputs marked as symbolic as symbols $\alpha_i$,
         \item the symbolic expression store $\sigma$, which in turn contains
         \item symbolic expressions $\phi_j$, which are either a reference to a symbol $\alpha_i$, or an arithmetic combination of symbolic expressions, such as $\phi_j=\phi_k-\phi_l$, and finally
-        \item the path constraint $\pi$, which is the conjunction of all branch constraints, which are the conditions on symbolic expressions to end up at a certain point in the program, such as $\phi_1\leq2$ and $\phi_2=\phi_3$.
+        \item the path constraint $\pi$, which is the conjunction of all branch constraints, which are the conditions on symbolic expressions to end up at a certain point in the program, such as $\phi_1\leq2$ or $\phi_2=\phi_3\land\phi_4=3$.
     \end{itemize}
 
-    During execution, the symbolic state is changed according to the specific instruction currently executed. If it performs some form of manipulation on existing data, this is represented by adding new symbolic expressions to the symbolic store. If a branch is (not) taken based on a check on variables or registers containing symbolic expressions, the path constraint is amended with an appropriate condition. The exploration of a program can follow different heuristics, such as breath- or depth-first search.
+    During execution, the symbolic state is changed according to the specific instruction currently executed. If it performs some form of manipulation on existing data, this is represented by adding new symbolic expressions to the symbolic store. If a branch is (not) taken based on a check on variables or registers containing symbolic expressions, the path constraint is extended with an appropriate condition. The exploration of a program can follow different heuristics, such as breath- or depth-first search.
 
-    \subsubsection{Categoryzing Symbolic Execution Implementations}
-    Symbolic execution implementations can be categorized in several ways: Where static dynamic execution exclusively and exhaustively performs the process described above, dynamic (or concolic, a portmanteau of concrete and symbolic) symbolic execution executes a program symbolically and with concrete values in parallel.
+    \subsubsection{Categorizing Symbolic Execution Implementations}
+    Symbolic execution implementations can be categorized in several ways: Where static dynamic execution exclusively and exhaustively performs the process described above, dynamic (or concolic, a portmanteau of \textquote{concrete} and \textquote{symbolic}) symbolic execution executes a program symbolically and with concrete values in parallel.
 
     Online symbolic execution allows calculating multiple paths in parallel, while offline symbolic execution examines one path after the other. Finally, one can distinguish between partial and full symbolic execution, where only a part, or all the variable, and therefore calculation is done symbolically.\cite{Ghidrion}
 
@@ -115,7 +121,7 @@
         \item Finally, works that focused on a specific use case for fuzzing, such as testing internet of things devices, network protocols, or JavaScript engines were disregarded. A list of these can be found in Appendix\ref{SpecificSurveyPapers}.
     \end{itemize}
 
-    \section{Survey Papers}
+    \section{Related Work}
     \label{SurveyPapers}
 
     This section summarizes contributions of existing survey papers selected as described in Section\ref{Methods} and lists relevant primary works discussed in each. Primary works mentioned without discussion are omitted.
