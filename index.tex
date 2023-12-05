@@ -317,15 +317,29 @@
     \section{Discussion and Future Work}
     \label{Discussion}
     \subsection{Future Work}
-    \begin{itemize}
-        \item Look at author overlap between the survey papers and influential primary papers to guide which review papers seem important (if you independently collect primary papers), if survey paper authors overemphasize their own contributions and maybe even miss other important developments
-        \item History and composition of systems: Which influenced which, which builds on top of/extends which, etc.
-    \end{itemize}
+    This work marks only the beginning of what information can be extracted from the combination of review papers and primary works discussed in this work or even in this field in general. What follows is a list of ideas for further analyses.
 
     \subsubsection{Additional Review Papers to Consider}
     Section\ref{Methods} mentions different criteria, according to which survey papers were excluded from this work. However, they might still contain important information missed by excluding them. Specifically, certain works\cite{DSETestGeneration, SurveySymbex, SearchStrategies, NewTrendsSymbex} focus on symbolic execution based software testing, but do not focus on fuzzing.
 
     \subsubsection{Bibliometry}
+    Survey papers might collectively be a good way to measure the importance of primary papers. By carefully selecting survey papers, looking at their bibliography, and counting how often each primary paper appears, one could get a measurement of importance for each. To ensure fairness, the scores would need to be weighted based on how many review papers were written after their publication date.
+
+    Compared to examining the bibliographies of primary papers, works which introduced a new technique copied or adapted by many subsequent works would likely be less heavily weighted. This would skew the results to works highly influential based on their outcomes and ongoing development, not only the techniques they introduced.
+
+    By doing time-based analysis, one might even be able to distinguish between works that are still relevant today, as opposed to works which were made redundant soon after their publication by other works implementing the same approach more successfully.
+
+    Finally, analyzing the context, in which a certain citation appears might further improve accuracy of a bibliometric score of the importance of a primary work. If it is only mentioned, it could be deemed less important compared to if it is discussed extensively. Instead of complex linguistic analysis, counting how often a source is cited or examining the section they appear in might serve as an imperfect but easier to implement substitution.
+
+    \subsubsection{Author Analysis}
+    While reading the survey papers discussed in Section\ref{SurveyPapers}, one thing that became apparent is that some review papers were (co-)written by authors of important primary works. One example is Cristian Cadar, who is the author of EXE\cite{EXE}, KLEE\cite{KLEE}, KLEE-FP\cite{KLEEFP} RWset\cite{RWset}, KATCH\cite{KATCH}, EGT\cite{EGT}, Chopped\cite{Chopped}, and JFI\cite{JFI} and co-wrote review papers\cite{ReviewThreeDecades, ChallengesAndReflections, PreliminaryAssessment}.
+
+    This is to be expected, since these authors already know the matter at hand very well. But it might also mean that their own work is over-represented in the review papers they helped assemble. By investigating this relationship, one might gain insight into how easy or hard it is to gain recognition as authors new to this field. It may also serve as a measure of how likely it is that innovative works by new authors are missed by review papers.
+
+    \subsubsection{Genealogy}
+    Since most works discussed in this paper introduce improvements in a specific part of a fuzzing system, they often rely on an existing system for the rest and extend it. One example is PYGMALION\cite{PYGMALION} and KATCH\cite{KATCH} building on top of KLEE\cite{KLEE}.
+
+    Building a genealogy tree from the primary works discussed might provide a list of highly adaptable and stable projects, which might in turn be better suitable for deployment in commercial applications.
 
     \newpage
     \defbibheading{bibliography}[\bibname]{\section*{#1}}
