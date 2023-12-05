@@ -445,6 +445,8 @@
   author    = {Klees, George and Ruef, Andrew and Cooper, Benji and Wei, Shiyi and Hicks, Michael},
   title     = {Evaluating Fuzz Testing},
   year      = {2018},
+  month     = {10},
+  day       = {15},
   isbn      = {9781450356930},
   publisher = {Association for Computing Machinery},
   address   = {New York, NY, USA},
@@ -2395,4 +2397,155 @@
   author   = {Ting Chen and Xiao-song Zhang and Shi-ze Guo and Hong-yuan Li and Yue Wu},
   keywords = {Dynamic symbolic execution, Automated test generation, Low false positives, High code-coverage, Challenges and solutions, Tools analysis, Prospects},
   abstract = {Dynamic symbolic execution for automated test generation consists of instrumenting and running a program while collecting path constraint on inputs from predicates encountered in branch instructions, and of deriving new inputs from a previous path constraint by an SMT (Satisfiability Modulo Theories) solver in order to steer next executions toward new program paths. It has been introduced into several applications, such as automated test generation, automated filter generation and malware analysis mainly for its two intrinsic properties: low false positives and high code-coverage. In this paper, we focus on the topics that are closely related to automated test generation. Our contributions are five-fold. First, we summarize the theoretical foundation of dynamic symbolic execution. Second, we highlight the challenges when turning ideas into reality. Besides, we describe the state-of-the-art solutions including advantages and disadvantages for those challenges. In addition, twelve typical tools are analyzed and many properties of those tools are censused. Finally, we outline the prospects of this research field in detail.}
+}
+
+@article{ViolatingAssumptionsWithFuzzing,
+  author  = {Oehlert, P.},
+  journal = {IEEE Security \& Privacy},
+  title   = {Violating assumptions with fuzzing},
+  year    = {2005},
+  volume  = {3},
+  number  = {2},
+  pages   = {58-62},
+  doi     = {10.1109/MSP.2005.55}
+}
+
+@inproceedings{10.1145/1993498.1993529,
+  author    = {Godefroid, Patrice},
+  title     = {Higher-Order Test Generation},
+  year      = {2011},
+  isbn      = {9781450306638},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/1993498.1993529},
+  doi       = {10.1145/1993498.1993529},
+  abstract  = {Symbolic reasoning about large programs is bound to be imprecise. How to deal with this imprecision is a fundamental problem in program analysis. Imprecision forces approximation. Traditional static program verification builds "may" over-approximations of the program behaviors to check universal "for-all-paths" properties, while automatic test generation requires "must" under-approximations to check existential "for-some-path" properties.In this paper, we introduce a new approach to test generation where tests are derived from validity proofs of first-order logic formulas, rather than satisfying assignments of quantifier-free first-order logic formulas as usual. Two key ingredients of this higher-order test generation are to (1) represent complex/unknown program functions/instructions causing imprecision in symbolic execution by uninterpreted functions, and (2) record uninterpreted function samples capturing input-output pairs observed at execution time for those functions. We show that higher-order test generation generalizes and is more precise than simplifying complex symbolic expressions using their concrete runtime values. We present several program examples where our approach can exercise program paths and find bugs missed by previous techniques. We discuss the implementability and applications of this approach. We also explain in what sense dynamic test generation is more powerful than static test generation.},
+  booktitle = {Proceedings of the 32nd ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages     = {258–269},
+  numpages  = {12},
+  keywords  = {automatic test generation, software model checking, uninterpreted functions},
+  location  = {San Jose, California, USA},
+  series    = {PLDI '11}
+}
+
+@article{HigherOrderTestGeneration,
+  author     = {Godefroid, Patrice},
+  title      = {Higher-Order Test Generation},
+  year       = {2011},
+  issue_date = {June 2011},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {46},
+  number     = {6},
+  issn       = {0362-1340},
+  url        = {https://doi.org/10.1145/1993316.1993529},
+  doi        = {10.1145/1993316.1993529},
+  abstract   = {Symbolic reasoning about large programs is bound to be imprecise. How to deal with this imprecision is a fundamental problem in program analysis. Imprecision forces approximation. Traditional static program verification builds "may" over-approximations of the program behaviors to check universal "for-all-paths" properties, while automatic test generation requires "must" under-approximations to check existential "for-some-path" properties.In this paper, we introduce a new approach to test generation where tests are derived from validity proofs of first-order logic formulas, rather than satisfying assignments of quantifier-free first-order logic formulas as usual. Two key ingredients of this higher-order test generation are to (1) represent complex/unknown program functions/instructions causing imprecision in symbolic execution by uninterpreted functions, and (2) record uninterpreted function samples capturing input-output pairs observed at execution time for those functions. We show that higher-order test generation generalizes and is more precise than simplifying complex symbolic expressions using their concrete runtime values. We present several program examples where our approach can exercise program paths and find bugs missed by previous techniques. We discuss the implementability and applications of this approach. We also explain in what sense dynamic test generation is more powerful than static test generation.},
+  journal    = {SIGPLAN Not.},
+  month      = {06},
+  pages      = {258–269},
+  numpages   = {12},
+  keywords   = {uninterpreted functions, software model checking, automatic test generation}
+}
+
+@inproceedings{10.1145/2254064.2254088,
+  author    = {Kuznetsov, Volodymyr and Kinder, Johannes and Bucur, Stefan and Candea, George},
+  title     = {Efficient State Merging in Symbolic Execution},
+  year      = {2012},
+  isbn      = {9781450312059},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2254064.2254088},
+  doi       = {10.1145/2254064.2254088},
+  abstract  = {Symbolic execution has proven to be a practical technique for building automated test case generation and bug finding tools. Nevertheless, due to state explosion, these tools still struggle to achieve scalability. Given a program, one way to reduce the number of states that the tools need to explore is to merge states obtained on different paths. Alas, doing so increases the size of symbolic path conditions (thereby stressing the underlying constraint solver) and interferes with optimizations of the exploration process (also referred to as search strategies). The net effect is that state merging may actually lower performance rather than increase it.We present a way to automatically choose when and how to merge states such that the performance of symbolic execution is significantly increased. First, we present query count estimation, a method for statically estimating the impact that each symbolic variable has on solver queries that follow a potential merge point; states are then merged only when doing so promises to be advantageous. Second, we present dynamic state merging, a technique for merging states that interacts favorably with search strategies in automated test case generation and bug finding tools.Experiments on the 96 GNU Coreutils show that our approach consistently achieves several orders of magnitude speedup over previously published results. Our code and experimental data are publicly available at http://cloud9.epfl.ch.},
+  booktitle = {Proceedings of the 33rd ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages     = {193–204},
+  numpages  = {12},
+  keywords  = {testing, symbolic execution, verification, state merging, bounded software model checking},
+  location  = {Beijing, China},
+  series    = {PLDI '12}
+}
+
+@article{Cloud9,
+  author     = {Kuznetsov, Volodymyr and Kinder, Johannes and Bucur, Stefan and Candea, George},
+  title      = {Efficient State Merging in Symbolic Execution},
+  year       = {2012},
+  issue_date = {June 2012},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {47},
+  number     = {6},
+  issn       = {0362-1340},
+  url        = {https://doi.org/10.1145/2345156.2254088},
+  doi        = {10.1145/2345156.2254088},
+  abstract   = {Symbolic execution has proven to be a practical technique for building automated test case generation and bug finding tools. Nevertheless, due to state explosion, these tools still struggle to achieve scalability. Given a program, one way to reduce the number of states that the tools need to explore is to merge states obtained on different paths. Alas, doing so increases the size of symbolic path conditions (thereby stressing the underlying constraint solver) and interferes with optimizations of the exploration process (also referred to as search strategies). The net effect is that state merging may actually lower performance rather than increase it.We present a way to automatically choose when and how to merge states such that the performance of symbolic execution is significantly increased. First, we present query count estimation, a method for statically estimating the impact that each symbolic variable has on solver queries that follow a potential merge point; states are then merged only when doing so promises to be advantageous. Second, we present dynamic state merging, a technique for merging states that interacts favorably with search strategies in automated test case generation and bug finding tools.Experiments on the 96 GNU Coreutils show that our approach consistently achieves several orders of magnitude speedup over previously published results. Our code and experimental data are publicly available at http://cloud9.epfl.ch.},
+  journal    = {SIGPLAN Not.},
+  month      = {06},
+  pages      = {193–204},
+  numpages   = {12},
+  keywords   = {testing, verification, state merging, symbolic execution, bounded software model checking}
+}
+
+
+@inproceedings{APLS,
+  author    = {Godefroid, Patrice and Luchaup, Daniel},
+  title     = {Automatic Partial Loop Summarization in Dynamic Test Generation},
+  year      = {2011},
+  isbn      = {9781450305624},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2001420.2001424},
+  doi       = {10.1145/2001420.2001424},
+  abstract  = {Whitebox fuzzing extends dynamic test generation based on symbolic execution and constraint solving from unit testing to whole-application security testing. Unfortunately, input-dependent loops may cause an explosion in the number of constraints to be solved and in the number of execution paths to be explored. In practice, whitebox fuzzers arbitrarily bound the number of constraints and paths due to input-dependent loops, at the risk of missing code and bugs.In this work, we investigate the use of simple loop-guard pattern-matching rules to automatically guess an input constraint defining the number of iterations of input-dependent loops during dynamic symbolic execution. We discover the loop structure of the program on the fly, detect induction variables, which are variables modified by a constant value during loop iterations, and infer simple partial loop invariants relating the value of such variables. Whenever a guess is confirmed later during the current dynamic symbolic execution, we then inject new constraints representing pre and post loop conditions, effectively summarizing sets of executions of that loop. These pre and post conditions are derived from partial loop invariants synthesized dynamically using pattern-matching rules on the loop guards and induction variables, without requiring any static analysis, theorem proving, or input-format specification. This technique has been implemented in the whitebox fuzzer SAGE, scales to large programs with many nested loops, and we present results of experiments with a Windows 7 image parser.},
+  booktitle = {Proceedings of the 2011 International Symposium on Software Testing and Analysis},
+  pages     = {23–33},
+  numpages  = {11},
+  keywords  = {program summarization, program testing and verification, loop invariant generation},
+  location  = {Toronto, Ontario, Canada},
+  series    = {ISSTA '11}
+}
+
+@inproceedings{DeepFuzz,
+  author    = {B{\"o}ttinger, Konstantin
+               and Eckert, Claudia},
+  editor    = {Caballero, Juan
+               and Zurutuza, Urko
+               and Rodr{\'i}guez, Ricardo J.},
+  title     = {DeepFuzz: Triggering Vulnerabilities Deeply Hidden in Binaries},
+  booktitle = {Detection of Intrusions and Malware, and Vulnerability Assessment},
+  year      = {2016},
+  publisher = {Springer International Publishing},
+  address   = {Cham},
+  pages     = {25--34},
+  abstract  = {We introduce a new method for triggering vulnerabilities in deep layers of binary executables and facilitate their exploitation. In our approach we combine dynamic symbolic execution with fuzzing techniques. To maximize both the execution path depth and the degree of freedom in input parameters for exploitation, we define a novel method to assign probabilities to program paths. Based on this probability distribution we apply new path exploration strategies. This facilitates payload generation and therefore vulnerability exploitation.},
+  isbn      = {978-3-319-40667-1}
+}
+
+@inproceedings{TCR,
+  author    = {Zhang, Chaoqiang and Groce, Alex and Alipour, Mohammad Amin},
+  title     = {Using Test Case Reduction and Prioritization to Improve Symbolic Execution},
+  year      = {2014},
+  isbn      = {9781450326452},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2610384.2610392},
+  doi       = {10.1145/2610384.2610392},
+  abstract  = {Scaling symbolic execution to large programs or programs with complex inputs remains difficult due to path explosion and complex constraints, as well as external method calls. Additionally, creating an effective test structure with symbolic inputs can be difficult. A popular symbolic execution strategy in practice is to perform symbolic execution not “from scratch” but based on existing test cases. This paper proposes that the effectiveness of this approach to symbolic execution can be enhanced by (1) reducing the size of seed test cases and (2) prioritizing seed test cases to maximize exploration efficiency. The proposed test case reduction strategy is based on a recently introduced generalization of delta debugging, and our prioritization techniques include novel methods that, for this purpose, can outperform some traditional regression testing algorithms. We show that applying these methods can significantly improve the effectiveness of symbolic execution based on existing test cases.},
+  booktitle = {Proceedings of the 2014 International Symposium on Software Testing and Analysis},
+  pages     = {160–170},
+  numpages  = {11},
+  keywords  = {Symbolic execution, Test prioritization, Test case reduction},
+  location  = {San Jose, CA, USA},
+  series    = {ISSTA 2014}
+}
+
+@inproceedings{CRAXfuzz,
+  author    = {Yeh, Chao-Chun and Chung, Hsiang and Huang, Shih-Kun},
+  booktitle = {2015 IEEE 39th Annual Computer Software and Applications Conference},
+  title     = {CRAXfuzz: Target-Aware Symbolic Fuzz Testing},
+  year      = {2015},
+  volume    = {2},
+  number    = {},
+  pages     = {460-471},
+  doi       = {10.1109/COMPSAC.2015.99}
 }
