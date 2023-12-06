@@ -2549,3 +2549,233 @@
   pages     = {460-471},
   doi       = {10.1109/COMPSAC.2015.99}
 }
+
+@inproceedings{Yices,
+  author    = {Dutertre, Bruno
+               and de Moura, Leonardo},
+  editor    = {Ball, Thomas
+               and Jones, Robert B.},
+  title     = {A Fast Linear-Arithmetic Solver for DPLL(T)},
+  booktitle = {Computer Aided Verification},
+  year      = {2006},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {81--94},
+  abstract  = {We present a new Simplex-based linear arithmetic solver that can be integrated efficiently in the DPLL(T) framework. The new solver improves over existing approaches by enabling fast backtracking, supporting a priori simplification to reduce the problem size, and providing an efficient form of theory propagation. We also present a new and simple approach for solving strict inequalities. Experimental results show substantial performance improvements over existing tools that use other Simplex-based solvers in DPLL(T) decision procedures. The new solver is even competitive with state-of-the-art tools specialized for the difference logic fragment.},
+  isbn      = {978-3-540-37411-4}
+}
+
+@article{10.1145/1353535.1346322,
+  author     = {Castro, Miguel and Costa, Manuel and Martin, Jean-Philippe},
+  title      = {Better Bug Reporting with Better Privacy},
+  year       = {2008},
+  issue_date = {March 2008},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {42},
+  number     = {2},
+  issn       = {0163-5980},
+  url        = {https://doi.org/10.1145/1353535.1346322},
+  doi        = {10.1145/1353535.1346322},
+  abstract   = {Software vendors collect bug reports from customers to improve the quality of their software. These reports should include the inputs that make the software fail, to enable vendors to reproduce the bug. However, vendors rarely include these inputs in reports because they may contain private user data. We describe a solution to this problem that provides software vendors with new input values that satisfy the conditions required to make the software follow the same execution path until it fails, but are otherwise unrelated with the original inputs. These new inputs allow vendors to reproduce the bug while revealing less private information than existing approaches. Additionally, we provide a mechanism to measure the amount of information revealed in an error report. This mechanism allows users to perform informed decisions on whether or not to submit reports. We implemented a prototype of our solution and evaluated it with real errors in real programs. The results show that we can produce error reports that allow software vendors to reproduce bugs while revealing almost no private information.},
+  journal    = {SIGOPS Oper. Syst. Rev.},
+  month      = {03},
+  pages      = {319–328},
+  numpages   = {10},
+  keywords   = {symbolic execution, bug reports, privacy, constraint solving}
+}
+
+@inproceedings{BBRBP,
+  author    = {Castro, Miguel and Costa, Manuel and Martin, Jean-Philippe},
+  title     = {Better Bug Reporting with Better Privacy},
+  year      = {2008},
+  isbn      = {9781595939586},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/1346281.1346322},
+  doi       = {10.1145/1346281.1346322},
+  abstract  = {Software vendors collect bug reports from customers to improve the quality of their software. These reports should include the inputs that make the software fail, to enable vendors to reproduce the bug. However, vendors rarely include these inputs in reports because they may contain private user data. We describe a solution to this problem that provides software vendors with new input values that satisfy the conditions required to make the software follow the same execution path until it fails, but are otherwise unrelated with the original inputs. These new inputs allow vendors to reproduce the bug while revealing less private information than existing approaches. Additionally, we provide a mechanism to measure the amount of information revealed in an error report. This mechanism allows users to perform informed decisions on whether or not to submit reports. We implemented a prototype of our solution and evaluated it with real errors in real programs. The results show that we can produce error reports that allow software vendors to reproduce bugs while revealing almost no private information.},
+  booktitle = {Proceedings of the 13th International Conference on Architectural Support for Programming Languages and Operating Systems},
+  pages     = {319–328},
+  numpages  = {10},
+  keywords  = {constraint solving, symbolic execution, bug reports, privacy},
+  location  = {Seattle, WA, USA},
+  series    = {ASPLOS XIII}
+}
+
+@inproceedings{AGLT,
+  author    = {Zhang, Pingyu and Elbaum, Sebastian and Dwyer, Matthew B.},
+  booktitle = {2011 26th IEEE/ACM International Conference on Automated Software Engineering (ASE 2011)},
+  title     = {Automatic generation of load tests},
+  year      = {2011},
+  volume    = {},
+  number    = {},
+  pages     = {43-52},
+  doi       = {10.1109/ASE.2011.6100093}
+}
+
+@inproceedings{Darwin,
+  author    = {Qi, Dawei and Roychoudhury, Abhik and Liang, Zhenkai and Vaswani, Kapil},
+  title     = {Darwin: An Approach for Debugging Evolving Programs},
+  year      = {2009},
+  isbn      = {9781605580012},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/1595696.1595704},
+  doi       = {10.1145/1595696.1595704},
+  abstract  = {Debugging refers to the laborious process of finding causes of program failures. Often, such failures are introduced when a program undergoes changes and evolves from a stable version to a new, modified version. In this paper, we propose an automated approach for debugging evolving programs. Given two programs (a reference, stable program and a new, modified program) and an input that fails on the modified program, our approach uses concrete as well as symbolic execution to synthesize new inputs that differ marginally from the failing input in their control flow behavior. A comparison of the execution traces of the failing input and the new inputs provides critical clues to the root-cause of the failure. A notable feature of our approach is that it handles hard-to-explain bugs like code missing errors by pointing to the relevant code in the reference program. We have implemented our approach in a tool called DARWIN. We have conducted experiments with several real-life case studies, including real-world web servers and the libPNG library for manipulating PNG images. Our experience from these experiments points to the efficacy of DARWIN in pinpointing bugs. Moreover, while localizing a given observable error, the new inputs synthesized by DARWIN can reveal other undiscovered errors.},
+  booktitle = {Proceedings of the 7th Joint Meeting of the European Software Engineering Conference and the ACM SIGSOFT Symposium on The Foundations of Software Engineering},
+  pages     = {33–42},
+  numpages  = {10},
+  keywords  = {symbolic execution, software evolution, debugging},
+  location  = {Amsterdam, The Netherlands},
+  series    = {ESEC/FSE '09}
+}
+
+@inproceedings{MATRIXRELOADED,
+  author    = {Santelices, Raul and Chittimalli, Pavan Kumar and Apiwattanapong, Taweesup and Orso, Alessandro and Harrold, Mary Jean},
+  booktitle = {2008 23rd IEEE/ACM International Conference on Automated Software Engineering},
+  title     = {Test-Suite Augmentation for Evolving Software},
+  year      = {2008},
+  volume    = {},
+  number    = {},
+  pages     = {218-227},
+  doi       = {10.1109/ASE.2008.32}
+}
+
+@inproceedings{SRA,
+  author    = {Majumdar, Rupak and Saha, Indranil},
+  booktitle = {2009 30th IEEE Real-Time Systems Symposium},
+  title     = {Symbolic Robustness Analysis},
+  year      = {2009},
+  volume    = {},
+  number    = {},
+  pages     = {355-363},
+  doi       = {10.1109/RTSS.2009.17}
+}
+
+@inproceedings{DDCSE,
+  author    = {Anand, Saswat
+               and Godefroid, Patrice
+               and Tillmann, Nikolai},
+  editor    = {Ramakrishnan, C. R.
+               and Rehof, Jakob},
+  title     = {Demand-Driven Compositional Symbolic Execution},
+  booktitle = {Tools and Algorithms for the Construction and Analysis of Systems},
+  year      = {2008},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {367--381},
+  abstract  = {We discuss how to perform symbolic execution of large programs in a manner that is both compositional (hence more scalable) and demand-driven. Compositional symbolic execution means finding feasible interprocedural program paths by composing symbolic executions of feasible intraprocedural paths. By demand-driven, we mean that as few intraprocedural paths as possible are symbolically executed in order to form an interprocedural path leading to a specific target branch or statement of interest (like an assertion). A key originality of this work is that our demand-driven compositional interprocedural symbolic execution is performed entirely using first-order logic formulas solved with an off-the-shelf SMT (Satisfiability-Modulo-Theories) solver -- no procedure in-lining or custom algorithm is required for the interprocedural part. This allows a uniform and elegant way of summarizing procedures at various levels of detail and of composing those using logic formulas.},
+  isbn      = {978-3-540-78800-3}
+}
+
+
+@inproceedings{PFA,
+  author    = {Bj{\o}rner, Nikolaj
+               and Tillmann, Nikolai
+               and Voronkov, Andrei},
+  editor    = {Kowalewski, Stefan
+               and Philippou, Anna},
+  title     = {Path Feasibility Analysis for String-Manipulating Programs},
+  booktitle = {Tools and Algorithms for the Construction and Analysis of Systems},
+  year      = {2009},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {307--321},
+  abstract  = {We discuss the problem of path feasibility for programs manipulating strings using a collection of standard string library functions. We prove results on the complexity of this problem, including its undecidability in the general case and decidability of some special cases. In the context of test-case generation, we are interested in an efficient finite model finding method for string constraints. To this end we develop a two-tier finite model finding procedure. First, an integer abstraction of string constraints are passed to an SMT (Satisfiability Modulo Theories) solver. The abstraction is either unsatisfiable, or the solver produces a model that fixes lengths of enough strings to reduce the entire problem to be finite domain. The resulting fixed-length string constraints are then solved in a second phase. We implemented the procedure in a symbolic execution framework, report on the encouraging results and discuss directions for improving the method further.},
+  isbn      = {978-3-642-00768-2}
+}
+
+@inproceedings{Stinger,
+  author    = {Anand, Saswat
+               and Orso, Alessandro
+               and Harrold, Mary Jean},
+  editor    = {Grumberg, Orna
+               and Huth, Michael},
+  title     = {Type-Dependence Analysis and Program Transformation for Symbolic Execution},
+  booktitle = {Tools and Algorithms for the Construction and Analysis of Systems},
+  year      = {2007},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {117--133},
+  abstract  = {Symbolic execution can be problematic when applied to real applications. This paper addresses two of these problems: (1) the constraints generated during symbolic execution may be of a type not handled by the underlying decision procedure, and (2) some parts of the application may be unsuitable for symbolic execution (e.g.,third-party libraries). The paper presents type-dependence analysis, which performs a context- and field-sensitive interprocedural static analysis to identify program entities that may store symbolic values at run-time. This information is used to identify the above two problematic cases and assist the user in addressing them. The paper also presents a technique to transform real applications for efficient symbolic execution. Instead of transforming the entire application, which can be inefficient and infeasible (mostly for pragmatic reasons), our technique leverages the results of type-dependence analysis to transform only parts of the program that may interact with symbolic values. Finally, the paper discusses the implementation of our analysis and transformation technique in a tool, stinger, and an empirical evaluation performed on two real applications. The results of the evaluation show the effectiveness of our approach.},
+  isbn      = {978-3-540-71209-1}
+}
+
+@article{10.1145/2345156.2254116,
+  author     = {Godefroid, Patrice and Taly, Ankur},
+  title      = {Automated Synthesis of Symbolic Instruction Encodings from I/O Samples},
+  year       = {2012},
+  issue_date = {June 2012},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {47},
+  number     = {6},
+  issn       = {0362-1340},
+  url        = {https://doi.org/10.1145/2345156.2254116},
+  doi        = {10.1145/2345156.2254116},
+  abstract   = {Symbolic execution is a key component of precise binary program analysis tools. We discuss how to automatically boot-strap the construction of a symbolic execution engine for a processor instruction set such as x86, x64 or ARM. We show how to automatically synthesize symbolic representations of individual processor instructions from input/output examples and express them as bit-vector constraints. We present and compare various synthesis algorithms and instruction sampling strategies. We introduce a new synthesis algorithm based on smart sampling which we show is one to two orders of magnitude faster than previous synthesis algorithms in our context. With this new algorithm, we can automatically synthesize bit-vector circuits for over 500 x86 instructions (8/16/32-bits, outputs, EFLAGS) using only 6 synthesis templates and in less than two hours using the Z3 SMT solver on a regular machine. During this work, we also discovered several inconsistencies across x86 processors, errors in the x86 Intel spec, and several bugs in previous manually-written x86 instruction handlers.},
+  journal    = {SIGPLAN Not.},
+  month      = {jun},
+  pages      = {441–452},
+  numpages   = {12},
+  keywords   = {program synthesis, x86, symbolic execution}
+}
+
+@inproceedings{ASSIE,
+  author    = {Godefroid, Patrice and Taly, Ankur},
+  title     = {Automated Synthesis of Symbolic Instruction Encodings from I/O Samples},
+  year      = {2012},
+  isbn      = {9781450312059},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2254064.2254116},
+  doi       = {10.1145/2254064.2254116},
+  abstract  = {Symbolic execution is a key component of precise binary program analysis tools. We discuss how to automatically boot-strap the construction of a symbolic execution engine for a processor instruction set such as x86, x64 or ARM. We show how to automatically synthesize symbolic representations of individual processor instructions from input/output examples and express them as bit-vector constraints. We present and compare various synthesis algorithms and instruction sampling strategies. We introduce a new synthesis algorithm based on smart sampling which we show is one to two orders of magnitude faster than previous synthesis algorithms in our context. With this new algorithm, we can automatically synthesize bit-vector circuits for over 500 x86 instructions (8/16/32-bits, outputs, EFLAGS) using only 6 synthesis templates and in less than two hours using the Z3 SMT solver on a regular machine. During this work, we also discovered several inconsistencies across x86 processors, errors in the x86 Intel spec, and several bugs in previous manually-written x86 instruction handlers.},
+  booktitle = {Proceedings of the 33rd ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages     = {441–452},
+  numpages  = {12},
+  keywords  = {program synthesis, symbolic execution, x86},
+  location  = {Beijing, China},
+  series    = {PLDI '12}
+}
+
+@inproceedings{Cinger,
+  author    = {Anand, Saswat and Harrold, Mary Jean},
+  booktitle = {2011 26th IEEE/ACM International Conference on Automated Software Engineering (ASE 2011)},
+  title     = {Heap cloning: Enabling dynamic symbolic execution of java programs},
+  year      = {2011},
+  volume    = {},
+  number    = {},
+  pages     = {33-42},
+  doi       = {10.1109/ASE.2011.6100071}
+}
+
+@inproceedings{MCSS,
+  author    = {P\u{a}s\u{a}reanu, Corina S. and Rungta, Neha and Visser, Willem},
+  title     = {Symbolic Execution with Mixed Concrete-Symbolic Solving},
+  year      = {2011},
+  isbn      = {9781450305624},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2001420.2001425},
+  doi       = {10.1145/2001420.2001425},
+  abstract  = {Symbolic execution is a powerful static program analysis technique that has been used for the automated generation of test inputs. Directed Automated Random Testing (DART) is a dynamic variant of symbolic execution that initially uses random values to execute a program and collects symbolic path conditions during the execution. These conditions are then used to produce new inputs to execute the program along different paths. It has been argued that DART can handle situations where classical static symbolic execution fails due to incompleteness in decision procedures and its inability to handle external library calls.We propose here a technique that mitigates these previous limitations of classical symbolic execution. The proposed technique splits the generated path conditions into (a) constraints that can be solved by a decision procedure and (b) complex non-linear constraints with uninterpreted functions to represent external library calls. The solutions generated from the decision procedure are used to simplify the complex constraints and the resulting path conditions are checked again for satisfiability. We also present heuristics that can further improve our technique. We show how our technique can enable classical symbolic execution to cover paths that other dynamic symbolic execution approaches cannot cover. Our method has been implemented within the Symbolic PathFinder tool and has been applied to several examples, including two from the NASA domain.},
+  booktitle = {Proceedings of the 2011 International Symposium on Software Testing and Analysis},
+  pages     = {34–44},
+  numpages  = {11},
+  keywords  = {test case generation, DART, constraint solving, symbolic execution},
+  location  = {Toronto, Ontario, Canada},
+  series    = {ISSTA '11}
+}
+@inproceedings{CORALAVM,
+  author    = {Borges, Mateus and d'Amorim, Marcelo and Anand, Saswat and Bushnell, David and Pasareanu, Corina S.},
+  booktitle = {2012 IEEE Fifth International Conference on Software Testing, Verification and Validation},
+  title     = {Symbolic Execution with Interval Solving and Meta-heuristic Search},
+  year      = {2012},
+  volume    = {},
+  number    = {},
+  pages     = {111-120},
+  doi       = {10.1109/ICST.2012.91}
+}

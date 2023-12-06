@@ -20,7 +20,7 @@
     \tableofcontents
 
     \section{Introduction}
-    In 2022, the cost of poor software quality was estimated to be more than \$2.4 trillion in the US alone.\cite{CostPoorSoftware} Individual cyber attacks have had an estimated financial impact of up to \$8 billion worldwide.\cite{Demystifying} Testing software accounts for approximately 50\% of development costs\cite{DART}, but it is typically a mostly manual process\cite{PreliminaryAssessment}. Because manual testing requires many developer hours with in-depth knowledge of the system being tested, it does not scale well. Automated testing promises to be more cost effective in finding software defects and has therefore become the most popular vulnerability discovery solution, especially in the industry.\cite{FuzzingASurvey}
+    In 2022, the cost of poor software quality was estimated to be more than \$2.4 trillion in the US alone.\cite{CostPoorSoftware} Individual cyber attacks have had an estimated financial impact of up to \$8 billion worldwide.\cite{Demystifying} Testing software often accounts for more than 50\% of development costs\cite{Orchestrated}, but it is typically a mostly manual process\cite{PreliminaryAssessment}. Because manual testing requires many developer hours with in-depth knowledge of the system being tested, it does not scale well. Automated testing promises to be more cost effective in finding software defects and has therefore become the most popular vulnerability discovery solution, especially in the industry.\cite{FuzzingASurvey}
 
     One such automated vulnerability and bug testing technique is fuzzing.\cite{VulnerabilityDiscoveryTechniques} In the seminal work by \citeauthor{UNIX} in \citeyear{UNIX}, the term \textquote{fuzz} is defined as a program that \textquote{generates a stream of random characters to be consumed by a target program}\cite{UNIX}. Since then, a rich ecosystem of fuzzing systems has emerged in both industry and academia, taking design inspiration from a wide variety of software engineering concepts. These are combined into programs that generate various concrete inputs, which are then repeatedly fed into a particular program under test (PUT), and check the program for illegal states or crashes.\cite{EvaluatingFuzzTesting}
 
@@ -113,7 +113,7 @@
 
     To select review papers to consider, the following rules were applied:
     \begin{itemize}
-        \item First, different search engines were used to create a list of survey papers in the field of fuzzing. Since even the amount of survey papers is overwhelming (Google Scholar\cite{GoogleScholar} returns more than 25,000 results for the search term \textquote{fuzzing survey}), works were only included if their title, abstract, or keywords contained the word \textquote{fuzz} or \textquote{fuzzing} and if Google Scholar\cite{GoogleScholar} reports that they were cited more than 5 times or if they were published in a high-impact venue.
+        \item First, different search engines were used to create a list of survey papers in the field of fuzzing. Since even the amount of survey papers is overwhelming (Google Scholar\cite{GoogleScholar} returns more than 25,000 results for the search term \textquote{fuzzing survey}), works were only included if their title, abstract, or keywords contained the word section \textquote{fuzz} and if Google Scholar\cite{GoogleScholar} reports that they were cited more than 5 times or if they were published in a high-impact venue.
         \item Then, further review papers discussed, listed, or cited in other review papers were added (such as works listed in \cite{Demystifying}).
         \item Works published before January 1, 2010 (such as\cite{ViolatingAssumptionsWithFuzzing} or\cite{NewTrendsSymbex}) were disregarded to further limit the scope of this survey.
         \item Then, review papers focusing on a specific technique (such as machine learning\cite{ML1, ML2}) were disregarded.
@@ -131,6 +131,9 @@
 
     \papertitle{PreliminaryAssessment}
     After giving a short overview of issues faced by symbolic execution based fuzzers, this paper focuses on eight high impact fuzzing tools (JPF-SE and Symbolic (Java) PathFinder\cite{JPFSE, JavaPathFinder}, DART\cite{DART}, CUTE\cite{CUTE} and jCUTE\cite{ExplicitPathModelChecking}, CREST\cite{CREST}, SAGE\cite{SAGE}, Pex\cite{Pex}, EXE\cite{EXE}, and KLEE\cite{KLEE}).
+
+    \papertitle{Orchestrated}
+    Orchestrated surveys \textquote{consist of a collaborative work collecting self-standing sections, each focusing on a key surveyed topic}\cite{Orchestrated}. One of the topics discussed in this particular work is symbolic execution. It contains short introductions into BBRBP\cite{BBRBP}, AGLT\cite{AGLT}, Darwin\cite{Darwin}, MATRIX RELOADED\cite{MATRIXRELOADED}, and SRA\cite{SRA} in its introduction. As mitigation strategies for path explosion, it discusses SMART\cite{SMART}, DDCSE\cite{DDCSE}, PFA\cite{PFA}, among others. For environment interaction, ASSIE\cite{ASSIE} and Cinger\cite{Cinger} are presented. Finally, to attempt to solve constraints that are too complex for direct SMT solver invocation, MCSS\cite{MCSS}, CORAL\cite{CORAL}, and its extension introducing AVM\cite{CORALAVM} are cited.
 
     \papertitle{FuzzingTheStateOfTheArt}
     \citeauthor{FuzzingTheStateOfTheArt} from Australia's Department of Defence provide an extensive look at fuzzing — \citetitle{FuzzingTheStateOfTheArt} is the longest of the discussed survey papers. After discussing the taxonomy, concepts, types, and history of fuzzing, they discuss a list of 15 works from scientific literature and ten commercial and open-source frameworks. In those scientific works, they present four papers that employ symbolic execution, namely KLEE\cite{KLEE}, SAGE\cite{SAGE}, GWF\cite{GWF}, and TaintScope\cite{TaintScope}.
@@ -194,7 +197,7 @@
                   \item If any are, use the concrete values (direct in concolic, solution from path constraint in EGT)
               \end{itemize}
         \item Downside: missing some feasible paths, and therefore sacrificing completeness.
-        \item Further Ideas: Special Constraint Solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL})
+        \item Further Ideas: Special Constraint Solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL} and its extension\cite{CORALAVM})
     \end{itemize}
 
     \subsection{System Calls}
@@ -206,6 +209,8 @@
     \subsection{Environment Interaction}
     \begin{itemize}
         \item \textquote{[…KLEE's\cite{KLEE}] ability to handle interactions with the outside environment — e.g., with data read from the file system or over the network — by providing models designed to explore all possible legal interactions with the outside world.}\cite{PreliminaryAssessment}
+        \item The path constraints per instruction can also be generated automatically, like in ASSIE\cite{ASSIE}.
+        \item Further automation allows Cinger\cite{Cinger} to analyze a PUT and prompt the user to present models only for the program parts that actually introduce imprecision.
     \end{itemize}
 
     \subsection{Path Explosion}
@@ -216,11 +221,12 @@
         \item Prioritization of which path to explore next using heuristics (like statement or branch coverage (and using static analysis to guide), favouring statements that were run the fewest number of times, or random). Examples: EXE\cite{EXE}, SAGE\cite{SAGE}, CREST\cite{CREST}
               \begin{itemize}
                   \item \textquote{CREST\cite{CREST} is an extensible platform for building and experimenting with heuristics for selecting which paths to explore}\cite{ReviewThreeDecades}, allows implementing heuristics based on static analysis, namely control flow graphs.
-                  \item Interleave random and symbolic execution. Examples: Hybrid Concolic Testing\cite{HCT, Driller, Cyberdyne}
-                  \item Guide towards changes in a patch: Directed Incremental Symbolic Execution\cite{DiSE}, Directed Test Suite Augmentation\cite{DTSA} and KATCH\cite{KATCH}, which is based on KLEE\cite{KLEE}.
-                  \item Guide towards interesting function calls, such as \code{malloc}, as in CRAXfuzz\cite{CRAXfuzz}
-                  \item Chopped symbolic execution ignores (resp. only lazily executes) certain functions deemed uninteresting to focus on certain parts of the PUT and prevent path explosion. This can either be done manually or automatically based on some heuristics (like code unassociated with changes in a patch in Chopper\cite{Chopped}).
                   \item Prioritize inputs that increase path coverage the most, as implemented in many fuzzers, including SAGE\cite{SAGE}
+                  \item Interleave random and symbolic execution. Examples: Hybrid Concolic Testing\cite{HCT, Driller, Cyberdyne}
+                  \item Guide towards changes in a patch: Directed Incremental Symbolic Execution\cite{DiSE}, Directed Test Suite Augmentation\cite{DTSA}, MATRIX RELOADED\cite{MATRIXRELOADED}, and KATCH\cite{KATCH}, which is based on KLEE\cite{KLEE}.
+                  \item Guide towards interesting function calls, such as \code{malloc}, as in CRAXfuzz\cite{CRAXfuzz}
+                  \item Reward inputs that lead to longer runtime, as in AGLT\cite{AGLT}, or those that produce vastly different outputs based on very similar inputs, as in SRA\cite{SRA}.
+                  \item Chopped symbolic execution ignores (resp. only lazily executes) certain functions deemed uninteresting to focus on certain parts of the PUT and prevent path explosion. This can either be done manually or automatically based on some heuristics (like code unassociated with changes in a patch in Chopper\cite{Chopped}).
                   \item \textquote{we propose a novel approach called Fitnex, a search strategy that uses state-dependent fitness values (computed through a fitness function) to guide path exploration. The fitness function measures how close an already discovered feasible path is to a particular test target (e.g., covering a not-yet-covered branch)}\cite{Fitnex}
                   \item Weigh the approximate cost of executing a certain path against its demand, as done in QuickFuzz\cite{QuickFuzz}
                   \item Assign probabilities to execution paths to reach deeper execution, as in DeepFuzz\cite{DeepFuzz}
@@ -232,7 +238,8 @@
         \item State-merging to reduce the number of states in memory, as in KLEE\cite{KLEE}, Mayhem\cite{Mayhem}, S2E\cite{S2E}, BORG\cite{BORG}, and Cloud9\cite{Cloud9}
         \item Sharing among states/copy on write: KLEE\cite{KLEE}
         \item Transfer state from memory to disk, as in Mayhem\cite{Mayhem}, BORG\cite{BORG}, and SAGE\cite{SAGE}
-        \item Caching function summaries for later use by higher-level functions. Example: SMART\cite{SMART}, HOTG\cite{HigherOrderTestGeneration}
+        \item Caching function summaries for later use by higher-level functions. These can be generated automatically, like in SMART\cite{SMART}, HOTG\cite{HigherOrderTestGeneration}, or DDCSE\cite{DDCSE}, or manually, like in PFA\cite{PFA}.
+        \item Similarly, common complex structures like strings and regular expressions can be manually transformed into constraints. An example of this would be PFA\cite{PFA}.
         \item Lazy test generation (as in LATEST\cite{LATEST})
         \item Static path merging (as in KLEE-FP\cite{KLEEFP})
         \item partial order and symmetry reductions (as in GSE\cite{GSE})
@@ -244,13 +251,15 @@
     Dominates runtime
     \begin{itemize}
         \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration. This is implemented, among others, in \cite{SAGE}.
+        \item Concolic/dynamic symbolic execution, use concrete values, as in DART\cite{DART} or CUTE\cite{CUTE}.
+        \item Similarly, if the whole constraint is not solvable, solve parts of it and use those concrete values to solve the rest, as in MCSS\cite{MCSS}.
         \item Identify independent sub-queries and solve them independently, as is done in EXE\cite{EXE} and KLEE\cite{KLEE}.
         \item \textquote{loop-guard pattern matching rules to identify a constraint that defines the number of iterations of input-dependent loops during dynamic symbolic execution, then set new constraints representing the pre- and post-loop conditions to summarize sets of executions of that loop}\cite{Science}, as in SAGE\cite{SAGE}, BORG\cite{BORG}, and APLS\cite{APLS}
         \item Optimizing SMT queries before passing them to the solver. The optimization itself, however, can already be too complex to compute to employ this strategy effectively.
         \item Mocking and stubbing: Moles\cite{Moles}
         \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
         \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
-        \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
+        \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
         \item Intriguer\cite{Intriguer} uses taint analysis to discover instructions accessing a wide range of input bytes, and then performs symbolic execution for those instructions deemed important and only invoke the underlying SMT solver for complicated queries.
         \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFI\cite{JFI} uses this technique to find solutions to floating-point constraints.
         \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
@@ -312,12 +321,15 @@
         \item By removing code blocks that are deemed irrelevant, T-FUZZ\cite{TFuzz} prevents its mutation-based fuzzer (which does not use symbolic execution) from getting stuck. It then employs symbolic execution to validate the bugs found.
         \item IFL\cite{IFL} generates quality input to a smart contract based on a symbolic execution engine and then uses them to train a neural network. This can then be used to fuzz other smart contracts since they often implement similar functionality.
         \item TaintScope\cite{TaintScope} uses taint analysis to bypass checksum checks and then symbolic execution to fix checksum fields in malformed test cases.
+        \item Similary, Stinger\cite{Stinger} analyses a PUT and then only employs symbolic execution on the parts of the PUT that contribute to path constraints. Like this, the overhead introduced by a symbolic execution engine can be limited to parts of the program.
     \end{itemize}
 
     \subsection{Using Symbolic Execution in Other Contexts}
     \begin{itemize}
         \item PYGMALION\cite{PYGMALION} uses symbolic execution to generate a grammar from a program, generates valid inputs from that, and finally uses those in fuzzers (AFL\cite{AFLPlusPlus} and KLEE\cite{KLEE}) to measure the achieved code coverage. AUTOGRAM\cite{AUTOGRAM} accomplishes a similar goal of producing a context-free grammar a PUT accepts by executing it with different inputs based on taint analysis.
         \item SYMFUZZ\cite{SYMFUZZ} uses symbolic execution to determine the optimal mutation ratio from a given program-seed pair.
+        \item If a program by a software vendor crashes an a customer's device, BBRBP\cite{BBRBP} generates new inputs that do not or at least to a lesser extent contain private information. To achieve this, the instructions executed if a program is fed the initial crashing input are recorded, and then run using symbolic execution. Finally, the generated path constraint is solved by an SMT solver, which produces a new, unrelated input.
+        \item Darwin\cite{Darwin} uses symbolic execution to produce inputs that differ slightly from crashing inputs, which can then be used to triage and debug a certain software defect.
     \end{itemize}
 
     \section{Discussion and Future Work}
@@ -346,6 +358,9 @@
     Since most works discussed in this paper introduce improvements in a specific part of a fuzzing system, they often rely on an existing system for the rest and extend it. One example is PYGMALION\cite{PYGMALION}, KATCH\cite{KATCH}, and Cloud9\cite{Cloud9} building on top of KLEE\cite{KLEE}, APLS\cite{APLS} extending SAGE\cite{SAGE}, or CRAXfuzz\cite{CRAXfuzz} extending S2E\cite{S2E}, which in turn again extends KLEE\cite{KLEE}.
 
     Building a genealogy tree from the primary works discussed might provide a list of highly adaptable and stable projects, which might in turn be better suitable for deployment in commercial applications.
+
+    \subsubsection{Meta-Survey}
+    Finally, one could compare review papers based on different categories: primary works discussed (see above), categorizations of fuzzers, or more specifically categorization of problems
 
     \newpage
     \defbibheading{bibliography}[\bibname]{\section*{#1}}
