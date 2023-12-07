@@ -2410,24 +2410,6 @@
   doi     = {10.1109/MSP.2005.55}
 }
 
-@inproceedings{10.1145/1993498.1993529,
-  author    = {Godefroid, Patrice},
-  title     = {Higher-Order Test Generation},
-  year      = {2011},
-  isbn      = {9781450306638},
-  publisher = {Association for Computing Machinery},
-  address   = {New York, NY, USA},
-  url       = {https://doi.org/10.1145/1993498.1993529},
-  doi       = {10.1145/1993498.1993529},
-  abstract  = {Symbolic reasoning about large programs is bound to be imprecise. How to deal with this imprecision is a fundamental problem in program analysis. Imprecision forces approximation. Traditional static program verification builds "may" over-approximations of the program behaviors to check universal "for-all-paths" properties, while automatic test generation requires "must" under-approximations to check existential "for-some-path" properties.In this paper, we introduce a new approach to test generation where tests are derived from validity proofs of first-order logic formulas, rather than satisfying assignments of quantifier-free first-order logic formulas as usual. Two key ingredients of this higher-order test generation are to (1) represent complex/unknown program functions/instructions causing imprecision in symbolic execution by uninterpreted functions, and (2) record uninterpreted function samples capturing input-output pairs observed at execution time for those functions. We show that higher-order test generation generalizes and is more precise than simplifying complex symbolic expressions using their concrete runtime values. We present several program examples where our approach can exercise program paths and find bugs missed by previous techniques. We discuss the implementability and applications of this approach. We also explain in what sense dynamic test generation is more powerful than static test generation.},
-  booktitle = {Proceedings of the 32nd ACM SIGPLAN Conference on Programming Language Design and Implementation},
-  pages     = {258–269},
-  numpages  = {12},
-  keywords  = {automatic test generation, software model checking, uninterpreted functions},
-  location  = {San Jose, California, USA},
-  series    = {PLDI '11}
-}
-
 @article{HigherOrderTestGeneration,
   author     = {Godefroid, Patrice},
   title      = {Higher-Order Test Generation},
@@ -2703,26 +2685,6 @@
   isbn      = {978-3-540-71209-1}
 }
 
-@article{10.1145/2345156.2254116,
-  author     = {Godefroid, Patrice and Taly, Ankur},
-  title      = {Automated Synthesis of Symbolic Instruction Encodings from I/O Samples},
-  year       = {2012},
-  issue_date = {June 2012},
-  publisher  = {Association for Computing Machinery},
-  address    = {New York, NY, USA},
-  volume     = {47},
-  number     = {6},
-  issn       = {0362-1340},
-  url        = {https://doi.org/10.1145/2345156.2254116},
-  doi        = {10.1145/2345156.2254116},
-  abstract   = {Symbolic execution is a key component of precise binary program analysis tools. We discuss how to automatically boot-strap the construction of a symbolic execution engine for a processor instruction set such as x86, x64 or ARM. We show how to automatically synthesize symbolic representations of individual processor instructions from input/output examples and express them as bit-vector constraints. We present and compare various synthesis algorithms and instruction sampling strategies. We introduce a new synthesis algorithm based on smart sampling which we show is one to two orders of magnitude faster than previous synthesis algorithms in our context. With this new algorithm, we can automatically synthesize bit-vector circuits for over 500 x86 instructions (8/16/32-bits, outputs, EFLAGS) using only 6 synthesis templates and in less than two hours using the Z3 SMT solver on a regular machine. During this work, we also discovered several inconsistencies across x86 processors, errors in the x86 Intel spec, and several bugs in previous manually-written x86 instruction handlers.},
-  journal    = {SIGPLAN Not.},
-  month      = {jun},
-  pages      = {441–452},
-  numpages   = {12},
-  keywords   = {program synthesis, x86, symbolic execution}
-}
-
 @inproceedings{ASSIE,
   author    = {Godefroid, Patrice and Taly, Ankur},
   title     = {Automated Synthesis of Symbolic Instruction Encodings from I/O Samples},
@@ -2779,3 +2741,25 @@
   pages     = {111-120},
   doi       = {10.1109/ICST.2012.91}
 }
+
+@article{SPF,
+  author   = {P{\u{a}}s{\u{a}}reanu, Corina S.
+              and Visser, Willem
+              and Bushnell, David
+              and Geldenhuys, Jaco
+              and Mehlitz, Peter
+              and Rungta, Neha},
+  title    = {Symbolic PathFinder: integrating symbolic execution with model checking for Java bytecode analysis},
+  journal  = {Automated Software Engineering},
+  year     = {2013},
+  month    = {Sep},
+  day      = {01},
+  volume   = {20},
+  number   = {3},
+  pages    = {391-425},
+  abstract = {Symbolic PathFinder (SPF) is a software analysis tool that combines symbolic execution with model checking for automated test case generation and error detection in Java bytecode programs. In SPF, programs are executed on symbolic inputs representing multiple concrete inputs and the values of program variables are represented by expressions over those symbolic inputs. Constraints over these expressions are generated from the analysis of different paths through the program. The constraints are solved with off-the-shelf solvers to determine path feasibility and to generate test inputs. Model checking is used to explore different symbolic program executions, to systematically handle aliasing in the input data structures, and to analyze the multithreading present in the code. SPF incorporates techniques for handling input data structures, strings, and native calls to external libraries, as well as for solving complex mathematical constraints. We describe the tool and its application at NASA, in academia, and in industry.},
+  issn     = {1573-7535},
+  doi      = {10.1007/s10515-013-0122-2},
+  url      = {https://doi.org/10.1007/s10515-013-0122-2}
+}
+
