@@ -1102,6 +1102,17 @@
   doi     = {10.1109/ACCESS.2021.3114202}
 }
 
+@misc{Exploratory,
+  title         = {An Exploratory Survey of Hybrid Testing Techniques Involving Symbolic Execution and Fuzzing},
+  author        = {Saahil Ognawala and Ana Petrovska and Kristian Beckers},
+  year          = {2017},
+  month         = {12},
+  day           = {19},
+  eprint        = {1712.06843},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.SE}
+}
+
 @inproceedings{Skyfire,
   author    = {Wang, Junjie and Chen, Bihuan and Wei, Lei and Liu, Yang},
   booktitle = {2017 IEEE Symposium on Security and Privacy (SP)},
@@ -1982,8 +1993,8 @@
   title     = {{BitBlaze}: A New Approach to Computer Security via Binary Analysis},
   booktitle = {Proceedings of the 4th International Conference on Information Systems Security. Keynote invited paper.},
   address   = {Hyderabad, India},
-  year      = 2008,
-  month     = dec
+  year      = {2008},
+  month     = {12}
 }
 
 @inproceedings{CVCLite,
@@ -2011,7 +2022,7 @@
   pages     = {745--761},
   url       = {https://www.usenix.org/conference/usenixsecurity18/presentation/yun},
   publisher = {USENIX Association},
-  month     = aug
+  month     = {08}
 }
 
 @inproceedings{CVC5,
@@ -2131,24 +2142,6 @@
   number    = {},
   pages     = {736-747},
   doi       = {10.1109/ICSE.2019.00082}
-}
-
-@inproceedings{JFI,
-  author    = {Liew, Daniel and Cadar, Cristian and Donaldson, Alastair F. and Stinnett, J. Ryan},
-  title     = {Just Fuzz It: Solving Floating-Point Constraints Using Coverage-Guided Fuzzing},
-  year      = {2019},
-  isbn      = {9781450355728},
-  publisher = {Association for Computing Machinery},
-  address   = {New York, NY, USA},
-  url       = {https://doi.org/10.1145/3338906.3338921},
-  doi       = {10.1145/3338906.3338921},
-  abstract  = {We investigate the use of coverage-guided fuzzing as a means of proving satisfiability of SMT formulas over finite variable domains, with specific application to floating-point constraints. We show how an SMT formula can be encoded as a program containing a location that is reachable if and only if the program’s input corresponds to a satisfying assignment to the formula. A coverage-guided fuzzer can then be used to search for an input that reaches the location, yielding a satisfying assignment. We have implemented this idea in a tool, Just Fuzz-it Solver (JFS), and we present a large experimental evaluation showing that JFS is both competitive with and complementary to state-of-the-art SMT solvers with respect to solving floating-point constraints, and that the coverage-guided approach of JFS provides significant benefit over naive fuzzing in the floating-point domain. Applied in a portfolio manner, the JFS approach thus has the potential to complement traditional SMT solvers for program analysis tasks that involve reasoning about floating-point constraints.},
-  booktitle = {Proceedings of the 2019 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering},
-  pages     = {521–532},
-  numpages  = {12},
-  keywords  = {Constraint solving, feedback-directed fuzzing},
-  location  = {Tallinn, Estonia},
-  series    = {ESEC/FSE 2019}
 }
 
 @inproceedings{VulnerabilityDiscoveryTechniques,
@@ -2763,3 +2756,96 @@
   url      = {https://doi.org/10.1007/s10515-013-0122-2}
 }
 
+@mastersthesis{HybridFuzzTesting,
+  title  = {Hybrid Fuzz Testing: Discovering Software Bugs via Fuzzing and Symbolic Execution},
+  author = {Pak, Brian S},
+  school = {School of Computer Science Carnegie Mellon University},
+  year   = {2012},
+  month  = {05}
+}
+
+@inproceedings{AutomaticTestDataGeneration,
+  title     = {A survey on automatic test data generation},
+  author    = {Edvardsson, Jon},
+  booktitle = {Proceedings of the 2nd Conference on Computer Science and Engineering},
+  pages     = {21--28},
+  year      = {1999}
+}
+
+@article{ReviewConcolicTesting,
+  title   = {A Systematic Review of Concolic Testing with Aplication of Test Criteria.},
+  author  = {Araki, Lucilia Yoshie and Peres, Leticia Mara},
+  journal = {ICEIS (2)},
+  pages   = {121--132},
+  year    = {2018}
+}
+
+@book{BruteForceVulnDiscovery,
+  title     = {Fuzzing: brute force vulnerability discovery},
+  author    = {Sutton, Michael and Greene, Adam and Amini, Pedram},
+  year      = {2007},
+  publisher = {Pearson Education}
+}
+
+@inproceedings{BreakingSoftware,
+  title     = {Fuzzing: Breaking software in an automated fashion},
+  author    = {van Sprundel, Ilja},
+  booktitle = {Proceedings of the 22nd Chaos Communication Congress},
+  year      = {2005}
+}
+
+@inproceedings{MEUZZ,
+  author    = {Yaohui Chen and Mansour Ahmadi and Reza Mirzazade farkhani and Boyu Wang and Long Lu},
+  title     = {{MEUZZ}: Smart Seed Scheduling for Hybrid Fuzzing},
+  booktitle = {23rd International Symposium on Research in Attacks, Intrusions and Defenses (RAID 2020)},
+  year      = {2020},
+  isbn      = {978-1-939133-18-2},
+  address   = {San Sebastian},
+  pages     = {77--92},
+  url       = {https://www.usenix.org/conference/raid2020/presentation/chen},
+  publisher = {USENIX Association},
+  month     = {10}
+}
+
+@inproceedings{DrillerGo,
+  author    = {Kim, Juhwan and Yun, Joobeom},
+  title     = {Poster: Directed Hybrid Fuzzing on Binary Code},
+  year      = {2019},
+  isbn      = {9781450367479},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3319535.3363275},
+  doi       = {10.1145/3319535.3363275},
+  abstract  = {Hybrid fuzzers combine both fuzzing and concolic execution with the wish that the fuzzer will quickly explore input spaces and the concolic execution will solve the complex path conditions. However, existing hybrid fuzzers such as Driller cannot be effectively directed, for instance, towards unsafe system calls or suspicious locations, or towards functions in the call stack of a reported vulnerability that we wish to reproduce. In this poster, we propose DrillerGO, a directed hybrid fuzzing system, to mitigate this problem. It mainly consists of a static analysis and a dynamic analysis module. In the static analysis, it searches suspicious API call strings in the recovered control flow graph (CFG). After targeting some suspicious API call lines, it runs the concolic execution along with path guiding. The path guiding is helped by backward pathfinding, which is a novel technique to find paths backward from the target to the start of main(). Also, we will show that DrillerGo can find the crashes faster than Driller through experimental results.},
+  booktitle = {Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security},
+  pages     = {2637–2639},
+  numpages  = {3},
+  keywords  = {fuzzing, state explosion, vulnerability, software, symbolic execution},
+  location  = {London, United Kingdom},
+  series    = {CCS '19}
+}
+
+@inproceedings{1dVul,
+  author    = {Peng, Jiaqi and Li, Feng and Liu, Bingchang and Xu, Lili and Liu, Binghong and Chen, Kai and Huo, Wei},
+  booktitle = {2019 49th Annual IEEE/IFIP International Conference on Dependable Systems and Networks (DSN)},
+  title     = {1dVul: Discovering 1-Day Vulnerabilities through Binary Patches},
+  year      = {2019},
+  volume    = {},
+  number    = {},
+  pages     = {605-616},
+  doi       = {10.1109/DSN.2019.00066}
+}
+
+@article{BugMiner,
+  author         = {Rustamov, Fayozbek and Kim, Juhwan and Yu, Jihyeon and Kim, Hyunwook and Yun, Joobeom},
+  title          = {BugMiner: Mining the Hard-to-Reach Software Vulnerabilities through the Target-Oriented Hybrid Fuzzer},
+  journal        = {Electronics},
+  volume         = {10},
+  year           = {2021},
+  number         = {1},
+  article-number = {62},
+  url            = {https://www.mdpi.com/2079-9292/10/1/62},
+  issn           = {2079-9292},
+  abstract       = {Greybox Fuzzing is the most reliable and essentially powerful technique for automated software testing. Notwithstanding, a majority of greybox fuzzers are not effective in directed fuzzing, for example, towards complicated patches, as well as towards suspicious and critical sites. To overcome these limitations of greybox fuzzers, Directed Greybox Fuzzing (DGF) approaches were recently proposed. Current DGFs are powerful and efficient approaches that can compete with Coverage-Based Fuzzers. Nevertheless, DGFs neglect to accomplish stability between usefulness and proficiency, and random mutations make it hard to handle complex paths. To alleviate this problem, we propose an innovative methodology, a target-oriented hybrid fuzzing tool that utilizes a fuzzer and dynamic symbolic execution (also referred to as a concolic execution) engine. Our proposed method aims to generate inputs that can quickly reach the target sites in each sequence and trigger potential hard-to-reach vulnerabilities in the program binary. Specifically, to dive deep into the target binary, we designed a proposed technique named BugMiner, and to demonstrate the capability of our implementation, we evaluated it comprehensively on bug hunting and crash reproduction. Evaluation results showed that our proposed implementation could not only trigger hard-to-reach bugs 3.1, 4.3, 2.9, 2.0, 1.8, and 1.9 times faster than Hawkeye, AFLGo, AFL, AFLFast, QSYM, and ParmeSan respectively but also scale to several real-world programs.},
+  doi            = {10.3390/electronics10010062}
+}
