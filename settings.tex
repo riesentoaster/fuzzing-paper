@@ -1,3 +1,15 @@
+% ----
+% DATA 
+% ----
+
+\author{%
+  Valentin Huber\vspace{5px}\\%
+  \small \href{https://www.zhaw.ch/en/engineering/institutes-centres/init/}{Institute of Applied Information Technology}\\%
+  \small \href{https://www.zhaw.ch/en}{Zürich University of Applied Sciences ZHAW}\\%
+  \small \href{mailto://contact@valentinhuber.me}{contact@valentinhuber.me}%
+  \vspace{5px}
+}
+
 % ----------
 % FORMATTING 
 % ----------
@@ -42,12 +54,12 @@
 \newcommand{\tableh}[1]{\multicolumn{1}{|c|}{\textbf{#1}}} % table header
 \newcommand{\code}{\texttt}
 \newcommand{\papertitle}[1]{%
-    \paragraph
-    [\texorpdfstring{\citefield{#1}{title}}{#1}]
-    {%
-        \texorpdfstring{%
-            \citetitle{#1} (\mbox{\citedate{#1}})\cite{#1}%
-        }{#1}%
-    }}
+  \paragraph
+  [\texorpdfstring{\citefield{#1}{title}}{#1}]
+  {%
+    \texorpdfstring{%
+      \citetitle{#1} (\mbox{\citedate{#1}})\cite{#1}%
+    }{#1}%
+  }}
 
 \newcommand{\paperlistentry}[1]{\citetitle{#1} (\mbox{\citedate{#1}})\cite{#1}}
