@@ -219,6 +219,38 @@
   \item This section summarizes their contribution and lists relevant primary works (as opposed to survey papers) discussed. Primary works mentioned without discussion are omitted.
 \end{itemize}
 
+\subsection{Results}
+\subsubsection{Impossible Constraints}
+\begin{itemize}
+  \item \textquote{A key disadvantage of classical symbolic execution is that it cannot generate an input if the symbolic path constraint along a feasible execution path contains formulas that cannot be (efficiently) solved by a constraint solver (for example, nonlinear constraints).}\cite{ReviewThreeDecades}
+  \item Two techniques that alleviate this problem:
+        \begin{itemize}
+          \item Dynamic Symbolic Execution (DSE), or Concolic Testing (like DART\cite{DART} and its successor CUTE\cite{CUTE}, and CREST\cite{CREST}): Run concrete and symbolic execution at the same time, keep mapping between values, solve path constraint with one sub-constraint flipped to get input for an other path. \textquote{A key observation in DART is that imprecision in symbolic execution can be alleviated using concrete values and randomization}\cite{PreliminaryAssessment}
+          \item Execution-Generated Testing (EGT)\cite{EGT} (like EXE\cite{EXE} and KLEE\cite{KLEE}): Only execute symbolically if any operands are symbolic
+        \end{itemize}
+  \item These handle imprecision in symbex (like interaction with outside code (that is not instrumented for symbex), constraint solving timeouts, unhandled instructions (floating point), or system calls (\code{read}, interrupts, etc.)) by just using concrete values.
+        \begin{itemize}
+          \item If none of the operands are symbolically, just use them
+          \item If any are, use the concrete values (direct in concolic, solution from path constraint in EGT)
+        \end{itemize}
+  \item Downside: missing some feasible paths, and therefore sacrificing completeness.
+  \item Further Ideas: Special Constraint Solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL} and its extension\cite{CORALAVM})
+\end{itemize}
+
+\subsubsection{System Calls}
+\begin{itemize}
+  \item \textquote{Additionally, symbolic execution creates conflicts while handling system calls, since it does not support modeling all possible system calls and inter-process communication, such as pipes or sockets. Likewise, the non-deterministic behavior of system calls complicates the generation of inputs that consistently trigger specific paths.}\cite{Demystifying}
+  \item HFL\cite{HFL} is a kernel fuzzer that heavily relies on symbolic execution. It lists three main issues the authors had to overcome: \textquote{(1) indirect control transfers determined by system call arguments (2) controlling and matching internal system state via system calls, and (3) nested argument type inference for invoking system calls}\cite{HFL}. To solve those issues, HFL \textquote{(1) converts implicit control transfers to explicit transfers, (2) infers system call sequence to build a consistent system state, and (3) identifies nested arguments types of system calls}\cite{HFL}.
+\end{itemize}
+
+\subsubsection{Environment Interaction}
+\begin{itemize}
+  \item System calls (such as calls to \code{read} or interrupts) pose an obvious obstacle to pure symbolic execution, since they may introduce new symbolic variables or, more importantly, have side effects. This can be mitigated by manually creating summaries of these side effects (as done in EXE\cite{EXE} and KLEE\cite{KLEE}), or, again, employing concolic execution with all the upsides and drawbacks discussed before.
+  \item \textquote{[…KLEE's\cite{KLEE}] ability to handle interactions with the outside environment — e.g., with data read from the file system or over the network — by providing models designed to explore all possible legal interactions with the outside world.}\cite{PreliminaryAssessment}
+  \item The path constraints per instruction can also be generated automatically, like in ASSIE\cite{ASSIE}.
+  \item Further automation allows Cinger\cite{Cinger} to analyze a PUT and prompt the user to present models only for the program parts that actually introduce imprecision.
+\end{itemize}
+
 \pagebreak
 \section{Primary Papers}
 \subsection{An Empirical Study of the Reliability of UNIX Utilities (1990)}
