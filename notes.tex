@@ -251,6 +251,34 @@
   \item Further automation allows Cinger\cite{Cinger} to analyze a PUT and prompt the user to present models only for the program parts that actually introduce imprecision.
 \end{itemize}
 
+
+\subsubsection{Modelling}
+Things like modelling \code{int}s as mathematical integers being imprecise since it ignores over-/underflows, and pointers being hard to deal with.
+\begin{itemize}
+  \item Issue: Dereferencing symbolic pointer, as in pointer which can be influenced from the input.
+        \begin{itemize}
+          \item Separate pointer and integer constraints to still be able to argue about parts of the PUT, even when pointer constraints might be undecidable, as is done in CUTE\cite{CUTE}. CUTE only considers (in-)equality predicates with symbolic pointers.
+          \item EXE\cite{EXE} and KLEE\cite{KLEE} regards symbolic pointers as array accesses. An object accessed with a symbolic pointer is copied as often as necessary to model all possible results. Or, in other words, \textquote{a sound strategy is to consider it a load from any possible satisfying assignment for the expression}\cite{AllYouEverWanted}.
+          \item \textquote{Symbolic memory addresses can lead to aliasing issues even along a single execution path. A potential address alias occurs when two memory operations refer to the same address.}\cite{AllYouEverWanted}
+          \item (Potentially) unsound assumptions: optionally rewrite all memory addresses as scalars based on name, like Vine\cite{BitBlaze}
+          \item Pass the dealiazing step to the SMT solver like CVC Lite\cite{CVCLite} or STP\cite{STP}.
+          \item Perform alias analysis. However, like in DART\cite{DART}, \textquote{part of the allure of forward symbolic execution is that it can be done at run-time}\cite{AllYouEverWanted}.
+          \item EXE\cite{EXE} and KLEE\cite{KLEE} \textquote{perform a mix of alias analyses and letting the SMT solver worry about aliasing}\cite{AllYouEverWanted}
+          \item Other systems like DART\cite{DART} and CUTE\cite{CUTE} cannot handle non-linear constraints and therefore cannot deal with symbolic references.
+        \end{itemize}
+  \item \textquote{On the one end of the spectrum is a system like DART\cite{DART} that only reasons about concrete pointers, or systems like CUTE\cite{CUTE} and CREST\cite{CREST} that support only equality and inequality constraints for pointers, which can be efficiently solved.\cite{CUTE} At the other end are systems like EXE\cite{EXE}, and more recently KLEE\cite{KLEE} and SAGE\cite{SAGE} that model pointers using the theory of arrays with selections and updates implemented by solvers like STP or Z3.}\cite{ReviewThreeDecades}
+\end{itemize}
+
+Symbolic target addresses of jump instructions are an obvious issue for symbolic execution based systems. Standard ways of handling these include:
+\begin{itemize}
+  \item Concolic execution: Perform and trace the execution of a program under test, let it jump to the concrete address observed during this run, and finally perform symbolic execution on the trace. This leaves some potentially possible program states unexplored. Examples include CUTE\cite{CUTE}.
+  \item Pass the reasoning issue to the SMT solver. This however makes the SMT queries more complicated and since constraint solving is already an issue in many cases (see Section\ref{ConstraintSolving}), this may not solve the issue after all.
+  \item Use static analysis to locate possible jump targets.
+\end{itemize}
+
+
+\label{ConstraintSolving}
+
 \pagebreak
 \section{Primary Papers}
 \subsection{An Empirical Study of the Reliability of UNIX Utilities (1990)}

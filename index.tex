@@ -94,6 +94,7 @@
     The static analyzer, as its name suggests, attempts to extract information by statically examining the PUT's source code, IR or binary. Such information might include grammars accepted by the PUT or program paths deemed high-risk.
 
     \subsection{Symbolic Execution}
+    \label{SymbolicExecution}
     The concept of symbolic execution in the context of program testing was introduced in \citeyear{Symbex} by \citeauthor{Symbex}.\cite{Symbex} By not executing a PUT with concrete values (such as the number \code{23} or the string \code{"Hello World!"}) but instead modelling certain or all values with mathematical variables, it allows exploring all possible paths of a program. Different engines (such as angr\cite{angr} or Triton\cite{Triton}) allow performing symbolic execution on source code, an IR, or a binary of a PUT.
 
     \subsubsection{Performing Symbolic Execution}
@@ -105,7 +106,7 @@
         \item the path constraint $\pi$, which is the conjunction of all branch constraints, which are the conditions on symbolic expressions to end up at a certain point in the program, such as $\phi_1\leq2$ or $\phi_2=\phi_3\land\phi_4=3$.
     \end{itemize}
 
-    During execution, the symbolic state is changed according to the specific instruction currently executed. If it performs some form of manipulation on existing data, this is represented by adding new symbolic expressions to the symbolic store. If a branch is (not) taken based on a check on variables or registers containing symbolic expressions, the path constraint is extended with an appropriate condition. The exploration of a program can follow different heuristics, such as breath- or depth-first search.
+    During execution, the symbolic state is changed according to the specific instruction currently executed. If it performs some form of manipulation on existing data, this is represented by adding new symbolic expressions to the symbolic store. If a branch is (not) taken based on a check on variables or registers containing symbolic expressions, the path constraint is extended with an appropriate condition. The exploration of a program can follow different heuristics, such as breath- or depth-first search. Finally, the path constraint collected along a certain paths can be formulated as a query to a satisfiability modulo theory (SMT) solver. This solver can then prove if the path associated with the constraint is reachable with \textit{any} input, and generate an input that steers the PUT execution exactly the same way as the analyzed execution.
 
     \subsubsection{Categorizing Symbolic Execution Implementations}
     Symbolic execution implementations can be categorized in several ways: Where static dynamic execution exclusively and exhaustively performs the process described above, dynamic (or concolic, a portmanteau of \textquote{concrete} and \textquote{symbolic}) symbolic execution executes a program symbolically and with concrete values in parallel.
@@ -203,6 +204,21 @@
     \paragraph{Kernel Fuzzing}
     HFL\cite{HFL} is a kernel fuzzer that heavily relies on symbolic execution. It lists three main issues the authors had to overcome: \textquote{(1) indirect control transfers determined by system call arguments (2) controlling and matching internal system state via system calls, and (3) nested argument type inference for invoking system calls}\cite{HFL}. To solve those issues, HFL \textquote{(1) converts implicit control transfers to explicit transfers, (2) infers system call sequence to build a consistent system state, and (3) identifies nested arguments types of system calls}\cite{HFL}.
 
+    \subsection{Memory Modelling}
+    As described in Section\ref{SymbolicExecution}, symbolic execution engines keep a memory representation of the process the PUT is running in in memory. However, modelling this memory poses a few challenges.
+
+    \paragraph{Arithmetic}
+    Operations on a physical machine differ from pure mathematical operations on symbolic expressions. For example, integers might over- or underflow. Modelling floating point arithmetic is even more difficult, since the imprecision introduced by rounding needs to be represented exactly in the resulting constraints to ensure accuracy. These issues are widely solved by symbolic execution engines by not representing numbers as mathematical numbers, but as bitmaps. The appropriate constraints then also need to be added on a bitmap level, thus introducing additional complexity. Certain engines further employ special constraint solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL} and its extension\cite{CORALAVM}).
+
+    \paragraph{Symbolic Pointers}
+    If an instruction performs a jump to a symbolic address, this presents a unique challenge to symbolic execution units, since this single operation increases the size the program's state space. This is a major scaling problem to the point of making calculations on any but the most trivial programs infeasible. The easiest, yet most inaccurate, way to deal with this challenge is to simply drop down to a concrete value, as described above, with the discussed downside of lost completeness. To maintain more than this base-level of accuracy, several strategies have been proposed.
+
+    First, one can separate different operations on symbolic pointers. While dereferencing a symbolic pointer poses a challenge, comparing pointers might still be doable. Early adopters of this strategy included CUTE\cite{CUTE} and CREST\cite{CREST}, which only considers (in-)equality predicates with symbolic pointers. Both static analysis and solving the constraints on the symbol in question can potentially drastically reduce the amount of valid values it can take, thus reducing the amount of states needed to explore.
+
+    EXE\cite{EXE} and KLEE\cite{KLEE} introduced the concept of regarding symbolic pointers as array accesses. An object accessed with a symbolic pointer is copied as often as necessary to model all possible results, including error states. Or, in other words, \textquote{a sound strategy is to consider it a load from any possible satisfying assignment for the expression}\cite{AllYouEverWanted}.
+
+    While this works well if only one symbolic pointer is used, the situation becomes more complex once different symbolic pointers access the same data type from different parts of the program. This is because they might be accessing different or the same values, thus again creating a scaling problem by introducing many permutations. To deal with this issue (called memory aliasing), symbolic execution engines might perform alias analysis at run-time as in DART\cite{DART}. Other systems like Vin\cite{BitBlaze} optionally rewrite all memory addresses as scalars based on their name. While this is efficient, it is based on a potentially unsound assumption of variable name to value equality. Finally, certain SMT solvers (like STP\cite{STP} or Z3\cite{Z3}) can handle alias analysis, and can be used to delegate (some of) the work. This is done by, among others, EXE\cite{EXE}, KLEE\cite{KLEE}, and SAGE\cite{SAGE}.
+
     \subsection{Path Explosion}
     Path Explosion: program path count usually exponential in the number of static branches in the code.
     \begin{itemize}
@@ -253,7 +269,6 @@
         \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
         \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
         \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
-        \item Special Constraint Solvers that improve floating point based constraint handling (like FloPSy\cite{FloPSy}) and complex mathematical constraints (like CORAL\cite{CORAL} and its extension\cite{CORALAVM})
         \item Intriguer\cite{Intriguer} uses taint analysis to discover instructions accessing a wide range of input bytes, and then performs symbolic execution for those instructions deemed important and only invoke the underlying SMT solver for complicated queries.
         \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFS\cite{JFS} uses this technique to find solutions to floating-point constraints.
         \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
@@ -265,32 +280,6 @@
                   \item Other proposals include approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}.
               \end{itemize}
     \end{itemize}
-
-    \subsection{Modelling}
-    Things like modelling \code{int}s as mathematical integers being imprecise since it ignores over-/underflows, and pointers being hard to deal with.
-    \begin{itemize}
-        \item Issue: Dereferencing symbolic pointer, as in pointer which can be influenced from the input.
-              \begin{itemize}
-                  \item Separate pointer and integer constraints to still be able to argue about parts of the PUT, even when pointer constraints might be undecidable, as is done in CUTE\cite{CUTE}. CUTE only considers (in-)equality predicates with symbolic pointers.
-                  \item EXE\cite{EXE} and KLEE\cite{KLEE} regards symbolic pointers as array accesses. An object accessed with a symbolic pointer is copied as often as necessary to model all possible results. Or, in other words, \textquote{a sound strategy is to consider it a load from any possible satisfying assignment for the expression}\cite{AllYouEverWanted}.
-                  \item \textquote{Symbolic memory addresses can lead to aliasing issues even along a single execution path. A potential address alias occurs when two memory operations refer to the same address.}\cite{AllYouEverWanted}
-                  \item (Potentially) unsound assumptions: optionally rewrite all memory addresses as scalars based on name, like Vine\cite{BitBlaze}
-                  \item Pass the dealiazing step to the SMT solver like CVC Lite\cite{CVCLite} or STP\cite{STP}.
-                  \item Perform alias analysis. However, like in DART\cite{DART}, \textquote{part of the allure of forward symbolic execution is that it can be done at run-time}\cite{AllYouEverWanted}.
-                  \item EXE\cite{EXE} and KLEE\cite{KLEE} \textquote{perform a mix of alias analyses and letting the SMT solver worry about aliasing}\cite{AllYouEverWanted}
-                  \item Other systems like DART\cite{DART} and CUTE\cite{CUTE} cannot handle non-linear constraints and therefore cannot deal with symbolic references.
-              \end{itemize}
-        \item \textquote{On the one end of the spectrum is a system like DART\cite{DART} that only reasons about concrete pointers, or systems like CUTE\cite{CUTE} and CREST\cite{CREST} that support only equality and inequality constraints for pointers, which can be efficiently solved.\cite{CUTE} At the other end are systems like EXE\cite{EXE}, and more recently KLEE\cite{KLEE} and SAGE\cite{SAGE} that model pointers using the theory of arrays with selections and updates implemented by solvers like STP or Z3.}\cite{ReviewThreeDecades}
-    \end{itemize}
-
-    \subsection{Symbolic Jump Addresses}
-    Symbolic target addresses of jump instructions are an obvious issue for symbolic execution based systems. Standard ways of handling these include:
-    \begin{itemize}
-        \item Concolic execution: Perform and trace the execution of a program under test, let it jump to the concrete address observed during this run, and finally perform symbolic execution on the trace. This leaves some potentially possible program states unexplored. Examples include CUTE\cite{CUTE}.
-        \item Pass the reasoning issue to the SMT solver. This however makes the SMT queries more complicated and since constraint solving is already an issue in many cases (see Section\ref{ConstraintSolving}), this may not solve the issue after all.
-        \item Use static analysis to locate possible jump targets.
-    \end{itemize}
-
 
     \subsection{Handling Concurrency}
     \begin{itemize}
