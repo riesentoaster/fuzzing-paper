@@ -276,6 +276,47 @@ Symbolic target addresses of jump instructions are an obvious issue for symbolic
   \item Use static analysis to locate possible jump targets.
 \end{itemize}
 
+\subsubsection{Path Explosion}
+\paragraph{Search Space Reduction}
+\begin{itemize}
+  \item Pruning redundant paths (\textquote{if a program path reaches the same program point with the same symbolic constraints as a previously explored path, then this path will continue to execute exactly the same from that point on and thus can be discarded.}\cite{RWset}) Eliminating redundant paths by analyzing the values read and written by the program.
+  \item Similarly, MoWF\cite{MoWF} uses knowledge gained by its built-in blackbox fuzzer to prune invalid inputs and thus prevents its symbolic execution engine to get stuck in input checking and error handling code. CESE\cite{CESE} uses context-free grammars to limit its symbolic execution engine to interesting paths, as opposed to error handling during parsing. TCR\cite{TCR} intelligently reduces existing test cases and prioritizes the remaining according to heuristics to maximize exploration efficiency.
+  \item State-merging to reduce the number of states in memory, as in KLEE\cite{KLEE}, Mayhem\cite{Mayhem}, S2E\cite{S2E}, BORG\cite{BORG}, and Cloud9\cite{Cloud9}
+  \item Sharing among states/copy on write: KLEE\cite{KLEE}
+  \item Transfer state from memory to disk, as in Mayhem\cite{Mayhem}, BORG\cite{BORG}, and SAGE\cite{SAGE}
+  \item Caching function summaries for later use by higher-level functions. These can be generated automatically, like in SMART\cite{SMART}, HOTG\cite{HigherOrderTestGeneration}, or DDCSE\cite{DDCSE}, or manually, like in PFA\cite{PFA}.
+  \item Similarly, common complex structures like strings and regular expressions can be manually transformed into constraints. An example of this would be PFA\cite{PFA}.
+  \item Lazy test generation (as in LATEST\cite{LATEST})
+  \item Static path merging (as in KLEE-FP\cite{KLEEFP})
+  \item partial order and symmetry reductions (as in GSE\cite{GSE})
+  \item Compact representation of path constraints (as in SAGE\cite{SAGE})
+\end{itemize}
+
+\paragraph{Using Advanced Data Structures}
+\begin{itemize}
+  \item Simple depth-first search, however this naïve approach gets stuck in non-terminating loops with symbolic conditions and is therefore rarely used. Both EXE\cite{EXE} and KLEE\cite{KLEE} can however be configured to run in this mode.
+  \item Symbex inherently helps by only looking at possible branches. Example: EXE\cite{EXE} on \code{tcpdump}: only 42\% of instructions contained symbolic operands, less than 20\% of of symbolic branches have both sides feasible\cite{EXE}
+  \item Only explore symbolically until a user-defined timeout is reached, then use a black- or greybox fuzzer with random inputs that conform to the calculated constraints. This is called hybrid fuzzing\cite{HybridFuzzTesting}.
+\end{itemize}
+
+\paragraph{Guiding the Execution}
+Path Explosion: program path count usually exponential in the number of static branches in the code.
+\begin{itemize}
+  \item Prioritization of which path to explore next using heuristics (like statement or branch coverage (and using static analysis to guide), favouring statements that were run the fewest number of times, or random). Examples: EXE\cite{EXE}, SAGE\cite{SAGE}, CREST\cite{CREST}
+  \item \textquote{CREST\cite{CREST} is an extensible platform for building and experimenting with heuristics for selecting which paths to explore}\cite{ReviewThreeDecades}, allows implementing heuristics based on static analysis, namely control flow graphs.
+  \item Prioritize inputs that increase path coverage the most, as implemented in many fuzzers, including SAGE\cite{SAGE}
+  \item Guide towards changes in a patch: Directed Incremental Symbolic Execution\cite{DiSE}, Directed Test Suite Augmentation\cite{DTSA}, MATRIX RELOADED\cite{MATRIXRELOADED}, and KATCH\cite{KATCH}, which is based on KLEE\cite{KLEE}.
+  \item Guide towards interesting function calls, such as \code{malloc}, as in CRAXfuzz\cite{CRAXfuzz}
+  \item Guide backwards from interesting parts of the PUT, as in DrillerGo\cite{DrillerGo}
+  \item Reward inputs that lead to longer runtime, as in AGLT\cite{AGLT}, or those that produce vastly different outputs based on very similar inputs, as in SRA\cite{SRA}.
+  \item \textquote{we propose a novel approach called Fitnex, a search strategy that uses state-dependent fitness values (computed through a fitness function) to guide path exploration. The fitness function measures how close an already discovered feasible path is to a particular test target (e.g., covering a not-yet-covered branch)}\cite{Fitnex}
+  \item Chopped symbolic execution ignores (resp. only lazily executes) certain functions deemed uninteresting to focus on certain parts of the PUT and prevent path explosion. This can either be done manually or automatically based on some heuristics (like code unassociated with changes in a patch in Chopper\cite{Chopped}).
+  \item Weigh the approximate cost of executing a certain path against its demand, as done in QuickFuzz\cite{QuickFuzz}
+  \item Assign probabilities to execution paths to reach deeper execution, as in DeepFuzz\cite{DeepFuzz}
+  \item Examine possible next seeds using machine learning and validate using symbex, as in MEUZZ\cite{MEUZZ}
+  \item Probabilistic approach: Use Monte Carlo path optimization to quantify the difficulty of each path using grey-box fuzzing to then let the white-box fuzzer focus on the paths that are believed to be most challenging for grey-box fuzzing to make progress.\cite{DigFuzz}
+  \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, potential bugs according to UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} in SAVIOR\cite{SAVIOR}, buffer over-reads in BORG\cite{BORG} or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
+\end{itemize}
 
 \label{ConstraintSolving}
 
