@@ -235,6 +235,7 @@
     Similarly, MoWF\cite{MoWF} uses knowledge gained by its built-in blackbox fuzzer to prune invalid inputs and thus prevents its symbolic execution engine to get stuck in input checking and error handling code. CESE\cite{CESE} uses context-free grammars to limit its symbolic execution engine to interesting paths, as opposed to error handling during parsing. TCR\cite{TCR} intelligently reduces existing test cases and prioritizes the remaining according to heuristics to maximize exploration efficiency.
 
     \subsubsection{Using Advanced Data Structures}
+    \label{AdvancedDataStructures}
 
     \paragraph{State Represantation} Since the symbolic state often only has minor differences between closely related paths, it can be represented by a data structure that allows copy-on-write. This means that only the changed parts actually need to be stored, reducing memory consumption significantly. Many systems employ this strategies: KLEE\cite{KLEE}, Mayhem\cite{Mayhem}, S2E\cite{S2E}, BORG\cite{BORG}, and Cloud9\cite{Cloud9}. States can also be merged statically, like in KLEE-FP\cite{KLEEFP}. To further lower pressure on memory, state information can be transferred to disk, like in Mayhem\cite{Mayhem}, BORG\cite{BORG}, and SAGE\cite{SAGE}. The latter also introduced a compact representation for path constraints.\cite{SAGE}
 
@@ -265,31 +266,42 @@
     \paragraph{Probabilistic Approaches}
     More recently, works have introduced approaches which employ heuristics to assign a probability to each potential next input and select which one to execute based on this value. DeepFuzz\cite{DeepFuzz} does this with the goal of finding inputs which will penetrate deeper into a PUT. MEUZZ\cite{MEUZZ} employs machine learning to examine potential next inputs and uses symbolic execution to validate the results. Finally, DigFuzz\cite{DigFuzz} uses Monte Carlo path optimization to quantify the difficulty of each path using grey-box fuzzing and then lets the white-box fuzzer focus on the paths that are believed to be most challenging for grey-box fuzzing to make progress.
 
-
     \subsection{Constraint Solving}
     \label{ConstraintSolving}
-    Dominates runtime
+    For most fuzzing systems, constraint solving dominates the runtime. Thus, it is an area that received a lot of attention and several optimizations have been proposed, to make query evaluation faster and in some cases at all possible. They can be categorized as follows:
+
+    \subsubsection{Query Optimization}
+    \paragraph{Query Splitting} While solving the whole query might not be feasible, solving parts of it often is. This approach can be further separated in two approaches. The first attempts to identify independent sub-queries and solve them independently (implemented, among others, in EXE\cite{EXE} and KLEE\cite{KLEE}). This has the obvious limitation that even the smallest independent but internally interdependent parts of the query might still be too large to be solved. The second approach (implemented in Mixed Concrete-Symbolic Solving\cite{MCSS}) sacrifices some of its claim on completeness by solving parts of the query only and using the solution to solve the rest. This approach might produce false negatives, where there is a solution, but not with the results selected by the solver based on the first query.
+
+    \paragraph{Query Reduction} Symbolic Execution often generates inefficient queries for the logic a certain function or program emulates. By using heuristics, such as pattern matching, multiple constraints can be reduced to a single constraint. However, while this approach shrinks the query passed to the SMT solver, it introduces a new scaling problem itself — the optimization passes for complex queries might consume an infeasible amount of time or resources, even to a point where solving the query without optimization is more efficient. Therefore, when introducing such heuristics systems need to carefully balance optimization and SMT solver execution time.
+
+    The optimization might be executed either at the symbolic execution runtime afterwards on the complete query. Examples of the former are \textquote{loop-guard patterns matching rules to identify a constraint that defines the number of iterations of input-dependent loops during dynamic symbolic execution, then set new constraints representing the pre- and post-loop conditions to summarize sets of executions of that loop}\cite{Science}, as implemented in SAGE\cite{SAGE}, BORG\cite{BORG}, or APLS\cite{APLS}.
+
+    Alternatively, using function summaries (as discussed in Section\ref{AdvancedDataStructures}) can also help to reduce the complexity of SMT queries, because the produced logic relationship between input and output is not bound to code and therefore the available instructions. On top of this, certain functions can be assigned only partial function summaries if they are only called with certain values, similar to mocks and stubs in unit testing. Moles\cite{Moles} provides a framework for this.
+
+    Lastly, in certain context it might be beneficial to not use intermediate representation (IR) to execute on symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions in the IR are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. This is done in QSYM\cite{QSYM}.
+
+    \subsubsection{Using Information from Previous Queries}
     \begin{itemize}
         \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration. This is implemented, among others, in \cite{SAGE}.
-        \item Concolic/dynamic symbolic execution, use concrete values, as in DART\cite{DART} or CUTE\cite{CUTE}.
-        \item Similarly, if the whole constraint is not solvable, solve parts of it and use those concrete values to solve the rest, as in MCSS\cite{MCSS}.
-        \item Identify independent sub-queries and solve them independently, as is done in EXE\cite{EXE} and KLEE\cite{KLEE}.
-        \item \textquote{loop-guard pattern matching rules to identify a constraint that defines the number of iterations of input-dependent loops during dynamic symbolic execution, then set new constraints representing the pre- and post-loop conditions to summarize sets of executions of that loop}\cite{Science}, as in SAGE\cite{SAGE}, BORG\cite{BORG}, and APLS\cite{APLS}
-        \item Optimizing SMT queries before passing them to the solver. The optimization itself, however, can already be too complex to compute to employ this strategy effectively.
-        \item Mocking and stubbing: Moles\cite{Moles}
         \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
         \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
+    \end{itemize}
+
+    \subsubsection{Improved SMT Solvers}
+    \begin{itemize}
         \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
-        \item Intriguer\cite{Intriguer} uses taint analysis to discover instructions accessing a wide range of input bytes, and then performs symbolic execution for those instructions deemed important and only invoke the underlying SMT solver for complicated queries.
         \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFS\cite{JFS} uses this technique to find solutions to floating-point constraints.
-        \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
+    \end{itemize}
+
+    \subsubsection{Alternatives to SMT Solvers}
+    \begin{itemize}
+        \item Intriguer\cite{Intriguer} uses taint analysis to discover instructions accessing a wide range of input bytes, and then performs symbolic execution for those instructions deemed important and only invokes the underlying SMT solver for complicated queries.
         \item While technically not using symbolic execution, analyzing the dependency between input data and state space and approximating solutions to path constraints based on those to prevent expensive calls to an SMT solver is fairly common\cite{WEIZZ}:
-              \begin{itemize}
-                  \item Eclipser\cite{Eclipser} uses instrumentation on the PUT to generate partial path conditions, which can then be solved without invoking SMT solvers to generate further inputs.
-                  \item Angora\cite{Angora} uses solves path constraints by using a combination of context-sensitive branch coverage, scalable byte-level taint tracking, gradient descent searching, input length exploration, and type and shape inference.
-                  \item REDQUEEN\cite{REDQUEEN} exploits the fact that much of the input data ends up in the state-space and uses simple transformations on the input data as opposed to relying on taint analysis or symbolic execution to bypass checksums.
-                  \item Other proposals include approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}.
-              \end{itemize}
+        \item Eclipser\cite{Eclipser} uses instrumentation on the PUT to generate partial path conditions, which can then be solved without invoking SMT solvers to generate further inputs.
+        \item Angora\cite{Angora} solves path constraints by using a combination of context-sensitive branch coverage, scalable byte-level taint tracking, gradient descent searching, input length exploration, and type and shape inference.
+        \item REDQUEEN\cite{REDQUEEN} exploits the fact that much of the input data ends up in the state-space and uses simple transformations on the input data as opposed to relying on taint analysis or symbolic execution to bypass checksums.
+        \item Other proposals include approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}.
     \end{itemize}
 
     \subsection{Handling Concurrency}

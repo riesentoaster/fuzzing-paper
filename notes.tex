@@ -318,7 +318,21 @@ Path Explosion: program path count usually exponential in the number of static b
   \item Guide execution towards code parts deemed to be interesting based on static analysis, such as pointer dereferences in loops as implemented in Dowser\cite{Dowser}, potential bugs according to UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} in SAVIOR\cite{SAVIOR}, buffer over-reads in BORG\cite{BORG} or more general prior static or dynamic program analysis such as in GRT\cite{GRT} or VUzzer\cite{VUzzer} to guide the symbolic execution engine.
 \end{itemize}
 
+\subsubsection{Constraint Solving}
 \label{ConstraintSolving}
+\paragraph{Query Optimization}
+\begin{itemize}
+  \item Identify independent sub-queries and solve them independently, as is done in EXE\cite{EXE} and KLEE\cite{KLEE}.
+  \item Similarly, if the whole constraint is not solvable, solve parts of it and use those concrete values to solve the rest, as in MCSS\cite{MCSS}.
+  \item \textquote{loop-guard pattern matching rules to identify a constraint that defines the number of iterations of input-dependent loops during dynamic symbolic execution, then set new constraints representing the pre- and post-loop conditions to summarize sets of executions of that loop}\cite{Science}, as in SAGE\cite{SAGE}, BORG\cite{BORG}, and APLS\cite{APLS}
+  \item Optimizing SMT queries before passing them to the solver. The optimization itself, however, can already be too complex to compute to employ this strategy effectively.
+  \item Mocking and stubbing: Moles\cite{Moles}
+  \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
+\end{itemize}
+
+
+
+
 
 \pagebreak
 \section{Primary Papers}
