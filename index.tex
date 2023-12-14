@@ -24,7 +24,13 @@
 
 \maketitle
 \begin{multicols}{2}
-    \tableofcontents
+    \begin{abstract}
+        Testing constitutes a vast part of software development. While manual testing does not scale well, automated testing in the form of fuzzing has its own limitations. One approach to extend fuzzing's effectiveness is to combine it with program analysis techniques such as symbolic execution, however this also introduces its own challenges. %
+        %
+        This work uses survey papers on fuzzing to penetrate this both in academia and industry extensively studied field. It filters, collects, aggregates, and extends their analysis of inherent challenges that symbolic execution based fuzzing faces, along with mitigation attempts introduced with a diverse range of systems. The challenges are then categorized and primary works and their innovation are associated with the appropriate challenge, forming an extensive list of approaches and examples. %
+        %
+        Finally, limitations and possible extensions of this approach are discussed.
+    \end{abstract}
 
     \section{Introduction}
     In 2022, the cost of poor software quality was estimated to be more than \$2.4 trillion in the US alone.\cite{CostPoorSoftware} Individual cyber attacks have had an estimated financial impact of up to \$8 billion worldwide.\cite{Demystifying} Testing software often accounts for more than 50\% of development costs\cite{Orchestrated}, but it is typically a mostly manual process\cite{PreliminaryAssessment}. Because manual testing requires many developer hours with in-depth knowledge of the system being tested, it does not scale well. Automated testing promises to be more cost effective in finding software defects and has therefore become the most popular vulnerability discovery solution, especially in the industry.\cite{FuzzingASurvey}
@@ -44,7 +50,8 @@
         \item Second, Section\ref{Methods} explains the reasoning behind using existing survey papers to base this work on.
         \item Third, an overview of existing survey papers investigating the state of fuzzing is given in Section\ref{SurveyPapers}, along with a short summary of each paper.
         \item Fourth, the challenges fuzzing tools face in implementing symbolic execution techniques, and attempts to mitigate each of them, are listed along with examples of works that implement them in Section\ref{Results}.
-        \item Finally, possible additions to this work are discussed in Section\ref{FutureWork}.
+        \item Fifth, possible additions to this work are discussed in Section\ref{FutureWork}.
+        \item Finally, the contributions of this work are summarized in Section\ref{Conclusion}.
     \end{itemize}
 
     \section{Theoretical Principles}
@@ -255,6 +262,7 @@
     \begin{itemize}
         \item Directed Incremental Symbolic Execution\cite{DiSE}, Directed Test Suite Augmentation\cite{DTSA}, MATRIX RELOADED\cite{MATRIXRELOADED}, and KATCH\cite{KATCH} guide execution towards code that changed in a patch, thus using fuzzing as regression testing.
         \item Chopper\cite{Chopped} also uses code differences between two versions of a PUT to guide execution, but inverts the incentive structure: It ignores (resp. only lazily executes) certain functions deemed uninteresting to focus on certain parts of the PUT and prevent path explosion. While this designation could be done manually, Chopper\cite{Chopped} uses a heuristic which marks as uninteresting parts of the PUT which are far away from code changed in the examined patch.
+        \item Darwin\cite{Darwin} uses symbolic execution to produce inputs that differ slightly from crashing inputs, which can then be used to triage and debug a certain software defect.
         \item CRAXfuzz\cite{CRAXfuzz} includes heuristics to determine interesting function calls like \code{malloc}.
         \item Dowser\cite{Dowser} looks for pointer dereferences in loops.
         \item SAVIOR\cite{SAVIOR} employs UndefinedBehaviorSanitizer\cite{UndefinedBehaviorSanitizer} to find potential bugs.
@@ -309,38 +317,28 @@
     \end{itemize}
 
     \subsection{Handling Concurrency}
-    \begin{itemize}
-        \item Testing usually difficult because of the inherent non-determinism.
-        \item \textquote{Concolic testing was successfully combined with a variant of partial order reduction to test concurrent programs effectively.\cite{ScalableAutomatedMethods, OpenDistributedPrograms, ExplicitPathModelChecking,RaceDetection}}\cite{ReviewThreeDecades}
-        \item \textquote{Generalized Symbolic Execution\cite{GSE} performs symbolic execution by leveraging an off-the-shelf model checker, whose built-in capabilities allow handling multi-threading (and other forms of non-determinism)}\cite{PreliminaryAssessment}
-        \item \textquote{This method requires that a sequential version of the program be provided, to serve as the specification for the parallel one. The key idea is to use model checking, together with symbolic execution, to establish the equivalence of the two programs.}\cite{SPIN} (complex parallel numerical computations)
-    \end{itemize}
+    Testing real-life concurrent programs in general is difficult because of their inherent non-determinism. This is also a challenge for symbolic execution based fuzzers. However, a few advancements have been made in this space: Generalized Symbolic Execution employs model checkers, who are able to handle multi-threading (and other forms of non-determinism). In general, \textquote{concolic testing was successfully combined with a variant of partial order reduction to test concurrent programs effectively.\cite{ScalableAutomatedMethods, OpenDistributedPrograms, ExplicitPathModelChecking,RaceDetection}}\cite{ReviewThreeDecades}
+
+    One other development in the space of testing concurrent programs with symbolic execution was introduced in SPIN\cite{SPIN}: It allows checking if a concurrent program is equivalent to a sequential, less efficient, but less error-prone implementation of the same logic. It is used to check complex parallel numerical computations.
 
     \subsection{Recursive Data Structures}
-    \begin{itemize}
-        \item \textquote{GSE handles input recursive data structures by using lazy initialization. GSE starts execution of the method on inputs with uninitialized fields and non-deterministically initializes fields when they are first ac- cessed during the method's symbolic execution.}\cite{PreliminaryAssessment}
-        \item \textquote{Pex\cite{Pex} supports the generation of test inputs of primitive types as well as (recursive) complex data types, for which Pex automatically computes a factory method which creates an instance of a complex data type by invoking a constructor and a sequence of methods, whose parameters are also determined by Pex.}\cite{PreliminaryAssessment}
-    \end{itemize}
+    Similar to concurrency, recursive data structures are difficult to handle in any testing framework. In the space of symbolic execution fuzzers, GSE\cite{GSE} uses lazy initialization on recursive data structures. Pex\cite{Pex} supports inputs of primitive types as well as complex (i.e. recursive) data types. To handle the latter, Pex analyzes the PUT and generates factory methods for each. These invoke a constructor and a sequence of methods, with their parameters also determined by Pex' analysis.
 
-    \subsection{Selective Symbolic Execution}
+    \subsection{Hybrid Fuzzing}
     \label{HybridFuzzing}
-    Not exhaustive.
-    \begin{itemize}
-        \item Tools like Driller\cite{Driller} perform classical fuzzing (in the case of Driller using AFL\cite{AFLPlusPlus}) until they are \textit{stuck}, meaning they are unable to produce inputs that discover additional paths. Driller then, and only then, invokes its concolic execution engine (Driller uses angr\cite{angr}) to trace the program under investigation executed with one of the previously generated inputs. Finally, it solves the resulting path constraints with one condition flipped to produce an input that will reach new parts of the software. Because Driller does not use symbolic execution for its primary discovery tool, it does not suffer from issues such as path explosion, because it only ever executes one path at a time using symbolic execution. DrillerGo\cite{DrillerGo} uses a similar approach, but targets \textquote{unsafe system calls or suspicious locations, or functions in the call stack of a reported vulnerability that we wish to reproduce}\cite{DrillerGo}. Other targeted hybrid fuzzing systems include 1dVul\cite{1dVul} or BugMiner\cite{BugMiner}.
-        \item Interleave random and symbolic execution. Examples: Hybrid Concolic Testing\cite{HCT, Driller, Cyberdyne}
-        \item By removing code blocks that are deemed irrelevant, T-FUZZ\cite{TFuzz} prevents its mutation-based fuzzer (which does not use symbolic execution) from getting stuck. It then employs symbolic execution to validate the bugs found.
-        \item IFL\cite{IFL} generates quality input to a smart contract based on a symbolic execution engine and then uses them to train a neural network. This can then be used to fuzz other smart contracts since they often implement similar functionality.
-        \item TaintScope\cite{TaintScope} uses taint analysis to bypass checksum checks and then symbolic execution to fix checksum fields in malformed test cases.
-        \item Similary, Stinger\cite{Stinger} analyses a PUT and then only employs symbolic execution on the parts of the PUT that contribute to path constraints. Like this, the overhead introduced by a symbolic execution engine can be limited to parts of the program.
-    \end{itemize}
+    Hybrid Fuzzing describes systems that combine multiple approaches to improving fuzzing's effectiveness. Many of these systems include components using symbolic execution. However, because they only selectively employ symbolic execution, many of the challenges described above are avoided altogether. As described in Section\ref{Methods}, hybrid fuzzing systems were only tangentially analyzed for this work. To still give readers an introduction, this section discusses a non-exhaustive list of hybrid fuzzing systems.
 
-    \subsection{Using Symbolic Execution in Other Contexts}
-    \begin{itemize}
-        \item PYGMALION\cite{PYGMALION} uses symbolic execution to generate a grammar from a program, generates valid inputs from that, and finally uses those in fuzzers (AFL\cite{AFLPlusPlus} and KLEE\cite{KLEE}) to measure the achieved code coverage. AUTOGRAM\cite{AUTOGRAM} accomplishes a similar goal of producing a context-free grammar a PUT accepts by executing it with different inputs based on taint analysis.
-        \item SYMFUZZ\cite{SYMFUZZ} uses symbolic execution to determine the optimal mutation ratio from a given program-seed pair.
-        \item If a program by a software vendor crashes an a customer's device, BBRBP\cite{BBRBP} generates new inputs that do not or at least to a lesser extent contain private information. To achieve this, the instructions executed if a program is fed the initial crashing input are recorded, and then run using symbolic execution. Finally, the generated path constraint is solved by an SMT solver, which produces a new, unrelated input.
-        \item Darwin\cite{Darwin} uses symbolic execution to produce inputs that differ slightly from crashing inputs, which can then be used to triage and debug a certain software defect.
-    \end{itemize}
+    \paragraph{Alternating Fuzzing Types} Tools like Driller\cite{Driller} perform black- or greybox fuzzing (in the case of Driller using AFL\cite{AFLPlusPlus}) until they are \textit{stuck}, meaning they are unable to produce inputs that discover additional paths. Driller then, and only then, invokes its concolic execution engine (Driller uses angr\cite{angr}) to trace the program under investigation executed with one of the previously generated inputs and generate a new input based on the collected path constraint that reaches a section of the PUT Driller was previously unable to reach. Because Driller does not use symbolic execution for its primary discovery tool, it does not suffer from issues such as path explosion, because it only ever executes one path at a time using symbolic execution.
+
+    Other systems interleaving black-/greybox and symbolic execution based fuzzing are Hybrid Concolic Testing\cite{HCT} and Cyberdyne\cite{Cyberdyne}. DrillerGo\cite{DrillerGo} uses a similar approach, but specifically targets \textquote{unsafe system calls or suspicious locations, or functions in the call stack of a reported vulnerability that we wish to reproduce}\cite{DrillerGo}. Other targeted hybrid fuzzing systems include 1dVul\cite{1dVul} or BugMiner\cite{BugMiner}.
+
+    \paragraph{PUT Manipulation} By removing code blocks that are deemed irrelevant, T-FUZZ\cite{TFuzz} prevents its mutation-based fuzzer (which does not use symbolic execution) from getting stuck. It then employs symbolic execution to validate the bugs found. TaintScope\cite{TaintScope} uses taint analysis to bypass checksum checks and then symbolic execution to fix checksum fields in malformed test cases. Similary, Stinger\cite{Stinger} analyses a PUT and then only employs symbolic execution on the parts of the PUT that contribute to path constraints. Like this, the overhead introduced by a symbolic execution engine can be limited to parts of the program.
+
+    \paragraph{High-Quality Test Input Generation} IFL\cite{IFL} generates quality input to a smart contract based on a symbolic execution engine and then uses them to train a neural network. This can then be used to fuzz other smart contracts since they often implement similar functionality.
+
+    PYGMALION\cite{PYGMALION} uses symbolic execution to generate a grammar from a program, generates valid inputs from that, and finally uses those in fuzzers (AFL\cite{AFLPlusPlus} and KLEE\cite{KLEE}) to measure the achieved code coverage. AUTOGRAM\cite{AUTOGRAM} accomplishes a similar goal of producing a context-free grammar a PUT accepts by executing it with different inputs based on taint analysis.
+
+    \paragraph{Other Uses of Symbolic Execution} SYMFUZZ\cite{SYMFUZZ} uses symbolic execution to determine the optimal mutation ratio from a given program-seed pair. If a program by a software vendor crashes an a customer's device, BBRBP\cite{BBRBP} generates new inputs that do not or at least to a lesser extent contain private information. To achieve this, the instructions executed if a program is fed the initial crashing input are recorded, and then run using symbolic execution. Finally, the generated path constraint is solved by an SMT solver, which produces a new, unrelated input.
 
     \section{Future Work}
     \label{FutureWork}
@@ -373,7 +371,14 @@
     \subsection{Meta-Survey}
     Finally, one could compare review papers based on different categories: primary works discussed (see above), categorizations of fuzzers, or more specifically categorization of problems that symbolic execution in fuzzing faces and the solutions to them that different works propose.
 
-    \newpage
+    \section{Conclusion}
+    \label{Conclusion}
+    This survey presents an introduction into fuzzing, specifically the use of symbolic execution in fuzzing systems, its challenges and innovations. It includes discussion of the theoretical foundation of both fuzzing in general and symbolic execution specifically, and explains how these two approaches to software testing were combined to create state-of-the-art systems.
+
+    Because this field has received extensive attention from both academia and industry, survey papers are used to collect significant works, including summaries and discussion of them. These are then combined, extended, and categorized. The resulting list shows that a diverse set of attempts has been made to mitigate each inherent challenge of symbolic execution, thus making it usable on real-world programs.
+
+    Finally, this work reflects on its own approach of using existing survey papers to gather information about a certain fields. Both limitations during this process and possible additions to this work are discussed. By using this approach, an infeasibly big research area was penetrated, yielding an extensive overview of the state of the art in symbolic execution based fuzzing.
+
     \defbibheading{bibliography}[\bibname]{\section*{#1}}
     \addcontentsline{toc}{section}{\bibname}
     \printbibliography

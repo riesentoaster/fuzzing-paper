@@ -337,13 +337,44 @@ Path Explosion: program path count usually exponential in the number of static b
   \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
 \end{itemize}
 
-\subsubsection{Improved SMT Solvers}
+\paragraph{Improved SMT Solvers}
 \begin{itemize}
   \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
 \end{itemize}
 
+\subsubsection{Handling Concurrency}
+\begin{itemize}
+  \item Testing usually difficult because of the inherent non-determinism.
+  \item \textquote{Concolic testing was successfully combined with a variant of partial order reduction to test concurrent programs effectively.\cite{ScalableAutomatedMethods, OpenDistributedPrograms, ExplicitPathModelChecking,RaceDetection}}\cite{ReviewThreeDecades}
+  \item \textquote{Generalized Symbolic Execution\cite{GSE} performs symbolic execution by leveraging an off-the-shelf model checker, whose built-in capabilities allow handling multi-threading (and other forms of non-determinism)}\cite{PreliminaryAssessment}
+  \item \textquote{This method requires that a sequential version of the program be provided, to serve as the specification for the parallel one. The key idea is to use model checking, together with symbolic execution, to establish the equivalence of the two programs.}\cite{SPIN} (complex parallel numerical computations)
+\end{itemize}
+
+\subsubsection{Recorsive Data Structures}
+\begin{itemize}
+  \item \textquote{GSE handles input recursive data structures by using lazy initialization. GSE starts execution of the method on inputs with uninitialized fields and non-deterministically initializes fields when they are first ac- cessed during the method's symbolic execution.}\cite{PreliminaryAssessment}
+  \item \textquote{Pex\cite{Pex} supports the generation of test inputs of primitive types as well as (recursive) complex data types, for which Pex automatically computes a factory method which creates an instance of a complex data type by invoking a constructor and a sequence of methods, whose parameters are also determined by Pex.}\cite{PreliminaryAssessment}
+\end{itemize}
 
 
+\subsubsection{Selective Symbolic Execution}
+\label{HybridFuzzing}
+Not exhaustive.
+\begin{itemize}
+  \item Tools like Driller\cite{Driller} perform classical fuzzing (in the case of Driller using AFL\cite{AFLPlusPlus}) until they are \textit{stuck}, meaning they are unable to produce inputs that discover additional paths. Driller then, and only then, invokes its concolic execution engine (Driller uses angr\cite{angr}) to trace the program under investigation executed with one of the previously generated inputs. Finally, it solves the resulting path constraints with one condition flipped to produce an input that will reach new parts of the software. Because Driller does not use symbolic execution for its primary discovery tool, it does not suffer from issues such as path explosion, because it only ever executes one path at a time using symbolic execution. DrillerGo\cite{DrillerGo} uses a similar approach, but targets \textquote{unsafe system calls or suspicious locations, or functions in the call stack of a reported vulnerability that we wish to reproduce}\cite{DrillerGo}. Other targeted hybrid fuzzing systems include 1dVul\cite{1dVul} or BugMiner\cite{BugMiner}.
+  \item Interleave random and symbolic execution. Examples: Hybrid Concolic Testing\cite{HCT, Driller, Cyberdyne}
+  \item By removing code blocks that are deemed irrelevant, T-FUZZ\cite{TFuzz} prevents its mutation-based fuzzer (which does not use symbolic execution) from getting stuck. It then employs symbolic execution to validate the bugs found.
+  \item IFL\cite{IFL} generates quality input to a smart contract based on a symbolic execution engine and then uses them to train a neural network. This can then be used to fuzz other smart contracts since they often implement similar functionality.
+  \item TaintScope\cite{TaintScope} uses taint analysis to bypass checksum checks and then symbolic execution to fix checksum fields in malformed test cases.
+  \item Similary, Stinger\cite{Stinger} analyses a PUT and then only employs symbolic execution on the parts of the PUT that contribute to path constraints. Like this, the overhead introduced by a symbolic execution engine can be limited to parts of the program.
+\end{itemize}
+
+\subsubsection{Using Symbolic Execution in Other Contexts}
+\begin{itemize}
+  \item PYGMALION\cite{PYGMALION} uses symbolic execution to generate a grammar from a program, generates valid inputs from that, and finally uses those in fuzzers (AFL\cite{AFLPlusPlus} and KLEE\cite{KLEE}) to measure the achieved code coverage. AUTOGRAM\cite{AUTOGRAM} accomplishes a similar goal of producing a context-free grammar a PUT accepts by executing it with different inputs based on taint analysis.
+  \item SYMFUZZ\cite{SYMFUZZ} uses symbolic execution to determine the optimal mutation ratio from a given program-seed pair.
+  \item If a program by a software vendor crashes an a customer's device, BBRBP\cite{BBRBP} generates new inputs that do not or at least to a lesser extent contain private information. To achieve this, the instructions executed if a program is fed the initial crashing input are recorded, and then run using symbolic execution. Finally, the generated path constraint is solved by an SMT solver, which produces a new, unrelated input.
+\end{itemize}
 
 \pagebreak
 \section{Primary Papers}
