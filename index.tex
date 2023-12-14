@@ -282,24 +282,28 @@
     Lastly, in certain context it might be beneficial to not use intermediate representation (IR) to execute on symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions in the IR are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. This is done in QSYM\cite{QSYM}.
 
     \subsubsection{Using Information from Previous Queries}
-    \begin{itemize}
-        \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration. This is implemented, among others, in \cite{SAGE}.
-        \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
-        \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
-    \end{itemize}
+    \paragraph{Exploiting Query Similarities} Since fuzzing systems based on concolic execution generate the next input based on the path the PUT executed under the previous input by flipping one of the constraints, there is a strong temporal relationship between consecutive constraint set and thus SMT queries. A solution to the first query is obviously known in the form of the input that initially produced the query. To solve the second, very similar, query, fuzzing systems can thus use parts of the first solution, since, if the part of the query they solve did not change, they might also solve the second query.
+
+    This is a common approach, with subtle differences in implementations: SAGE\cite{SAGE} excludes parts of the query solved by previous results from the query passed to the SMT solver. CUTE\cite{CUTE} relies on a similar mechanism and adds an optimization that supersets of queries often do not invalidate existing solutions. An example of this would be when additional checks are performed in the PUT on a certain variable which was previously tested to be a valid input to the function under question further down the stack. Finally, KLEE\cite{KLEE} introduced a more versatile counterexample caching scheme for its SMT queries.
+
+    \paragraph{Advanced Query Relationship Analysis}
+    More recently, systems have introduced complex data structures to store their SMT queries, which then allow solvers to efficiently combine information gathered by previous invocations by exploiting the mathematical similarities between the queries. Pangolin\cite{Pangolin} for example uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
 
     \subsubsection{Improved SMT Solvers}
-    \begin{itemize}
-        \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
-        \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFS\cite{JFS} uses this technique to find solutions to floating-point constraints.
-    \end{itemize}
+    While some of the improvements discussed above can be implemented in the fuzzers, a whole class of optimizations need to be implemented in the SMT solver. Because of this, improved SMT solvers were developed alongside many of the more influential symbolic execution based fuzzers. Because they are not part of the fuzzing systems themselves, they were not analyzed as part of this work. Nevertheless, the following SMT solvers are worth mentioning:
+
+    Z3\cite{Z3} is one of the most powerful SMT solvers available today. It is developed at Microsoft and available open source under an MIT license and thus widely used, e.g. in SAGE\cite{SAGE} or angr\cite{angr} (which is used by Driller\cite{Driller}). Other SMT solvers used in symbolic execution based fuzzing include STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} (which built during the development of EXE\cite{EXE}).
 
     \subsubsection{Alternatives to SMT Solvers}
+    While the approaches listed above might improve the runtime of SMT solvers, they do not solve the fundamental problem in exponential complexity they face. A set of fuzzers therefore implement systems that allow them to reason about the relationship between input and program execution path without relying on SMT solvers. There is an argument to be made that these systems should no longer qualify as using symbolic execution since often their solutions are only approximate, but since their fundamental approach is similar and they are often listed next to symbolic execution based fuzzers in review papers, they are still discussed here.
+
+    Fuzzers analyzing the dependency between input data and state space and approximating solutions to path constraints based on those to prevent expensive calls to an SMT solver are fairly common\cite{WEIZZ}:
+
     \begin{itemize}
         \item Intriguer\cite{Intriguer} uses taint analysis to discover instructions accessing a wide range of input bytes, and then performs symbolic execution for those instructions deemed important and only invokes the underlying SMT solver for complicated queries.
-        \item While technically not using symbolic execution, analyzing the dependency between input data and state space and approximating solutions to path constraints based on those to prevent expensive calls to an SMT solver is fairly common\cite{WEIZZ}:
-        \item Eclipser\cite{Eclipser} uses instrumentation on the PUT to generate partial path conditions, which can then be solved without invoking SMT solvers to generate further inputs.
         \item Angora\cite{Angora} solves path constraints by using a combination of context-sensitive branch coverage, scalable byte-level taint tracking, gradient descent searching, input length exploration, and type and shape inference.
+        \item Eclipser\cite{Eclipser} uses instrumentation on the PUT to generate partial path conditions, which can then be solved without invoking SMT solvers to generate further inputs.
+        \item SMT formulas can be transformed into programs, which in turn can then be solved using a coverage-guided fuzzer to generate solutions to the initial formula. JFS\cite{JFS} uses this technique to find solutions to floating-point constraints.
         \item REDQUEEN\cite{REDQUEEN} exploits the fact that much of the input data ends up in the state-space and uses simple transformations on the input data as opposed to relying on taint analysis or symbolic execution to bypass checksums.
         \item Other proposals include approximate SMT solvers, such as FUZZY-SAT implemented in FUZZOLOGIC\cite{FUZZOLIC}, or optimistic SMT solvers, as in QSYM\cite{QSYM}.
     \end{itemize}

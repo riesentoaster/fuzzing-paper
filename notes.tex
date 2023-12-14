@@ -330,6 +330,17 @@ Path Explosion: program path count usually exponential in the number of static b
   \item Do not use intermediate representation (IR) to execute symbolically, but integrate the symbolic emulation with the native execution through dynamic binary translation, which prevents additional instructions (since often multiple RISC instructions are necessary to replace one CISC instruction), and allows finer-grained control over the constraint, thus making it smaller. Example: QSYM\cite{QSYM}
 \end{itemize}
 
+\paragraph{Advanced Query Relationship Analysis}
+\begin{itemize}
+  \item Irrelevant constraint elimination: Generally, we go from a solvable constraint set (namely the current execution with the solution being the current concrete values) to one where only one constraint changes (the one we flipped). Typically, major major parts of the constraint set are not influenced by the change and can be excluded from what is passed to the solver. We can then just use the values from the previous iteration. This is implemented, among others, in \cite{SAGE}.
+  \item Incremental solving: Reuse the results of previous similar queries, because subsets of the constraints are still solved by the same results and supersets often do not invalidate existing solutions. (CUTE\cite{CUTE} and counterexample caching scheme in KLEE\cite{KLEE})
+  \item Cache prior SMT query results and reuse them for future queries. Pangolin\cite{Pangolin} uses polyhedral path abstraction to replace query parts for more efficient models based on prior results.
+\end{itemize}
+
+\subsubsection{Improved SMT Solvers}
+\begin{itemize}
+  \item Improved SMT solvers (like Z3\cite{Z3} used in e.g. SAGE\cite{SAGE}, STP\cite{STP}, Yices\cite{Yices}, or cvc5\cite{CVC5} built during the development of EXE\cite{EXE})
+\end{itemize}
 
 
 
