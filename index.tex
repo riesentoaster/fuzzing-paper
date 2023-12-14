@@ -25,11 +25,11 @@
 \maketitle
 \begin{multicols}{2}
     \begin{abstract}
-        Testing constitutes a vast part of software development. While manual testing does not scale well, automated testing in the form of fuzzing has its own limitations. One approach to extend fuzzing's effectiveness is to combine it with program analysis techniques such as symbolic execution, however this also introduces its own challenges. %
+        Testing constitutes a huge part of software development. While manual testing does not scale well, automated testing in the form of fuzzing has its own limitations. One approach to extend fuzzing's effectiveness is to combine it with program analysis techniques such as symbolic execution, however this also introduces its own challenges. %
         %
-        This work uses survey papers on fuzzing to penetrate this both in academia and industry extensively studied field. It filters, collects, aggregates, and extends their analysis of inherent challenges that symbolic execution based fuzzing faces, along with mitigation attempts introduced with a diverse range of systems. The challenges are then categorized and primary works and their innovation are associated with the appropriate challenge, forming an extensive list of approaches and examples. %
+        This work uses survey papers on fuzzing to penetrate this both in academia and industry extensively studied field. After summarizing the focus of each and discussing their discussion of symbolic execution, it filters, collects, aggregates, and extends their analysis of inherent challenges that symbolic execution based fuzzing faces, along with mitigation attempts introduced with a diverse range of systems. The challenges are then categorized and primary works and their innovation are associated with the appropriate challenge, forming an extensive list of approaches and examples. %
         %
-        Finally, limitations and possible extensions of this approach are discussed.
+        Finally, limitations of using survey papers to digest vast research fields in general and potential further analyzes based on the survey papers discussed in this work are listed.
     \end{abstract}
 
     \section{Introduction}
@@ -375,7 +375,7 @@
     \label{Conclusion}
     This survey presents an introduction into fuzzing, specifically the use of symbolic execution in fuzzing systems, its challenges and innovations. It includes discussion of the theoretical foundation of both fuzzing in general and symbolic execution specifically, and explains how these two approaches to software testing were combined to create state-of-the-art systems.
 
-    Because this field has received extensive attention from both academia and industry, survey papers are used to collect significant works, including summaries and discussion of them. These are then combined, extended, and categorized. The resulting list shows that a diverse set of attempts has been made to mitigate each inherent challenge of symbolic execution, thus making it usable on real-world programs.
+    Because this field has received extensive attention from both academia and industry, survey papers on fuzzing are used to collect significant works, including summaries and discussion of them. First, the focus of each survey paper is summarized, along with a list of discussed symbolic execution based fuzzers. The latter are then combined, extended, and categorized. The resulting list shows that a diverse set of attempts has been made to mitigate each inherent challenge of symbolic execution, thus making it usable on real-world programs.
 
     Finally, this work reflects on its own approach of using existing survey papers to gather information about a certain fields. Both limitations during this process and possible additions to this work are discussed. By using this approach, an infeasibly big research area was penetrated, yielding an extensive overview of the state of the art in symbolic execution based fuzzing.
 
